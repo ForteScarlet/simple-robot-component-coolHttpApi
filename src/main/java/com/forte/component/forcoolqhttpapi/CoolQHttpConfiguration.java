@@ -10,5 +10,22 @@ import com.forte.qqrobot.BaseConfiguration;
  **/
 public class CoolQHttpConfiguration extends BaseConfiguration<CoolQHttpConfiguration> {
 
+    /**
+     * 端口
+     */
+    private int port;
+
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    public String getRequestPath(){
+        return "http://" + getIp() + ":" + port;
+    }
 
 }

@@ -1,9 +1,11 @@
 package com.forte.component.forcoolqhttpapi.beans.get;
 
 import com.forte.component.forcoolqhttpapi.beans.result.QQCookies;
+import com.forte.qqrobot.beans.messages.result.InfoResult;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  *
@@ -12,11 +14,13 @@ import lombok.NoArgsConstructor;
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
+//@AllArgsConstructor
+@NoArgsConstructor
 public class GetCookies implements Get<QQCookies> {
 
-    private static final String API = "/get_cookies";
+    public static final String API = "/get_cookies";
     @Override
     public String getApi(){
         return API;

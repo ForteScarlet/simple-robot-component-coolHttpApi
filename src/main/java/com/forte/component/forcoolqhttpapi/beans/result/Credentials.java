@@ -1,13 +1,17 @@
 package com.forte.component.forcoolqhttpapi.beans.result;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * qq相关凭证信息
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-@Data
+@Getter
+@Setter
+@ToString
 public class Credentials implements Result {
     /*
         响应数据
@@ -18,6 +22,6 @@ public class Credentials implements Result {
 
     private String cookies;
     private String csrf_token;
-
+    private String originalData;
 
 }

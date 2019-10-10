@@ -1,8 +1,9 @@
 package com.forte.component.forcoolqhttpapi.beans.set;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * 重启 HTTP API 插件
@@ -10,7 +11,8 @@ import lombok.NoArgsConstructor;
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class SetRestartPlugin implements Set {
@@ -21,7 +23,7 @@ public class SetRestartPlugin implements Set {
      */
 
     private long delay;
-    private static final String API = "/set_restart_plugin";
+    public static final String API = "/set_restart_plugin";
     @Override
     public String getApi(){
         return API;

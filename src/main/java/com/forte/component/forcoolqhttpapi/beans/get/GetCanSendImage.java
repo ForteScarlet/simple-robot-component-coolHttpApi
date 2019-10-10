@@ -2,8 +2,9 @@ package com.forte.component.forcoolqhttpapi.beans.get;
 
 import com.forte.component.forcoolqhttpapi.beans.result.CanSendImage;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  *
@@ -12,11 +13,13 @@ import lombok.NoArgsConstructor;
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
+//@AllArgsConstructor
+@NoArgsConstructor
 public class GetCanSendImage implements Get<CanSendImage> {
 
-    private static final String API = "/can_send_image";
+    public static final String API = "/can_send_image";
     @Override
     public String getApi(){
         return API;

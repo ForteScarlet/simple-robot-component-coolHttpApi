@@ -1,8 +1,9 @@
 package com.forte.component.forcoolqhttpapi.beans.send;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  *
@@ -10,7 +11,8 @@ import lombok.NoArgsConstructor;
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class SendDiscussMsg implements Send {
@@ -20,10 +22,14 @@ public class SendDiscussMsg implements Send {
         message	message	-	要发送的内容
         auto_escape	boolean	false	消息内容是否作为纯文本发送（即不解析 CQ 码），只在 message 字段是字符串时有效
      */
-    private long discuss_id;
+    private String discuss_id;
     private String message;
     private boolean auto_escape = false;
-    private static final String API = "/send_discuss_msg";
+    public static final String API = "/send_discuss_msg";
+
+    public SendDiscussMsg(String discuss_id, String message){
+        this(discuss_id, message, false);
+    }
 
     @Override
     public String getApi(){

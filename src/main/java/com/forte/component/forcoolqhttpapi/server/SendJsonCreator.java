@@ -1,6 +1,6 @@
-package com.forte.component.forcoolqhttpapi.utils;
+package com.forte.component.forcoolqhttpapi.server;
 
-import com.forte.component.forcoolqhttpapi.beans.Anonymous;
+import com.forte.component.forcoolqhttpapi.beans.msg.Anonymous;
 import com.forte.component.forcoolqhttpapi.beans.get.*;
 import com.forte.component.forcoolqhttpapi.beans.send.*;
 import com.forte.component.forcoolqhttpapi.beans.set.*;

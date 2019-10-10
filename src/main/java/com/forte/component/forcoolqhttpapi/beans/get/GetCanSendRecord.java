@@ -2,8 +2,9 @@ package com.forte.component.forcoolqhttpapi.beans.get;
 
 import com.forte.component.forcoolqhttpapi.beans.result.CanSendRecord;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  *
@@ -12,11 +13,13 @@ import lombok.NoArgsConstructor;
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
+//@AllArgsConstructor
+@NoArgsConstructor
 public class GetCanSendRecord implements Get<CanSendRecord> {
 
-    private static final String API = "/can_send_record";
+    public static final String API = "/can_send_record";
     @Override
     public String getApi(){
         return API;

@@ -1,8 +1,9 @@
 package com.forte.component.forcoolqhttpapi.beans.set;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * 群单人禁言
@@ -10,7 +11,8 @@ import lombok.NoArgsConstructor;
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class SetGroupBan implements Set {
@@ -20,12 +22,12 @@ public class SetGroupBan implements Set {
         duration	number	30 * 60	禁言时长，单位秒，0 表示取消禁言
      */
 
-    private long group_id;
-    private long user_id;
+    private String group_id;
+    private String user_id;
     /** 单位秒，0为取消禁言 默认值为30 * 60 */
     private long duration = 30 * 60;
 
-    private static final String API = "/set_group_ban";
+    public static final String API = "/set_group_ban";
 
     @Override
     public String getApi(){

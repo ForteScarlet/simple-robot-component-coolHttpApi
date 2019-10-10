@@ -1,15 +1,17 @@
 package com.forte.component.forcoolqhttpapi.beans.result;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * 是否可以发图片
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-@Data
+@Getter
+@Setter
+@ToString
 public class CanSendImage implements Result {
     /*
     响应数据
@@ -18,7 +20,7 @@ public class CanSendImage implements Result {
      */
 
     private boolean yes;
-
+    private String originalData;
 
 
 }

@@ -1,18 +1,17 @@
-package com.forte.component.forcoolqhttpapi.beans;
+package com.forte.component.forcoolqhttpapi.beans.msg;
 
 import com.forte.qqrobot.beans.messages.FlagAble;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.forte.qqrobot.beans.messages.result.AbstractAnonInfo;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 匿名消息的消息封装
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
+@Setter
 public class Anonymous implements FlagAble {
 
     /*

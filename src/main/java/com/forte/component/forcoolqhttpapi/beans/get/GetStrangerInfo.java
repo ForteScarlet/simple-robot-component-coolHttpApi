@@ -2,14 +2,16 @@ package com.forte.component.forcoolqhttpapi.beans.get;
 
 import com.forte.component.forcoolqhttpapi.beans.result.StrangerInfo;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetStrangerInfo implements Get<StrangerInfo> {
@@ -20,10 +22,10 @@ public class GetStrangerInfo implements Get<StrangerInfo> {
     user_id	number	-	QQ 号
     no_cache	boolean	false	是否不使用缓存（使用缓存可能更新不及时，但响应更快
      */
-    private long user_id;
-    private boolean no_cache = false;
+    private String user_id;
+    private Boolean no_cache = false;
 
-    private static final String API = "/get_stranger_info";
+    public static final String API = "/get_stranger_info";
     @Override
     public String getApi(){
         return API;

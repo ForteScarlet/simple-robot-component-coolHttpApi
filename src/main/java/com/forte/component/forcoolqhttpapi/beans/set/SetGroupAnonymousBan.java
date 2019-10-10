@@ -1,9 +1,10 @@
 package com.forte.component.forcoolqhttpapi.beans.set;
 
-import com.forte.component.forcoolqhttpapi.beans.Anonymous;
+import com.forte.component.forcoolqhttpapi.beans.msg.Anonymous;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  *
@@ -11,8 +12,9 @@ import lombok.NoArgsConstructor;
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
+//@AllArgsConstructor
 @NoArgsConstructor
 public class SetGroupAnonymousBan implements Set {
     /*
@@ -22,11 +24,23 @@ public class SetGroupAnonymousBan implements Set {
             duration	number	30 * 60	禁言时长，单位秒，无法取消匿名用户禁言
      */
 
-    private long group_id;
+    private String group_id;
     private Anonymous anonymous;
     private String anonymous_flag;
     private long duration = 30 * 60;
-    private static final String API = "/set_group_anonymous_ban";
+    public static final String API = "/set_group_anonymous_ban";
+
+    public SetGroupAnonymousBan(String group_id, String flag, long time){
+        this.group_id = group_id;
+        this.anonymous_flag = flag;
+        this.duration = time;
+    }
+    public SetGroupAnonymousBan(String group_id, Anonymous flag, long time){
+        this.group_id = group_id;
+        this.anonymous = flag;
+        this.duration = time;
+    }
+
 
     @Override
     public String getApi(){

@@ -1,9 +1,7 @@
 package com.forte.component.forcoolqhttpapi.beans.get;
 
 import com.forte.component.forcoolqhttpapi.beans.result.GroupMemberList;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
  *
@@ -12,7 +10,8 @@ import lombok.NoArgsConstructor;
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetGroupMemberList implements Get<GroupMemberList> {
@@ -22,8 +21,8 @@ public class GetGroupMemberList implements Get<GroupMemberList> {
      */
 
 
-    private long group_id;
-    private static final String API = "/get_group_member_list";
+    private String group_id;
+    public static final String API = "/get_group_member_list";
     @Override
     public String getApi(){
         return API;

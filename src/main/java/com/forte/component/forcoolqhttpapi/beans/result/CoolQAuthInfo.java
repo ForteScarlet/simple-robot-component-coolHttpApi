@@ -1,12 +1,13 @@
 package com.forte.component.forcoolqhttpapi.beans.result;
 
+import com.forte.qqrobot.beans.messages.result.AuthInfo;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 /**
  *
- * 是否能够发送语音
+ * 权限信息
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
@@ -14,13 +15,12 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class CanSendRecord implements Result {
-    /*
-        响应数据
-        字段名	数据类型	说明
-        yes	boolean	是或否
-     */
+public class CoolQAuthInfo implements AuthInfo {
 
-    private boolean yes;
+    private String code;
+    private String cookies;
+    private String csrfToken;
     private String originalData;
+
+
 }

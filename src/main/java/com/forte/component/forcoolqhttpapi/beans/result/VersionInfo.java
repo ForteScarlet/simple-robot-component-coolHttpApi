@@ -1,17 +1,17 @@
 package com.forte.component.forcoolqhttpapi.beans.result;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * 酷Q 及 HTTP API 插件的版本信息
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 public class VersionInfo implements Result {
     /*
         响应数据
@@ -27,5 +27,6 @@ public class VersionInfo implements Result {
     private String plugin_version;
     private String plugin_build_number;
     private String plugin_build_configuration;
+    private String originalData;
 
 }

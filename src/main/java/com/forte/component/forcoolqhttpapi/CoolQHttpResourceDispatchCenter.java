@@ -1,5 +1,7 @@
 package com.forte.component.forcoolqhttpapi;
 
+import com.forte.component.forcoolqhttpapi.server.CoolQHttpMsgSender;
+import com.forte.component.forcoolqhttpapi.server.SendJsonCreator;
 import com.forte.qqrobot.ResourceDispatchCenter;
 
 /**
@@ -16,6 +18,30 @@ public class CoolQHttpResourceDispatchCenter extends ResourceDispatchCenter {
      */
     static void saveCoolQHttpConfiguration(CoolQHttpConfiguration httpConfiguration){
         saveConfiguration(httpConfiguration);
+    }
+
+    /**
+     * 记录一个送信器Json封装器
+     * @param jsonCreator json封装器
+     */
+    static void saveSendJsonCreator(SendJsonCreator jsonCreator){
+        save(jsonCreator);
+    }
+
+    /**
+     * 保存一个送信器
+     * @param msgSender 送信器
+     */
+    static void saveCoolQHttpMsgSender(CoolQHttpMsgSender msgSender){
+        save(msgSender);
+    }
+
+    /**
+     * 保存一个特殊API
+     * @param api   api
+     */
+    static void saveCoolQHttpAPI(CoolQHttpAPI api){
+        save(api);
     }
 
 //    /**
@@ -51,6 +77,27 @@ public class CoolQHttpResourceDispatchCenter extends ResourceDispatchCenter {
      */
     public static CoolQHttpConfiguration getCoolQHttpConfiguration(){
         return get(CoolQHttpConfiguration.class);
+    }
+
+    /**
+     * 获取一个送信器Json封装器
+     */
+    public static SendJsonCreator getSendJsonCreator(){
+        return get(SendJsonCreator.class);
+    }
+
+    /**
+     * 获取要给送信器
+     */
+    public static CoolQHttpMsgSender getCoolQHttpMsgSender(){
+        return get(CoolQHttpMsgSender.class);
+    }
+
+    /**
+     * 获取特殊API对象
+     */
+    public static CoolQHttpAPI getCoolQHttpAPI(){
+        return get(CoolQHttpAPI.class);
     }
 
 //    /**

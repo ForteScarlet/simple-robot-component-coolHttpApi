@@ -1,6 +1,6 @@
 package com.forte.component.forcoolqhttpapi;
 
-import com.alibaba.fastjson.JSON;
+import com.forte.component.forcoolqhttpapi.server.CoolQHttpMsgSender;
 import com.forte.qqrobot.BaseApplication;
 import com.forte.qqrobot.listener.invoker.ListenerManager;
 import com.forte.qqrobot.log.QQLogBack;
@@ -17,16 +17,36 @@ import java.io.IOException;
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-public class CoolQHttpApplication extends BaseApplication<CoolQHttpConfiguration> {
+public class CoolQHttpApplication extends BaseApplication<CoolQHttpConfiguration, CoolQHttpAPI> {
 
+    /** 送信器 */
+    private CoolQHttpMsgSender msgSender;
+
+    /** 特殊API */
+    private CoolQHttpAPI spAPI;
 
     /**
      * 开发者实现的资源初始化
      */
-    @Override
+//    @Override
     protected void resourceInit() {
         //初始化配置类实例
         CoolQHttpResourceDispatchCenter.saveCoolQHttpConfiguration(new CoolQHttpConfiguration());
+        //初始化送信器
+        msgSender = new CoolQHttpMsgSender();
+        CoolQHttpResourceDispatchCenter.saveCoolQHttpMsgSender(msgSender);
+        //初始化特殊API
+        spAPI = new CoolQHttpAPI();
+        CoolQHttpResourceDispatchCenter.saveCoolQHttpAPI(spAPI);
+    }
+
+    /**
+     * 资源初始化
+     * @param configuration 配置对象
+     */
+    @Override
+    protected void resourceInit(CoolQHttpConfiguration configuration) {
+        resourceInit();
     }
 
     /**
@@ -34,7 +54,7 @@ public class CoolQHttpApplication extends BaseApplication<CoolQHttpConfiguration
      */
     @Override
     protected SenderSendList getSender() {
-        return null;
+        return msgSender;
     }
 
     /**
@@ -42,7 +62,7 @@ public class CoolQHttpApplication extends BaseApplication<CoolQHttpConfiguration
      */
     @Override
     protected SenderSetList getSetter() {
-        return null;
+        return msgSender;
     }
 
     /**
@@ -50,7 +70,12 @@ public class CoolQHttpApplication extends BaseApplication<CoolQHttpConfiguration
      */
     @Override
     protected SenderGetList getGetter() {
-        return null;
+        return msgSender;
+    }
+
+    @Override
+    protected CoolQHttpAPI getSpecialApi() {
+        return spAPI;
     }
 
     /**
@@ -77,17 +102,7 @@ public class CoolQHttpApplication extends BaseApplication<CoolQHttpConfiguration
     }
 
     /**
-     * Closes this stream and releases any system resources associated
-     * with it. If the stream is already closed then invoking this
-     * method has no effect.
-     *
-     * <p> As noted in {@link AutoCloseable#close()}, cases where the
-     * close may fail require careful attention. It is strongly advised
-     * to relinquish the underlying resources and to internally
-     * <em>mark</em> the {@code Closeable} as closed, prior to throwing
-     * the {@code IOException}.
-     *
-     * @throws IOException if an I/O error occurs
+     * interface {@link java.io.Closeable} method
      */
     @Override
     public void close() {

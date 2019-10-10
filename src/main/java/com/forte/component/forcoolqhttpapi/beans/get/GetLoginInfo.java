@@ -2,9 +2,7 @@ package com.forte.component.forcoolqhttpapi.beans.get;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.forte.component.forcoolqhttpapi.beans.result.LoginInfo;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
  *
@@ -13,11 +11,13 @@ import lombok.NoArgsConstructor;
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
+//@AllArgsConstructor
+@NoArgsConstructor
 public class GetLoginInfo implements Get<LoginInfo> {
 
-    private static final String API = "/get_login_info";
+    public static final String API = "/get_login_info";
 
     @Override
     public String getApi(){

@@ -2,8 +2,9 @@ package com.forte.component.forcoolqhttpapi.beans.get;
 
 import com.forte.component.forcoolqhttpapi.beans.result.QQRecord;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  *
@@ -18,7 +19,8 @@ import lombok.NoArgsConstructor;
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetRecord implements Get<QQRecord> {
@@ -35,7 +37,7 @@ public class GetRecord implements Get<QQRecord> {
     private String out_format;
     private boolean full_path = false;
 
-    private static final String API = "/get_record";
+    public static final String API = "/get_record";
     @Override
     public String getApi(){
         return API;

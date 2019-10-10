@@ -1,12 +1,13 @@
 package com.forte.component.forcoolqhttpapi.beans.result;
 
 import com.forte.component.forcoolqhttpapi.beans.type.GroupMemberRoleType;
-import com.forte.qqrobot.beans.messages.result.AbstractResultInner;
 import com.forte.qqrobot.beans.messages.result.GroupMemberInfo;
 import com.forte.qqrobot.beans.messages.result.inner.GroupMember;
 import com.forte.qqrobot.beans.messages.types.PowerType;
 import com.forte.qqrobot.beans.messages.types.SexType;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  *
@@ -15,9 +16,11 @@ import lombok.Data;
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-@Data
+//@Getter
+//@Setter
+@ToString
 public class MemberInfo
-        extends AbstractResultInner
+//        extends AbstractResultInner
         implements GroupMemberInfo,
                     ResultInner,
                     GroupMember
@@ -40,21 +43,24 @@ public class MemberInfo
         card_changeable	boolean	是否允许修改群名片
      */
 
-    private String group_id;
-    private String user_id;
-    private String nickname;
-    private String card;
-    private com.forte.component.forcoolqhttpapi.beans.type.SexType sex;
-    private int age;
-    private String area;
-    private long join_time;
-    private long last_sent_time;
-    private String level;
-    private GroupMemberRoleType role;
-    private boolean unfriendly;
-    private String title;
-    private long title_expire_time;
-    private boolean card_changeable;
+    @Getter@Setter private String group_id;
+    @Getter@Setter private String user_id;
+    @Setter        private String nickname;
+    @Getter@Setter private String card;
+    @Getter@Setter private String originalData;
+
+
+    @Setter        private com.forte.component.forcoolqhttpapi.beans.type.SexType sex;
+    @Getter@Setter private int age;
+    @Getter@Setter private String area;
+    @Getter@Setter private long join_time;
+    @Getter@Setter private long last_sent_time;
+    @Getter@Setter private String level;
+    @Getter@Setter private GroupMemberRoleType role;
+    @Getter@Setter private boolean unfriendly;
+    @Getter@Setter private String title;
+    @Getter@Setter private long title_expire_time;
+    @Getter@Setter private boolean card_changeable;
 
 
     /**
@@ -105,7 +111,7 @@ public class MemberInfo
      */
     @Override
     public String getNickName() {
-        return nickname;
+        return card;
     }
 
     /**

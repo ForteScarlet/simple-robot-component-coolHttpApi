@@ -1,6 +1,10 @@
 package com.forte.component.forcoolqhttpapi.beans.get;
 
 import com.forte.component.forcoolqhttpapi.beans.result.GroupList;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  *
@@ -9,9 +13,13 @@ import com.forte.component.forcoolqhttpapi.beans.result.GroupList;
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
+@Getter
+@Setter
+//@AllArgsConstructor
+@NoArgsConstructor
 public class GetGroupList implements Get<GroupList> {
 
-    private static final String API = "/get_group_list";
+    public static final String API = "/get_group_list";
     @Override
     public String getApi(){
         return API;

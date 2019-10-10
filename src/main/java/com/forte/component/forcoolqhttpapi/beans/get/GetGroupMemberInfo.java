@@ -2,15 +2,17 @@ package com.forte.component.forcoolqhttpapi.beans.get;
 
 import com.forte.component.forcoolqhttpapi.beans.result.MemberInfo;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * 获取群成员信息
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetGroupMemberInfo implements Get<MemberInfo> {
@@ -20,11 +22,11 @@ public class GetGroupMemberInfo implements Get<MemberInfo> {
         no_cache	boolean	false	是否不使用缓存（使用缓存可能更新不及时，但响应更快）
      */
 
-    private long group_id;
-    private long user_id;
+    private String group_id;
+    private String user_id;
     private boolean no_cache = false;
 
-    private static final String API = "/get_group_member_info";
+    public static final String API = "/get_group_member_info";
     @Override
     public String getApi(){
         return API;

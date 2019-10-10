@@ -10,7 +10,8 @@ import lombok.*;
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class SendPrivateMsg implements Send {
@@ -20,10 +21,15 @@ public class SendPrivateMsg implements Send {
     auto_escape	boolean	false	消息内容是否作为纯文本发送（即不解析 CQ 码），只在 message 字段是字符串时有效
      */
 
-    private long user_id;
+    private String user_id;
     private String message;
     private boolean auto_escape = false;
-    private static final String API = "/send_private_msg";
+    public static final String API = "/send_private_msg";
+
+    public SendPrivateMsg(String user_id, String message){
+        this(user_id, message, false);
+    }
+
 
     @Override
     public String getApi() {
@@ -34,7 +40,7 @@ public class SendPrivateMsg implements Send {
 ////        return user_id;
 ////    }
 ////
-////    public void setUser_id(long user_id) {
+////    public void setUser_id(String user_id) {
 ////        this.user_id = user_id;
 ////    }
 ////
@@ -55,7 +61,7 @@ public class SendPrivateMsg implements Send {
 ////    }
 ////
 ////
-////    public SendPrivateMsg(long user_id, String message, boolean auto_escape) {
+////    public SendPrivateMsg(String user_id, String message, boolean auto_escape) {
 ////        this.user_id = user_id;
 ////        this.message = message;
 ////        this.auto_escape = auto_escape;

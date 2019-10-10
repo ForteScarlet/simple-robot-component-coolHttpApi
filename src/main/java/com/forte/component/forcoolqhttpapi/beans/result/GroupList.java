@@ -3,7 +3,9 @@ package com.forte.component.forcoolqhttpapi.beans.result;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.forte.qqrobot.beans.messages.result.AbstractInfoResultList;
 import com.forte.qqrobot.beans.messages.result.inner.Group;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  *
@@ -12,13 +14,16 @@ import lombok.Data;
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-@Data
+@Getter
+@Setter
+@ToString
 public class GroupList extends AbstractInfoResultList<Group>
         implements com.forte.qqrobot.beans.messages.result.GroupList,
         ResultList<com.forte.component.forcoolqhttpapi.beans.result.inner.Group> {
 
     /** list列表 */
     private com.forte.component.forcoolqhttpapi.beans.result.inner.Group[] list;
+    private String originalData;
 
     /**
      * 获取列表, 极度不建议返回为null

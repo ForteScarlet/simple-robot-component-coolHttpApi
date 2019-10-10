@@ -2,9 +2,8 @@ package com.forte.component.forcoolqhttpapi.beans.result;
 
 import com.forte.qqrobot.beans.messages.result.AbstractInfoResult;
 import com.forte.qqrobot.beans.messages.types.SexType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 /**
@@ -14,11 +13,8 @@ import lombok.ToString;
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 @ToString
-public class StrangerInfo extends AbstractInfoResult implements com.forte.qqrobot.beans.messages.result.StrangerInfo, Result {
+public class StrangerInfo implements com.forte.qqrobot.beans.messages.result.StrangerInfo, Result {
     /*
         响应数据
         字段名	数据类型	说明
@@ -28,10 +24,11 @@ public class StrangerInfo extends AbstractInfoResult implements com.forte.qqrobo
         age	number (int32)	年龄
      */
 
-    private String user_id;
-    private String nickname;
-    private com.forte.component.forcoolqhttpapi.beans.type.SexType sex;
-    private int age;
+    @Getter@Setter private String user_id;
+    @Getter@Setter private String nickname;
+    @Setter        private com.forte.component.forcoolqhttpapi.beans.type.SexType sex;
+    @Getter@Setter private Integer age;
+    @Getter@Setter private String originalData;
 
     /** QQ号 */
     @Override
@@ -48,11 +45,6 @@ public class StrangerInfo extends AbstractInfoResult implements com.forte.qqrobo
         }else{
             return SexType.UNKNOWN;
         }
-    }
-    /** 年龄 */
-    @Override
-    public Integer getAge(){
-        return age;
     }
 
     /**

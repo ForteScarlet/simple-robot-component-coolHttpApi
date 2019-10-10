@@ -1,8 +1,9 @@
 package com.forte.component.forcoolqhttpapi.beans.send;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * 群消息
@@ -10,7 +11,8 @@ import lombok.NoArgsConstructor;
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class SendGroupMsg implements Send {
@@ -19,10 +21,16 @@ public class SendGroupMsg implements Send {
         message	message	-	要发送的内容
         auto_escape	boolean	false	消息内容是否作为纯文本发送（即不解析 CQ 码），只在 message 字段是字符串时有效
      */
-    private long group_id;
+    private String group_id;
     private String message;
     private boolean auto_escape = false;
-    private static final String API = "/send_private_msg";
+    public static final String API = "/send_private_msg";
+
+
+    public SendGroupMsg(String group_id, String message){
+        this(group_id, message, false);
+    }
+
     @Override
     public String getApi() {
         return API;
@@ -32,7 +40,7 @@ public class SendGroupMsg implements Send {
 //        return user_id;
 //    }
 //
-//    public void setUser_id(long user_id) {
+//    public void setUser_id(String user_id) {
 //        this.user_id = user_id;
 //    }
 //

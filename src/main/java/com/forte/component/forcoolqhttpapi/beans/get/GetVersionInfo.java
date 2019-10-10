@@ -1,6 +1,10 @@
 package com.forte.component.forcoolqhttpapi.beans.get;
 
 import com.forte.component.forcoolqhttpapi.beans.result.VersionInfo;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  *
@@ -9,9 +13,13 @@ import com.forte.component.forcoolqhttpapi.beans.result.VersionInfo;
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
+@Setter
+@Getter
+//@AllArgsConstructor
+@NoArgsConstructor
 public class GetVersionInfo implements Get<VersionInfo> {
 
-    private static final String API = "/get_version_info";
+    public static final String API = "/get_version_info";
     @Override
     public String getApi(){
         return API;
