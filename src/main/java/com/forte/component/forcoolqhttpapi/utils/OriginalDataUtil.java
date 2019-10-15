@@ -2,7 +2,6 @@ package com.forte.component.forcoolqhttpapi.utils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONAware;
 import com.alibaba.fastjson.JSONObject;
 
 /**
