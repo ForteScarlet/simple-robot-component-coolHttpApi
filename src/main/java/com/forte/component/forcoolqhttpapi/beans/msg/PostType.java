@@ -19,16 +19,28 @@ public enum PostType {
     /**
      *  收到消息
      */
-    message,
+    message("message", "message_type") ,
     /**
      *  群、讨论组变动等通知类事件
      */
-    notice,
+    notice ("notice", "notice_type"),
     /**
      *  加好友请求、加群请求／邀请
      */
-    request
+    request ("request", "request_type") ,
+
+    /**
+     * 元事件
+     */
+    meta_event ("meta_event", "meta_event_type") ,
 
     ;
+
+    public final String keyName;
+    public final String postType;
+    PostType (String postType, String keyName) {
+        this.postType = postType;
+        this.keyName = keyName;
+    }
 
 }

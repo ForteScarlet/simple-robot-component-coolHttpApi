@@ -1,9 +1,8 @@
 package com.forte.component.forcoolqhttpapi.beans.msg;
 
-import com.forte.qqrobot.beans.messages.msgget.AbstractPrivateMsg;
+import com.forte.qqrobot.beans.messages.QQCodeAble;
 import com.forte.qqrobot.beans.messages.msgget.PrivateMsg;
 import com.forte.qqrobot.beans.messages.types.PrivateMsgType;
-import com.forte.qqrobot.sender.senderlist.Sender;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,6 +17,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@MsgOn(type = PostType.message, messageType = QQPrivateMsg.MESSAGE_TYPE)
 public class QQPrivateMsg extends BaseMsg implements PrivateMsg {
 /*
 post_type	string	message	上报类型
@@ -32,12 +32,9 @@ font	number (int32)	-	字体
 sender	object	-	发送人信息
  */
     /** 上报类型必定为message */
-    private static final PostType postType = PostType.message;
-    /** 消息类型 - 私信*/
-    private static final String messageType = "private";
-
-    /** 原始数据 */
-    private String originalData;
+    public static final PostType POST_TYPE = PostType.message;
+    /** 消息类型 - 私信 */
+    public static final String MESSAGE_TYPE = "private";
 
     private String post_type;
     /** 子类型 */
@@ -95,7 +92,7 @@ sender	object	-	发送人信息
     @Getter
     @Setter
     @ToString
-    public static class Sender{
+    public static class Sender implements QQCodeAble {
         /*
         user_id	number (int64)	发送者 QQ 号
         nickname	string	昵称
@@ -107,6 +104,11 @@ sender	object	-	发送人信息
         private String nickname;
         private String sex;
         private int age;
+
+        @Override
+        public String getQQCode() {
+            return user_id;
+        }
     }
 
     public static enum PriType{

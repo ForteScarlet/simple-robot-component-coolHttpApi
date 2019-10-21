@@ -6,7 +6,7 @@ import lombok.ToString;
 
 /**
  *
- * 全部消息的父类
+ * 全部监听消息的父类
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
@@ -34,6 +34,12 @@ public abstract class BaseMsg {
 
     private long time;
     private String self_id;
+
+    /**
+     * 从此定义原始数据字段
+     */
+    private String originalData;
+
 
 
 

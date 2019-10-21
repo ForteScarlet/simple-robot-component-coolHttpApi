@@ -7,12 +7,22 @@ import com.alibaba.fastjson.JSONObject;
 /**
  *
  * 为Json数据添加originalData数据
+ * 目前使用的是fastJson包
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-public class OriginalDataUtil {
+public class JSONDataUtil {
     public static final String KEY_NAME = "originalData";
+
+    /**
+     * 将字符串转化为JSON对象
+     * @param jsonStr   json字符串
+     * @return  JSON对象
+     */
+    public static JSONObject toJSONObject(String jsonStr){
+        return putObjOriginal(JSON.parseObject(jsonStr));
+    }
 
     /**
      * 为JSON对象添加original字段（如果可以添加的话

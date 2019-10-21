@@ -35,8 +35,8 @@ public class CoolQHttpApplication extends BaseApplication<CoolQHttpConfiguration
         //初始化送信器
         msgSender = new CoolQHttpMsgSender();
         CoolQHttpResourceDispatchCenter.saveCoolQHttpMsgSender(msgSender);
-        //初始化特殊API
-        spAPI = new CoolQHttpAPI();
+        //初始化特殊API并提供真正的msgSender以初始化
+        spAPI = new CoolQHttpAPI(msgSender);
         CoolQHttpResourceDispatchCenter.saveCoolQHttpAPI(spAPI);
     }
 
@@ -88,6 +88,8 @@ public class CoolQHttpApplication extends BaseApplication<CoolQHttpConfiguration
     @Override
     protected String start(ListenerManager manager) {
         //TODO 启动服务
+
+
 
 
         return "coolQ HTTP API server";

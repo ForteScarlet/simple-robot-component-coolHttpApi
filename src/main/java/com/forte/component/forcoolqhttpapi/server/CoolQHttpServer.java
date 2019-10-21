@@ -1,16 +1,25 @@
 package com.forte.component.forcoolqhttpapi.server;
 
+import com.sun.net.httpserver.HttpHandler;
+import com.sun.net.httpserver.HttpServer;
+import com.sun.net.httpserver.spi.HttpServerProvider;
+
+import java.io.Closeable;
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.util.Map;
+
 /**
- *
  * CoolQ监听消息所需Http服务器
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-public class CoolQHttpServer {
+public class CoolQHttpServer implements Closeable {
     /*
         上报方式
-        当配置文件中 post_url 配置项不为空时（无论 use_http 是什么），会将 酷Q 收到的事件通过 HTTP POST 上报，数据以 JSON 格式表示。上报的请求头中会包含一个 X-Self-ID 头来表示当前正在上报的机器人 QQ 号，如：
+        当配置文件中 post_url 配置项不为空时（无论 use_http 是什么），会将 酷Q 收到的事件通过 HTTP POST 上报，
+        数据以 JSON 格式表示。上报的请求头中会包含一个 X-Self-ID 头来表示当前正在上报的机器人 QQ 号，如：
         POST / HTTP/1.1
         X-Self-ID: 123456
 
@@ -28,12 +37,40 @@ public class CoolQHttpServer {
         {
             "block": true
         }
-
      */
 
+    /**
+     * 启动JavaServer监听服务
+     *
+     * @param port       java服务端口
+     * @param listenPath 监听的地址列表
+     * @param backlog    TCP连接最大并发数, 传 0 或负数表示使用默认值
+     */
+    public static CoolQHttpServer startServer(int port, Map<String, HttpHandler> listenPath, int backlog) throws IOException {
+        HttpServerProvider provider = HttpServerProvider.provider();
+        HttpServer httpserver = provider.createHttpServer(new InetSocketAddress(port), backlog);
+        //注册监听地址
+        listenPath.forEach(httpserver::createContext);
+        //启动服务
+        httpserver.start();
+        return new CoolQHttpServer(httpserver);
+    }
 
 
+    /** 真正的HttpServer对象 */
+    private HttpServer httpServer;
 
+    /**
+     * 构造
+     */
+    private CoolQHttpServer(HttpServer httpserver) {
+        this.httpServer = httpserver;
+    }
 
+    @Override
+    public void close() {
+        // 终止服务
+        httpServer.stop(0);
+    }
 
 }
