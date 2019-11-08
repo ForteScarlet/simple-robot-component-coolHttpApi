@@ -7,7 +7,6 @@ import lombok.ToString;
 /**
  *
  * 元事件 - 生命周期
- * 暂时未想好如何进行整合
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/

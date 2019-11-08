@@ -1,10 +1,8 @@
 package com.forte.component.forcoolqhttpapi.beans.msg;
 
-import com.forte.qqrobot.beans.messages.CodesAble;
 import com.forte.qqrobot.beans.messages.QQCodeAble;
 import com.forte.qqrobot.beans.messages.msgget.GroupMsg;
 import com.forte.qqrobot.beans.messages.types.GroupMsgType;
-import com.forte.qqrobot.beans.messages.types.SexType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

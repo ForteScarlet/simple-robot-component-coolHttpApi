@@ -1,5 +1,6 @@
 package com.forte.component.forcoolqhttpapi.beans.msg;
 
+import com.forte.qqrobot.beans.messages.msgget.MsgGet;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -8,13 +9,15 @@ import lombok.ToString;
  *
  * 全部监听消息的父类
  *
+ * 实现{@link MsgGet} 接口
+ *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
 @Getter
 @Setter
 @ToString
-public abstract class BaseMsg {
+public abstract class BaseMsg implements MsgGet {
     /*
 
     其它字段随上报类型不同而有所不同，下面将在事件列表的「上报数据」标题下一一给出。
@@ -41,6 +44,26 @@ public abstract class BaseMsg {
     private String originalData;
 
 
+    @Override
+    public String getMsg(){
+        return null;
+    }
 
+    /** 获取ID，如果没有此参数推荐使用UUID等来代替 */
+    @Override
+    public String getId(){
+        return "";
+    }
 
+    /** 获取消息的字体 */
+    @Override
+    public String getFont(){
+        return null;
+    }
+
+    /** 获取到的时间, 代表某一时间的秒值。注意是秒值！如果类型不对请自行转化 */
+    @Override
+    public long getTime(){
+        return -1;
+    }
 }

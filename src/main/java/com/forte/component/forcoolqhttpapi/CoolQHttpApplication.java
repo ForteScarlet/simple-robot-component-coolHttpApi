@@ -1,17 +1,32 @@
 package com.forte.component.forcoolqhttpapi;
 
+import com.forte.component.forcoolqhttpapi.beans.msg.MsgOn;
+import com.forte.component.forcoolqhttpapi.beans.msg.PostType;
+import com.forte.component.forcoolqhttpapi.server.CoolQHttpHandler;
 import com.forte.component.forcoolqhttpapi.server.CoolQHttpMsgSender;
+import com.forte.component.forcoolqhttpapi.server.CoolQHttpServer;
+import com.forte.component.forcoolqhttpapi.utils.PostTypeUtils;
+import com.forte.plusutils.consoleplus.console.Colors;
 import com.forte.qqrobot.BaseApplication;
+import com.forte.qqrobot.beans.messages.msgget.MsgGet;
+import com.forte.qqrobot.beans.messages.result.LoginQQInfo;
+import com.forte.qqrobot.exception.RobotRuntionException;
 import com.forte.qqrobot.listener.invoker.ListenerManager;
+import com.forte.qqrobot.log.QQLog;
 import com.forte.qqrobot.log.QQLogBack;
+import com.forte.qqrobot.scanner.FileScanner;
 import com.forte.qqrobot.sender.senderlist.SenderGetList;
 import com.forte.qqrobot.sender.senderlist.SenderSendList;
 import com.forte.qqrobot.sender.senderlist.SenderSetList;
+import com.sun.net.httpserver.HttpHandler;
+import org.apache.commons.collections.map.SingletonMap;
+import sun.java2d.pipe.SpanIterator;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.Set;
 
 /**
- *
  * CoolQ HTTP API 组件对接 启动器
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -19,16 +34,26 @@ import java.io.IOException;
  **/
 public class CoolQHttpApplication extends BaseApplication<CoolQHttpConfiguration, CoolQHttpAPI> {
 
-    /** 送信器 */
+    /**
+     * 送信器
+     */
     private CoolQHttpMsgSender msgSender;
 
-    /** 特殊API */
+    /**
+     * 特殊API
+     */
     private CoolQHttpAPI spAPI;
+
+    /**
+     * 启动的服务
+     */
+    private CoolQHttpServer server;
+
 
     /**
      * 开发者实现的资源初始化
      */
-//    @Override
+    @Override
     protected void resourceInit() {
         //初始化配置类实例
         CoolQHttpResourceDispatchCenter.saveCoolQHttpConfiguration(new CoolQHttpConfiguration());
@@ -42,11 +67,11 @@ public class CoolQHttpApplication extends BaseApplication<CoolQHttpConfiguration
 
     /**
      * 资源初始化
+     *
      * @param configuration 配置对象
      */
     @Override
     protected void resourceInit(CoolQHttpConfiguration configuration) {
-        resourceInit();
     }
 
     /**
@@ -74,7 +99,7 @@ public class CoolQHttpApplication extends BaseApplication<CoolQHttpConfiguration
     }
 
     @Override
-    protected CoolQHttpAPI getSpecialApi() {
+    public CoolQHttpAPI getSpecialApi() {
         return spAPI;
     }
 
@@ -87,13 +112,72 @@ public class CoolQHttpApplication extends BaseApplication<CoolQHttpConfiguration
      */
     @Override
     protected String start(ListenerManager manager) {
-        //TODO 启动服务
+        CoolQHttpConfiguration conf = getConfiguration();
 
+        String requestPath = CoolQHttpConfiguration.getServerPath();
+        String encode = CoolQHttpConfiguration.getEncode();
+        String[] method = conf.getMethod();
 
+        // 扫描并获取所有的监听对象，然后转化
+        Set<Class<?>> msgOnClasses = new FileScanner()
+                .find(
+                        "com.forte.component.forcoolqhttpapi.beans.msg",
+                        c -> c.getAnnotation(MsgOn.class) != null
+                ).get();
+
+        Map<PostType, Map<String, Class<? extends MsgGet>>> postTypeMap = PostTypeUtils.toTypeMap(msgOnClasses);
+
+        // 响应器
+        CoolQHttpHandler coolQHttpHandler = new CoolQHttpHandler(
+                                                    encode,
+                                                    method,
+                                                    manager,
+                                                    msgSender,
+                                                    postTypeMap
+                                            );
+
+        // 创建一个单值Map，增加一个监听映射
+        Map<String, HttpHandler> map = new SingletonMap(requestPath, coolQHttpHandler);
+
+        int javaPort = CoolQHttpConfiguration.getJavaPort();
+        int backLog = CoolQHttpConfiguration.getBackLog();
+
+        // 服务器
+        try {
+            // 赋值至成员变量
+            server = CoolQHttpServer.startServer(
+                    javaPort,
+                    map,
+                    backLog
+
+            );
+        } catch (IOException e) {
+            throw new RobotRuntionException("监听服务启动失败！", e);
+        }
+
+        QQLog.debug("尝试获取登录QQ信息...");
+        getAndShowQQInfo(conf);
 
 
         return "coolQ HTTP API server";
     }
+
+
+    /**
+     * 获取并展示登录的QQ的部分信息并在配置中记录此信息
+     * @param configuration
+     */
+    private void getAndShowQQInfo(CoolQHttpConfiguration configuration){
+        //获取登录的机器人的信息
+        LoginQQInfo loginQQInfo = msgSender.getLoginQQInfo();
+        configuration.setLoginQQInfo(loginQQInfo);
+
+        QQLog.info(Colors.builder().add("QQ    : "+loginQQInfo.getQQ(), Colors.FONT.YELLOW).build());
+        QQLog.info(Colors.builder().add("NICK  : "+loginQQInfo.getName(), Colors.FONT.YELLOW).build());
+        QQLog.info(Colors.builder().add("LEVEL : "+loginQQInfo.getLevel(), Colors.FONT.YELLOW).build());
+
+    }
+
 
     /**
      * 开发者实现的获取Config对象的方法,对象请保证每次获取的时候都是唯一的
@@ -108,14 +192,17 @@ public class CoolQHttpApplication extends BaseApplication<CoolQHttpConfiguration
      */
     @Override
     public void close() {
-        // TODO close()
+        if(server != null) {
+            server.close();
+        }
     }
 
 
     /**
      * 无参构造
      */
-    public CoolQHttpApplication() { }
+    public CoolQHttpApplication() {
+    }
 
     /**
      * 日志拦截构造

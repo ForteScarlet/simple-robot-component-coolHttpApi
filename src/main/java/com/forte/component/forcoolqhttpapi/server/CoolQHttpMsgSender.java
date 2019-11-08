@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.forte.component.forcoolqhttpapi.CoolQHttpConfiguration;
+import com.forte.component.forcoolqhttpapi.CoolQHttpInteractionException;
 import com.forte.component.forcoolqhttpapi.CoolQHttpResourceDispatchCenter;
 import com.forte.component.forcoolqhttpapi.beans.get.*;
 import com.forte.component.forcoolqhttpapi.beans.msg.Anonymous;
@@ -75,7 +76,13 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
      */
     public <T extends InfoResult> Optional<T> get(String requestPath, String requestJson, Class<T> resultType) {
         return get(requestPath, requestJson, res -> {
-            JSONObject jsonObject = JSON.parseObject(res);
+            // 数据在data下
+            JSONObject baseData = JSON.parseObject(res);
+
+            // 判断请求是否获取成功
+            CoolQHttpInteractionException.requireNotFailed(baseData);
+
+            JSONObject jsonObject = baseData.getJSONObject("data");
             jsonObject.put("originalData", res);
             return jsonObject.toJavaObject(resultType);
         });
@@ -247,9 +254,13 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
     public GroupNoteList getGroupNoteList(String group, @Deprecated int number) {
         GetGroupNoticeList in = new GetGroupNoticeList(group);
         return get(in.getApi(), JSON.toJSONString(in), json -> {
+            JSONObject baseData = JSONObject.parseObject(json);
+            // 判断请求是否获取成功
+            CoolQHttpInteractionException.requireNotFailed(baseData);
+
             // json数据是GroupNotice类型数组
             GroupNoticeList groupNotesList = new GroupNoticeList();
-            JSONArray jsonArray = JSONArray.parseArray(json);
+            JSONArray jsonArray = baseData.getJSONArray("data");
             GroupNoticeList.GroupNotice[] array;
             if(number > 0){
                 // 截断并转化为List
@@ -342,9 +353,14 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
          */
 
         try {
-            getResultJson(send.getApi(), JSON.toJSONString(send));
+            String resultJson = getResultJson(send.getApi(), JSON.toJSONString(send));
+            // 判断请求是否获取成功
+            CoolQHttpInteractionException.requireNotFailed(JSONObject.parseObject(resultJson));
             return true;
         }catch (Exception e){
+            if(e instanceof CoolQHttpInteractionException){
+                throw (CoolQHttpInteractionException) e;
+            }
             return false;
         }
     }
