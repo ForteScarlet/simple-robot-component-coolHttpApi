@@ -10,7 +10,7 @@ import com.forte.plusutils.consoleplus.console.Colors;
 import com.forte.qqrobot.BaseApplication;
 import com.forte.qqrobot.beans.messages.msgget.MsgGet;
 import com.forte.qqrobot.beans.messages.result.LoginQQInfo;
-import com.forte.qqrobot.exception.RobotRuntionException;
+import com.forte.qqrobot.exception.RobotRuntimeException;
 import com.forte.qqrobot.listener.invoker.ListenerManager;
 import com.forte.qqrobot.log.QQLog;
 import com.forte.qqrobot.log.QQLogBack;
@@ -20,7 +20,6 @@ import com.forte.qqrobot.sender.senderlist.SenderSendList;
 import com.forte.qqrobot.sender.senderlist.SenderSetList;
 import com.sun.net.httpserver.HttpHandler;
 import org.apache.commons.collections.map.SingletonMap;
-import sun.java2d.pipe.SpanIterator;
 
 import java.io.IOException;
 import java.util.Map;
@@ -152,7 +151,7 @@ public class CoolQHttpApplication extends BaseApplication<CoolQHttpConfiguration
 
             );
         } catch (IOException e) {
-            throw new RobotRuntionException("监听服务启动失败！", e);
+            throw new RobotRuntimeException("监听服务启动失败！", e);
         }
 
         QQLog.debug("尝试获取登录QQ信息...");

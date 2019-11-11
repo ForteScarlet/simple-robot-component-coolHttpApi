@@ -4,18 +4,16 @@ import com.alibaba.fastjson.JSONObject;
 import com.forte.component.forcoolqhttpapi.utils.JSONDataUtil;
 import com.forte.qqrobot.ResourceDispatchCenter;
 import com.forte.qqrobot.beans.messages.msgget.MsgGet;
-import com.forte.qqrobot.exception.RobotRuntionException;
+import com.forte.qqrobot.exception.RobotRuntimeException;
 import com.forte.qqrobot.listener.invoker.ListenerManager;
 import com.forte.qqrobot.sender.senderlist.SenderList;
 import com.forte.qqrobot.utils.ObjectsPlus;
-import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import org.apache.commons.io.IOUtils;
 
 import javax.xml.ws.spi.http.HttpHandler;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URLDecoder;
 import java.util.*;
 import java.util.function.BiPredicate;
@@ -157,7 +155,7 @@ public class CoolQHttpHandlerFactory {
                 }};
                 this.IS_METHOD_OK = m -> methodSet.contains(m.toLowerCase());
             } else {
-                throw new RobotRuntionException("没有任何请求类型被允许！至少应当允许[POST]类型");
+                throw new RobotRuntimeException("没有任何请求类型被允许！至少应当允许[POST]类型");
             }
         }
 
@@ -211,11 +209,11 @@ public class CoolQHttpHandlerFactory {
                     response(httpExchange, 500, 0, "error: " + e.getMessage());
                     // 关闭处理器, 同时将关闭请求和响应的输入输出流（如果还没关闭）
                 } catch (IOException e1) {
-                    e = new RobotRuntionException("异常错误信息响应失败！", e1);
+                    e = new RobotRuntimeException("异常错误信息响应失败！", e1);
 
                 }
                 // 响应完成后重新抛出异常
-                throw new RobotRuntionException("监听消息响应异常！", e);
+                throw new RobotRuntimeException("监听消息响应异常！", e);
             } finally {
                 // 关闭处理器, 同时将关闭请求和响应的输入输出流（如果还没关闭）
                 httpExchange.close();

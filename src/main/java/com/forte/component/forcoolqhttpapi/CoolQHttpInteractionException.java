@@ -1,7 +1,7 @@
 package com.forte.component.forcoolqhttpapi;
 
 import com.alibaba.fastjson.JSONObject;
-import com.forte.qqrobot.exception.RobotRuntionException;
+import com.forte.qqrobot.exception.RobotRuntimeException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +13,7 @@ import java.util.Map;
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-public class CoolQHttpInteractionException extends RobotRuntionException {
+public class CoolQHttpInteractionException extends RobotRuntimeException {
     /*
     汇总如下：
         retcode	说明
