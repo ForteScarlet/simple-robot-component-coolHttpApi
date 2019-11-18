@@ -82,6 +82,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
             // 判断请求是否获取成功
             CoolQHttpInteractionException.requireNotFailed(baseData);
 
+            // 获取data数据, 并置入原始数据字符串
             JSONObject jsonObject = baseData.getJSONObject("data");
             jsonObject.put("originalData", res);
             return jsonObject.toJavaObject(resultType);
