@@ -16,7 +16,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @MsgOn(type = PostType.meta_event, messageType = QQBaseHeartbeat.META_EVENT_TYPE)
-public class QQBaseHeartbeat extends BaseMsg {
+public class QQBaseHeartbeat extends BaseMsg implements Heartbeat {
     /*
         字段名	数据类型	可能的值	说明
         post_type	string	meta_event	上报类型

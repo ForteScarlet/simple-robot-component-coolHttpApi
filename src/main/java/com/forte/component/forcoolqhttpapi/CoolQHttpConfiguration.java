@@ -19,20 +19,20 @@ public class CoolQHttpConfiguration extends BaseConfiguration<CoolQHttpConfigura
     /**
      * 端口, 默认为15514
      */
-    private static int javaPort = 15514;
+    private int javaPort = 15514;
 
     /**
      * 酷Q端插件的端口，默认5700（插件默认就是5700，不开启多账号模式的话。）
      */
-    private static int serverPort = 5700;
+    private int serverPort = 5700;
 
     /**
      * TCP连接最大并发数, 传 0 或负数表示使用默认值
      */
-    private static int backLog = 0;
+    private int backLog = 0;
 
     /** 监听请求地址，默认为一个斜杠 */
-    private static String serverPath = "/";
+    private String serverPath = "/";
 
     /**
      * 接收的请求方式，默认为 post
@@ -46,7 +46,7 @@ public class CoolQHttpConfiguration extends BaseConfiguration<CoolQHttpConfigura
 
 
 
-    public static int getBackLog() {
+    public int getBackLog() {
         return backLog;
     }
 
@@ -55,11 +55,11 @@ public class CoolQHttpConfiguration extends BaseConfiguration<CoolQHttpConfigura
      * @param backLog TCP连接最大并发数
      */
     public CoolQHttpConfiguration setBackLog(int backLog) {
-        CoolQHttpConfiguration.backLog = backLog;
+        this.backLog = backLog;
         return this;
     }
 
-    public static int getServerPort() {
+    public int getServerPort() {
         return serverPort;
     }
 
@@ -70,11 +70,11 @@ public class CoolQHttpConfiguration extends BaseConfiguration<CoolQHttpConfigura
      * @param serverPort    酷Q端插件监听请求的端口号
      */
     public CoolQHttpConfiguration setServerPort(int serverPort) {
-        CoolQHttpConfiguration.serverPort = serverPort;
+        this.serverPort = serverPort;
         return this;
     }
 
-    public static int getJavaPort() {
+    public int getJavaPort() {
         return javaPort;
     }
 
@@ -85,7 +85,7 @@ public class CoolQHttpConfiguration extends BaseConfiguration<CoolQHttpConfigura
      * @param javaPort java端监听端口
      */
     public CoolQHttpConfiguration setJavaPort(int javaPort) {
-        CoolQHttpConfiguration.javaPort = javaPort;
+        this.javaPort = javaPort;
         return this;
     }
 
@@ -93,7 +93,7 @@ public class CoolQHttpConfiguration extends BaseConfiguration<CoolQHttpConfigura
         return "http://" + getIp() + ":" + getServerPort();
     }
 
-    public static String getServerPath() {
+    public String getServerPath() {
         return serverPath;
     }
 
@@ -104,7 +104,7 @@ public class CoolQHttpConfiguration extends BaseConfiguration<CoolQHttpConfigura
      * @param serverPath java端响应请求的时候的路径地址
      */
     public CoolQHttpConfiguration setServerPath(String serverPath) {
-        CoolQHttpConfiguration.serverPath = serverPath;
+        this.serverPath = serverPath;
         return this;
     }
 

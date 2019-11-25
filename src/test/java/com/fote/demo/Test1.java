@@ -23,11 +23,7 @@ public class Test1 {
 
     public static void main(String[] args) throws Exception {
 
-        String json = "{\"data\":{\"nickname\":\"法欧莉斯卡雷特\",\"user_id\":2257290268},\"retcode\":0,\"status\":\"ok\"}";
 
-        LoginInfo loginInfo = JSONObject.toJavaObject(JSON.parseObject(json).getJSONObject("data"), LoginInfo.class);
-
-        System.out.println(loginInfo);
 
     }
 

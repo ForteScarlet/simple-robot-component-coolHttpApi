@@ -14,7 +14,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @MsgOn(type = PostType.meta_event, messageType = QQBaseLifecycle.META_EVENT_TYPE)
-public class QQBaseLifecycle extends BaseMsg {
+public class QQBaseLifecycle extends BaseMsg implements Lifecycle {
     /*
         字段名	数据类型	可能的值	说明
         post_type	string	meta_event	上报类型
@@ -27,6 +27,10 @@ public class QQBaseLifecycle extends BaseMsg {
 
     private LifecycleType sub_type;
 
+    @Override
+    public LifecycleType getSubType() {
+        return sub_type;
+    }
 
 
     public static enum LifecycleType {

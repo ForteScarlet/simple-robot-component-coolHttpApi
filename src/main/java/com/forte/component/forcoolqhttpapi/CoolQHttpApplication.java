@@ -1,15 +1,17 @@
 package com.forte.component.forcoolqhttpapi;
 
-import com.forte.component.forcoolqhttpapi.beans.msg.MsgOn;
-import com.forte.component.forcoolqhttpapi.beans.msg.PostType;
+import com.forte.component.forcoolqhttpapi.beans.msg.*;
 import com.forte.component.forcoolqhttpapi.server.CoolQHttpHandler;
 import com.forte.component.forcoolqhttpapi.server.CoolQHttpMsgSender;
 import com.forte.component.forcoolqhttpapi.server.CoolQHttpServer;
 import com.forte.component.forcoolqhttpapi.utils.PostTypeUtils;
 import com.forte.plusutils.consoleplus.console.Colors;
 import com.forte.qqrobot.BaseApplication;
+import com.forte.qqrobot.anno.factory.MsgGetTypeFactory;
 import com.forte.qqrobot.beans.messages.msgget.MsgGet;
 import com.forte.qqrobot.beans.messages.result.LoginQQInfo;
+import com.forte.qqrobot.beans.types.ResultSelectType;
+import com.forte.qqrobot.depend.DependCenter;
 import com.forte.qqrobot.exception.RobotRuntimeException;
 import com.forte.qqrobot.listener.invoker.ListenerManager;
 import com.forte.qqrobot.log.QQLog;
@@ -62,6 +64,12 @@ public class CoolQHttpApplication extends BaseApplication<CoolQHttpConfiguration
         //初始化特殊API并提供真正的msgSender以初始化
         spAPI = new CoolQHttpAPI(msgSender);
         CoolQHttpResourceDispatchCenter.saveCoolQHttpAPI(spAPI);
+
+        // 构建额外几种msgGet类型
+        // 元事件 - 生命周期
+        MsgGetTypeFactory.registerType(ExMsgGet.LIFECYCLE, Lifecycle.class);
+        // 元事件 - 心跳
+        MsgGetTypeFactory.registerType(ExMsgGet.HEARTBEAT, Heartbeat.class);
     }
 
     /**
@@ -110,11 +118,11 @@ public class CoolQHttpApplication extends BaseApplication<CoolQHttpConfiguration
      * @param manager 监听管理器，用于分配获取到的消息
      */
     @Override
-    protected String start(ListenerManager manager) {
+    protected String start(DependCenter dependCenter, ListenerManager manager) {
         CoolQHttpConfiguration conf = getConfiguration();
 
-        String requestPath = CoolQHttpConfiguration.getServerPath();
-        String encode = CoolQHttpConfiguration.getEncode();
+        String requestPath = conf.getServerPath();
+        String encode = conf.getEncode();
         String[] method = conf.getMethod();
 
         // 扫描并获取所有的监听对象，然后转化
@@ -132,16 +140,25 @@ public class CoolQHttpApplication extends BaseApplication<CoolQHttpConfiguration
                                                     method,
                                                     manager,
                                                     msgSender,
+                                                    conf.getResultSelectType(),
                                                     postTypeMap
                                             );
 
         // 创建一个单值Map，增加一个监听映射
         Map<String, HttpHandler> map = new SingletonMap(requestPath, coolQHttpHandler);
 
-        int javaPort = CoolQHttpConfiguration.getJavaPort();
-        int backLog = CoolQHttpConfiguration.getBackLog();
+        int javaPort = conf.getJavaPort();
+        int backLog = conf.getBackLog();
 
-        // 服务器
+        // 获取QQ信息
+        QQLog.debug("尝试获取登录QQ信息...");
+        try {
+            getAndShowQQInfo(conf);
+        }catch (Exception e){
+            QQLog.error("登录QQ信息获取失败！请确保已手动配置登录QQ信息。", e);
+        }
+
+        // 启动服务器
         try {
             // 赋值至成员变量
             server = CoolQHttpServer.startServer(
@@ -154,9 +171,8 @@ public class CoolQHttpApplication extends BaseApplication<CoolQHttpConfiguration
             throw new RobotRuntimeException("监听服务启动失败！", e);
         }
 
-        QQLog.debug("尝试获取登录QQ信息...");
-        getAndShowQQInfo(conf);
-
+        // 记录启动的服务
+        dependCenter.loadIgnoreThrow(server);
 
         return "coolQ HTTP API server";
     }

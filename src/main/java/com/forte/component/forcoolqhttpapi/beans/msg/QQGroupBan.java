@@ -1,5 +1,7 @@
 package com.forte.component.forcoolqhttpapi.beans.msg;
 
+import com.forte.qqrobot.beans.messages.msgget.GroupBan;
+import com.forte.qqrobot.beans.messages.types.GroupBanType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -15,7 +17,8 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class QQGroupBan extends BaseMsg /* implements GroupBan */ {
+@MsgOn(type = PostType.notice, messageType = QQGroupBan.NOTICE_TYPE)
+public class QQGroupBan extends BaseMsg  implements GroupBan {
     /*
         字段名	数据类型	可能的值	说明
         post_type	string	notice	上报类型
@@ -35,6 +38,37 @@ public class QQGroupBan extends BaseMsg /* implements GroupBan */ {
     private String operator_id;
     private String user_id;
     private Long duration;
+
+    @Override
+    public com.forte.qqrobot.beans.messages.types.GroupBanType getBanType() {
+        if(sub_type.equals(GroupBanType.ban)){
+            return com.forte.qqrobot.beans.messages.types.GroupBanType.BAN;
+        }else if(sub_type.equals(GroupBanType.lift_ban)){
+            return com.forte.qqrobot.beans.messages.types.GroupBanType.LIFT_BAN;
+        }else{
+            return null;
+        }
+    }
+
+    @Override
+    public String getGroup() {
+        return group_id;
+    }
+
+    @Override
+    public String getOperatorQQ() {
+        return operator_id;
+    }
+
+    @Override
+    public String getBeOperatedQQ() {
+        return user_id;
+    }
+
+    @Override
+    public Long time() {
+        return duration;
+    }
 
 
     public static enum GroupBanType {
