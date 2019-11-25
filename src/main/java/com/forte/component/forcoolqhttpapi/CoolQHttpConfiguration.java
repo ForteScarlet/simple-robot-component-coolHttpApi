@@ -1,5 +1,6 @@
 package com.forte.component.forcoolqhttpapi;
 
+import com.forte.config.Conf;
 import com.forte.qqrobot.BaseConfiguration;
 
 /**
@@ -19,24 +20,29 @@ public class CoolQHttpConfiguration extends BaseConfiguration<CoolQHttpConfigura
     /**
      * 端口, 默认为15514
      */
+    @Conf("simple.robot.conf.coolqhttpapi.javaPort")
     private int javaPort = 15514;
 
     /**
      * 酷Q端插件的端口，默认5700（插件默认就是5700，不开启多账号模式的话。）
      */
+    @Conf("simple.robot.conf.coolqhttpapi.serverPort")
     private int serverPort = 5700;
 
     /**
      * TCP连接最大并发数, 传 0 或负数表示使用默认值
      */
+    @Conf("simple.robot.conf.coolqhttpapi.backLog")
     private int backLog = 0;
 
     /** 监听请求地址，默认为一个斜杠 */
+    @Conf("simple.robot.conf.coolqhttpapi.serverPath")
     private String serverPath = "/";
 
     /**
      * 接收的请求方式，默认为 post
      */
+    @Conf("simple.robot.conf.coolqhttpapi.method")
     private String[] method = {"post"};
 
 
