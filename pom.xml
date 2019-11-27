@@ -14,7 +14,7 @@
     <artifactId>component-forcoolqhttpapi</artifactId>
 
     <!-- 版本号 下次部署大于0.0.2 -->
-    <version>0.5-BETA-1.4.0</version>
+    <version>0.5.1-BETA-1.4.0</version>
 
     <!-- 依赖版本号 -->
     <properties>
