@@ -24,7 +24,7 @@ public class SendGroupMsg implements Send {
     private String group_id;
     private String message;
     private boolean auto_escape = false;
-    public static final String API = "/send_private_msg";
+    public static final String API = "/send_group_msg";
 
 
     public SendGroupMsg(String group_id, String message){
