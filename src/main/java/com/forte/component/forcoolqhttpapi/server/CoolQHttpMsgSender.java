@@ -64,7 +64,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
         CoolQHttpConfiguration httpConfiguration = CoolQHttpResourceDispatchCenter.getCoolQHttpConfiguration();
         String url = httpConfiguration.getRequestPath() + requestPath;
         //请求并返回响应数据
-        return HttpClientUtil.post(url, requestJson);
+        return HttpClientUtil.postJson(url, requestJson);
     }
 
     /**
