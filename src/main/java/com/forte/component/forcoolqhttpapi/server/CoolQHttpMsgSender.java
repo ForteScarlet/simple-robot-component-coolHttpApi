@@ -17,11 +17,13 @@ import com.forte.qqrobot.beans.messages.result.StrangerInfo;
 import com.forte.qqrobot.beans.messages.result.*;
 import com.forte.qqrobot.beans.messages.result.inner.GroupNote;
 import com.forte.qqrobot.beans.messages.types.GroupAddRequestType;
+import com.forte.qqrobot.exception.RobotRuntimeException;
 import com.forte.qqrobot.log.QQLog;
 import com.forte.qqrobot.sender.senderlist.BaseRootSenderList;
 import com.forte.qqrobot.utils.HttpClientUtil;
 import com.forte.qqrobot.utils.proxyhelper.JSONParameterCreatorHelper;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -83,9 +85,23 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
             CoolQHttpInteractionException.requireNotFailed(baseData);
 
             // 获取data数据, 并置入原始数据字符串
-            JSONObject jsonObject = baseData.getJSONObject("data");
-            jsonObject.put("originalData", res);
-            return jsonObject.toJavaObject(resultType);
+//            JSONObject jsonObject = baseData.getJSONObject("data");
+            Object jsonData = baseData.get("data");
+            if(jsonData instanceof JSONObject){
+                // 如果是object类型
+                ((JSONObject) jsonData).put("originalData", res);
+                return ((JSONObject) jsonData).toJavaObject(resultType);
+            }else if(jsonData instanceof JSONArray){
+                // 是数组类型, 将数组放在list字段中并增加originalData字段
+                JSONObject newJsonData = new JSONObject(2);
+                newJsonData.put("list", jsonData);
+                newJsonData.put("originalData", res);
+                return newJsonData.toJavaObject(resultType);
+            }else{
+                // 既不是object也不是array， 那能是啥？字符串么？
+                // 先抛个异常吧/
+                throw new RobotRuntimeException("无法解析json: " + res);
+            }
         });
     }
 
@@ -236,6 +252,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
      */
     @Override
     public GroupMemberList getGroupMemberList(String group) {
+        // 此请求返回值的数组，需要进行特殊处理。
         return get(new GetGroupMemberList(group)).orElse(null);
     }
 
