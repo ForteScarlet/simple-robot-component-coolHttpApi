@@ -12,6 +12,7 @@ import com.forte.component.forcoolqhttpapi.utils.PostTypeUtils;
 import com.forte.qqrobot.beans.messages.msgget.MsgGet;
 import com.forte.qqrobot.scanner.FileScanner;
 
+import java.net.URLDecoder;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,7 +23,11 @@ import java.util.Set;
 public class Test1 {
 
     public static void main(String[] args) throws Exception {
+        String s = "[%25ĀĀ Ô]羽咲綾乃[$ÿĀ\u001C']_啥都不懂的萌新。";
 
+        String decode = URLDecoder.decode(s, "utf-8");
+
+        System.out.println(decode);
 
 
     }

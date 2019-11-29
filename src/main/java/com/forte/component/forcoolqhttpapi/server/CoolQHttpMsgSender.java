@@ -43,6 +43,11 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
     private SendJsonCreator json;
 
     /**
+     * 空的jsonObject，请不要对其内容进行任何修改
+     */
+    private static final JSON EMPTY_JSON = new JSONObject();
+
+    /**
      * 构造，提供一个Json获取器
      */
     public CoolQHttpMsgSender(SendJsonCreator creator) {
@@ -97,6 +102,9 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
                 newJsonData.put("list", jsonData);
                 newJsonData.put("originalData", res);
                 return newJsonData.toJavaObject(resultType);
+            }else if(jsonData == null){
+                // 如果是null，说明没有返回值，赋值为空值
+                return JSON.toJavaObject(EMPTY_JSON, resultType);
             }else{
                 // 既不是object也不是array， 那能是啥？字符串么？
                 // 先抛个异常吧/
@@ -264,7 +272,8 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
     }
 
     /**
-     * 取群公告列表
+     * 取群公告列表.
+     * 参数number对于cqhttpapi来说是不存在的，所以假如大于0，则会通过代码进行截取。
      * @param group     群号
      * @param number    截取数量( 无效参数 ), 如果大于0则截取
      */
