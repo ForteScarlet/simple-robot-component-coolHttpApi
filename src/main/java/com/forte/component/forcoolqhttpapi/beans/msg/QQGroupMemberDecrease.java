@@ -38,8 +38,8 @@ public class QQGroupMemberDecrease extends BaseMsg implements GroupMemberReduce 
     private String group_id;
     private String operator_id;
     private String user_id;
-    /** 参数中无ID，使用UUID生成一个ID */
-    private String id = UUID.randomUUID().toString();
+//    /** 参数中无ID，使用UUID生成一个ID */
+//    private String id = UUID.randomUUID().toString();
 
     @Override
     public ReduceType getType() {
@@ -61,10 +61,10 @@ public class QQGroupMemberDecrease extends BaseMsg implements GroupMemberReduce 
         return user_id;
     }
 
-    @Override
-    public String getId() {
-        return id;
-    }
+//    @Override
+//    public String getId() {
+//        return id;
+//    }
 
 
     public static enum GroupDecreaseType {

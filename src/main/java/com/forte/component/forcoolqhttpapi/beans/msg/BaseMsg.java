@@ -49,10 +49,10 @@ public abstract class BaseMsg implements MsgGet {
         return null;
     }
 
-    /** 获取ID，如果没有此参数推荐使用UUID等来代替 */
+    /** 获取ID, 默认不存在所谓的ID */
     @Override
     public String getId(){
-        return "";
+        return null;
     }
 
     /** 获取消息的字体 */

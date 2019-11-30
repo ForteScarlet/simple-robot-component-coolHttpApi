@@ -30,8 +30,8 @@ public class QQFriendAdd extends BaseMsg implements FriendAdd {
     public static final String NOTICE_TYPE = "friend_add";
 
     private String user_id;
-    /** 随机一个ID */
-    private String id = UUID.randomUUID().toString();
+//    /** 随机一个ID */
+//    private String id = UUID.randomUUID().toString();
 
 
     @Override
@@ -39,8 +39,8 @@ public class QQFriendAdd extends BaseMsg implements FriendAdd {
         return user_id;
     }
 
-    @Override
-    public String getId() {
-        return id;
-    }
+//    @Override
+//    public String getId() {
+//        return id;
+//    }
 }

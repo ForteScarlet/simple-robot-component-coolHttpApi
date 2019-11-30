@@ -35,8 +35,8 @@ public class QQGroupAdminChange extends BaseMsg implements GroupAdminChange {
     private AdminChangeType sub_type;
     private String group_id;
     private String user_id;
-    /** 因为参数中不存在id一类的东西，获取一个UUID暂时替代 */
-    private String id = UUID.randomUUID().toString();
+//    /** 因为参数中不存在id一类的东西，获取一个UUID暂时替代 */
+//    private String id = UUID.randomUUID().toString();
 
     @Override
     public String getGroup() {
@@ -65,10 +65,10 @@ public class QQGroupAdminChange extends BaseMsg implements GroupAdminChange {
     /**
      * 消息ID，参数中不存在，返回一个UUD
      */
-    @Override
-    public String getId() {
-        return id;
-    }
+//    @Override
+//    public String getId() {
+//        return id;
+//    }
 
 
     /**

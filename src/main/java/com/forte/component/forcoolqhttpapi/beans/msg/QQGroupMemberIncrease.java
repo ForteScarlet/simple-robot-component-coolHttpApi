@@ -18,6 +18,7 @@ import java.util.UUID;
 @Setter
 @Getter
 @ToString
+@MsgOn(type = PostType.notice, messageType = QQGroupMemberIncrease.NOTICE_TYPE)
 public class QQGroupMemberIncrease extends BaseMsg implements GroupMemberIncrease {
     /*
     字段名	数据类型	可能的值	说明
@@ -36,8 +37,8 @@ public class QQGroupMemberIncrease extends BaseMsg implements GroupMemberIncreas
     private String group_id;
     private String operator_id;
     private String user_id;
-    /** 不存在ID，生成一个UUID */
-    private String id = UUID.randomUUID().toString();
+//    /** 不存在ID，生成一个UUID */
+//    private String id = UUID.randomUUID().toString();
 
     @Override
     public IncreaseType getType() {
@@ -59,10 +60,10 @@ public class QQGroupMemberIncrease extends BaseMsg implements GroupMemberIncreas
         return user_id;
     }
 
-    @Override
-    public String getId() {
-        return id;
-    }
+//    @Override
+//    public String getId() {
+//        return id;
+//    }
 
 
     public static enum GroupIncreaseType {
