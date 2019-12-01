@@ -1,18 +1,20 @@
 package com.forte.component.forcoolqhttpapi;
 
-import com.forte.component.forcoolqhttpapi.beans.msg.*;
+import com.forte.component.forcoolqhttpapi.beans.msg.Heartbeat;
+import com.forte.component.forcoolqhttpapi.beans.msg.Lifecycle;
+import com.forte.component.forcoolqhttpapi.beans.msg.MsgOn;
+import com.forte.component.forcoolqhttpapi.beans.msg.PostType;
 import com.forte.component.forcoolqhttpapi.server.CoolQHttpHandler;
 import com.forte.component.forcoolqhttpapi.server.CoolQHttpMsgSender;
 import com.forte.component.forcoolqhttpapi.server.CoolQHttpServer;
 import com.forte.component.forcoolqhttpapi.utils.PostTypeUtils;
 import com.forte.plusutils.consoleplus.console.Colors;
 import com.forte.qqrobot.BaseApplication;
-import com.forte.qqrobot.anno.factory.MsgGetTypeFactory;
 import com.forte.qqrobot.beans.messages.msgget.MsgGet;
 import com.forte.qqrobot.beans.messages.result.LoginQQInfo;
-import com.forte.qqrobot.beans.types.ResultSelectType;
 import com.forte.qqrobot.depend.DependCenter;
 import com.forte.qqrobot.exception.RobotRuntimeException;
+import com.forte.qqrobot.factory.MsgGetTypeFactory;
 import com.forte.qqrobot.listener.invoker.ListenerManager;
 import com.forte.qqrobot.log.QQLog;
 import com.forte.qqrobot.log.QQLogBack;
