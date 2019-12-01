@@ -114,6 +114,12 @@ public class MemberInfo
         return card;
     }
 
+    @Override
+    public String getNickOrName() {
+        String nick = getNickName();
+        return nick == null ? getName() : nick;
+    }
+
     /**
      * 所在城市
      */
