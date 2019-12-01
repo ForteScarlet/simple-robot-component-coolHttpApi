@@ -1,9 +1,5 @@
 package com.forte.component.forcoolqhttpapi;
 
-import com.forte.component.forcoolqhttpapi.beans.msg.Heartbeat;
-import com.forte.component.forcoolqhttpapi.beans.msg.Lifecycle;
-import com.forte.qqrobot.anno.factory.MsgGetTypeFactory;
-
 /**
  *
  * 算是个常量类，提供额外的两个扩展MsgGet类型
