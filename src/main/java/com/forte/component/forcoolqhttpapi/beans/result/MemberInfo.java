@@ -116,8 +116,12 @@ public class MemberInfo
 
     @Override
     public String getNickOrName() {
-        String nick = getNickName();
-        return nick == null ? getName() : nick;
+        String card = getCard();
+        if(card == null || card.length() == 0){
+            return getName();
+        }else{
+            return card;
+        }
     }
 
     /**
