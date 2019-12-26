@@ -144,11 +144,21 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     /**
      * 获取cookies信息
-     * @return
+     * @return cookies
      */
     public QQCookies getCookies(){
         GetCookies in = json.getCookies();
         return get(in.getApi(), JSON.toJSONString(in), in.getResultType()).orElse(null);
+    }
+
+
+    /**
+     * 获取csrfToken信息
+     * @return csrfToken
+     */
+    public QQCsrfToken getCsrfToken(){
+        GetCsrfToken csrfToken = json.getCsrfToken();
+        return get(csrfToken.getApi(), JSON.toJSONString(csrfToken), csrfToken.getResultType()).orElse(null);
     }
 
     /**
