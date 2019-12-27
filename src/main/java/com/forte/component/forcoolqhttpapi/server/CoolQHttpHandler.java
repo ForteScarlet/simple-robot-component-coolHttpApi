@@ -17,7 +17,6 @@ import org.apache.commons.io.IOUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -132,13 +131,6 @@ public class CoolQHttpHandler implements HttpHandler {
                 //编码转义  貌似不再需要编码转义
                 String paramsUrl = IOUtils.toString(requestBody, this.encoding);
                 QQLog.debug("http request body: " + paramsUrl);
-                //                try {
-//                    params = URLDecoder.decode(paramsUrl, this.encoding);
-//                }catch (Exception e){
-//                    QQLog.warning("HTTP请求体解码异常, 将使用非解码值");
-//                    params = paramsUrl;
-//                }
-
                 // 先转化为json格式
                 JSONObject paramsJSON = JSONObject.parseObject(paramsUrl);
 

@@ -153,7 +153,7 @@ public class CoolQHttpApplication extends BaseApplication<CoolQHttpConfiguration
         int backLog = conf.getBackLog();
 
         // 获取QQ信息
-        QQLog.debug("尝试获取登录QQ信息...");
+        QQLog.info("尝试获取登录QQ信息...");
         try {
             getAndShowQQInfo(conf);
         }catch (Exception e){

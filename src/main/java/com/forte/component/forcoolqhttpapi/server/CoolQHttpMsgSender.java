@@ -128,7 +128,8 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
     public <T extends InfoResult> Optional<T> get(String requestPath, String requestJson, Function<String, T> resultGetter) {
         try {
             //转化为bean对象，并做防止空指针的处理
-            return Optional.ofNullable(getResultJson(requestPath, requestJson)).map(resultGetter);
+            String resultJson = getResultJson(requestPath, requestJson);
+            return Optional.ofNullable(resultJson).map(resultGetter);
         } catch (Exception e) {
             QQLog.error("信息获取失败!", e);
             return Optional.empty();
