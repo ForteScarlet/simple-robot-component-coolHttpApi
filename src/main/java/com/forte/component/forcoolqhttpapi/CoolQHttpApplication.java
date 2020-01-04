@@ -122,6 +122,13 @@ public class CoolQHttpApplication extends BaseApplication<CoolQHttpConfiguration
     @Override
     protected String start(DependCenter dependCenter, ListenerManager manager) {
         CoolQHttpConfiguration conf = getConfiguration();
+        // 获取QQ信息
+        QQLog.info("尝试获取登录QQ信息...");
+        try {
+            getAndShowQQInfo(conf);
+        }catch (Exception e){
+            QQLog.error("登录QQ信息获取失败！请确保已手动配置登录QQ信息, 或后续进行配置。", e);
+        }
 
         String requestPath = conf.getServerPath();
         String encode = conf.getEncode();
@@ -152,14 +159,6 @@ public class CoolQHttpApplication extends BaseApplication<CoolQHttpConfiguration
         int javaPort = conf.getJavaPort();
         int backLog = conf.getBackLog();
 
-        // 获取QQ信息
-        QQLog.info("尝试获取登录QQ信息...");
-        try {
-            getAndShowQQInfo(conf);
-        }catch (Exception e){
-            QQLog.error("登录QQ信息获取失败！请确保已手动配置登录QQ信息。", e);
-        }
-
         // 启动服务器
         try {
             // 赋值至成员变量
@@ -172,6 +171,8 @@ public class CoolQHttpApplication extends BaseApplication<CoolQHttpConfiguration
         } catch (IOException e) {
             throw new RobotRuntimeException("监听服务启动失败！", e);
         }
+
+
 
         // 记录启动的服务
         dependCenter.loadIgnoreThrow(server);

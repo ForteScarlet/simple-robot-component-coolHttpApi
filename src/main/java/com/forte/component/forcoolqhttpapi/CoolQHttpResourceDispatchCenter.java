@@ -76,7 +76,12 @@ public class CoolQHttpResourceDispatchCenter extends ResourceDispatchCenter {
      * @return HttpConfiguration单例对象
      */
     public static CoolQHttpConfiguration getCoolQHttpConfiguration(){
-        return get(CoolQHttpConfiguration.class);
+        CoolQHttpConfiguration coolQHttpConfiguration = get(CoolQHttpConfiguration.class);
+        if(coolQHttpConfiguration == null){
+            return get(CoolQNoServerConfiguration.class);
+        }else{
+            return null;
+        }
     }
 
     /**
