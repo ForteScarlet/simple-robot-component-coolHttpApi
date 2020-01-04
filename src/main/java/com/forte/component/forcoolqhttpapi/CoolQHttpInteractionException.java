@@ -54,6 +54,9 @@ public class CoolQHttpInteractionException extends RobotRuntimeException {
         if("failed".equals(status)){
             int retcode = baseData.getInteger("retcode");
             String message = ERROR_MESSAGE.get(retcode);
+            if(message == null){
+                message = "非CQ HTTP API错误码, 请启用酷Q开发者模式并查看详细错误信息。介绍：https://docs.cqp.im/dev/v9/errorcode/";
+            }
             throw new CoolQHttpInteractionException(errorMsg(retcode, message));
         }
     }
