@@ -179,7 +179,23 @@ public class QQGroupInfo implements Result, GroupInfo {
      */
     @Override
     public String getOwnerQQ() {
-        return owner_id;
+        if(owner_id != null){
+            return owner_id;
+        }else{
+            // 如果是null，尝试从admin中获取并重新为owner_id赋值
+            if(admins != null){
+                for (QQGroupAdmin admin : admins) {
+                    // 是群主
+                    if(admin.getPowerType().equals(PowerType.OWNER)){
+                        owner_id = admin.getUser_id();
+                        return owner_id;
+                    }
+                }
+                return null;
+            }else{
+                return null;
+            }
+        }
     }
 
     /**

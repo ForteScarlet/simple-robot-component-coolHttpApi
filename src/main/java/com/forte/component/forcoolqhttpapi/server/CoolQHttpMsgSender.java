@@ -23,7 +23,6 @@ import com.forte.qqrobot.sender.senderlist.BaseRootSenderList;
 import com.forte.qqrobot.utils.HttpClientUtil;
 import com.forte.qqrobot.utils.proxyhelper.JSONParameterCreatorHelper;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
