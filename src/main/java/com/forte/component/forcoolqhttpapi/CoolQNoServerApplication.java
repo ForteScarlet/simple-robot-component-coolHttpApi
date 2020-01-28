@@ -133,27 +133,19 @@ public class CoolQNoServerApplication extends BaseApplication<CoolQNoServerConfi
      * 需要在启动之后获取
      */
     public MsgReceiver getMsgReceiver(){
-        return null;
-//        if(manager == null){
-//            throw new ConfigurationException("服务尚未启动");
-//        }else{
+        if(manager == null){
+            throw new ConfigurationException("服务尚未启动");
+        }else{
+            return manager;
 //            if(receiver != null){
 //                return receiver;
 //            }else{
 //                receiver = new MsgReceiver() {
-//                    @Override
-//                    public ListenResult[] onMsg(MsgGet msgGet) {
-//                        return manager.onMsg(msgGet, msgSender);
-//                    }
 //
-//                    @Override
-//                    public ListenResult[] onMsg(String msgGetValue, Function<String, MsgGet> format) {
-//                        return onMsg(format.apply(msgGetValue));
-//                    }
 //                };
 //                return receiver;
 //            }
-//        }
+        }
     }
 
 

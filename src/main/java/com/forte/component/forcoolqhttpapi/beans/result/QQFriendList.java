@@ -8,11 +8,11 @@ import lombok.ToString;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
 /**
- *
  * 好友列表
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -48,27 +48,37 @@ public class QQFriendList implements FriendList, Result {
      */
     /* ———————— 根据 flat 为false的情况来获取 ———————— */
 
-    /** 首先，原始数据 */
-    @Getter@Setter
+    /**
+     * 首先，原始数据
+     */
+    @Getter
+    @Setter
     private String originalData;
 
-    /** 好友列表 */
-    @Getter@Setter
+    /**
+     * 好友列表
+     */
+    @Getter
+    @Setter
     private QQFriends[] friends;
 
-    /** 真正的分组，在获取一次之后才实例化 */
+    /**
+     * 真正的分组，在获取一次之后才实例化
+     */
     private Map<String, Friend[]> realFriendList;
 
     @Override
     public Map<String, Friend[]> getFriendList() {
         // if null, instantiation
-        if(realFriendList == null){
-            realFriendList = new HashMap<>(8);
-            if(friends != null){
+        if (realFriendList == null) {
+            // 根据groupId排序
+            realFriendList = new LinkedHashMap<>(8);
+            if (friends != null) {
+                Arrays.sort(friends);
                 for (QQFriends fs : friends) {
                     realFriendList.merge(
                             fs.friend_group_name,
-                            fs.friends,
+                            fs.friends == null ? new QQfriend[0] : fs.friends,
                             (old, val) -> Stream.concat(Arrays.stream(old), Arrays.stream(val)).toArray(Friend[]::new));
                 }
             }
@@ -78,6 +88,7 @@ public class QQFriendList implements FriendList, Result {
 
     /**
      * 分组使用组名而不是组ID
+     *
      * @param group 分组名称
      */
     @Override
@@ -89,19 +100,37 @@ public class QQFriendList implements FriendList, Result {
     /**
      * 好友列表, 用于保存返回值数组
      */
-    @Getter
-    @Setter
     @ToString
-    public static class QQFriends {
+    public static class QQFriends implements Comparable<QQFriends> {
         /*
         friend_group_id	number	好友分组 ID
         friend_group_name	string	好友分组名称
         friends	array	分组中的好友
          */
+        @Getter@Setter
         private String friend_group_id;
+        @Getter@Setter
         private String friend_group_name;
+        @Getter@Setter
         private QQfriend[] friends;
 
+        private Integer sortId;
+
+        public Integer getSortId() {
+            if(sortId == null){
+                try {
+                    sortId = Integer.parseInt(friend_group_id);
+                }catch (Exception e){
+                    sortId = 0;
+                }
+            }
+            return sortId;
+        }
+
+        @Override
+        public int compareTo(QQFriends o) {
+            return Integer.compare(sortId, o.sortId);
+        }
     }
 
     /**
@@ -109,7 +138,6 @@ public class QQFriendList implements FriendList, Result {
      */
     @Getter
     @Setter
-    @ToString
     public static class QQfriend implements Friend {
         /*
         friends[i].nickname	string	好友昵称
@@ -120,6 +148,11 @@ public class QQFriendList implements FriendList, Result {
         private String remark;
         private String user_id;
         private String originalData;
+
+        @Override
+        public String toString(){
+            return nickname + "(" + user_id + ")";
+        }
 
         @Override
         public String getName() {

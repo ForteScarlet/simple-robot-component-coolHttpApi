@@ -1,45 +1,72 @@
 package com.fote.demo;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.forte.component.forcoolqhttpapi.beans.msg.MsgOn;
-import com.forte.component.forcoolqhttpapi.beans.msg.PostType;
-import com.forte.component.forcoolqhttpapi.beans.msg.QQPrivateMsg;
-import com.forte.component.forcoolqhttpapi.beans.result.LoginInfo;
-import com.forte.component.forcoolqhttpapi.beans.result.QQGroupInfo;
-import com.forte.component.forcoolqhttpapi.beans.send.SendPrivateMsg;
-import com.forte.component.forcoolqhttpapi.utils.JSONDataUtil;
-import com.forte.component.forcoolqhttpapi.utils.PostTypeUtils;
-import com.forte.qqrobot.beans.messages.msgget.MsgGet;
-import com.forte.qqrobot.scanner.FileScanner;
-import com.forte.qqrobot.utils.AnnotationUtils;
-import com.forte.utils.reflect.EnumUtils;
-import com.forte.utils.reflect.ProxyUtils;
+import com.forte.component.forcoolqhttpapi.*;
+import com.forte.qqrobot.BaseConfiguration;
+import com.forte.qqrobot.beans.messages.result.FriendList;
+import com.forte.qqrobot.beans.messages.result.inner.Friend;
+import com.forte.qqrobot.sender.MsgSender;
+import com.forte.qqrobot.utils.CQCodeUtil;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.net.Proxy;
-import java.net.URLDecoder;
+import java.io.InputStream;
 import java.util.Map;
-import java.util.Set;
+import java.util.Objects;
+import java.util.Properties;
 
 /**
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-public class Test1 {
+public class Test1 implements CoolQNoServerResourceApp {
 
-//    public static void main(String[] args) throws Exception {
-//        String json = "{\"data\":{\"admin_count\":3,\"admins\":[{\"nickname\":\"丛雨\",\"role\":\"admin\",\"user_id\":272594304},{\"nickname\":\"老妖\",\"role\":\"owner\",\"user_id\":1571650839},{\"nickname\":\"不动行光\",\"role\":\"admin\",\"user_id\":1730707275}],\"category\":33,\"create_time\":1575104042,\"group_id\":976262575,\"group_name\":\"rebot测试群\",\"introduction\":\"\",\"max_admin_count\":10,\"max_member_count\":200,\"member_count\":6},\"retcode\":0,\"status\":\"ok\"}";
-//
-//        QQGroupInfo info = JSONObject.toJavaObject(JSONObject.parseObject(json).getJSONObject("data"), QQGroupInfo.class);
-//
-//        System.out.println(info.getOriginalData());
-//        System.out.println(info.getOwner_id());
-//        System.out.println(info.getOwnerQQ());
-//        System.out.println(info.getOwner_id());
-//
-//    }
+    public static void main(String[] args) throws Exception {
+//        System.out.println("run...");
+        CoolQNoServerApplication application = new CoolQNoServerApplication();
+        // 启动...
+        application.run(new Test1());
 
+
+//        TestPrivateMsg msg = new TestPrivateMsg();
+//        application.getMsgReceiver().onMsg(msg, null, null, null);
+
+    }
+
+    public String resourceName() {
+        return "/conf.properties";
+    }
+
+    @Override
+    public InputStream getStream() {
+        InputStream stream = this.getClass().getResourceAsStream(resourceName());
+        return Objects.requireNonNull(stream, "未读取到配置文件 : resource inputstream is null.");
+    }
+
+    @Override
+    public void before(Properties args, CoolQNoServerConfiguration configuration) {
+        System.out.println(args.getProperty("simple.robot.conf.cqPath"));
+        System.out.println(configuration.getCqPath());
+    }
+
+    @Override
+    public void after(CQCodeUtil cqCodeUtil, MsgSender sender) {
+//        sender.SENDER.sendPrivateMsg("1149159218", "test run;");
+
+        FriendList friendList = sender.GETTER.getFriendList();
+
+        System.out.println(friendList);
+        System.out.println(friendList.getOriginalData());
+
+        Map<String, Friend[]> fl = friendList.getFriendList();
+
+
+
+        fl.forEach((k, v) -> {
+            System.out.println("k: " + k);
+            for (Friend f : v) {
+                System.out.println(f);
+                System.out.println(f.getOriginalData());
+            }
+        });
+
+    }
 }

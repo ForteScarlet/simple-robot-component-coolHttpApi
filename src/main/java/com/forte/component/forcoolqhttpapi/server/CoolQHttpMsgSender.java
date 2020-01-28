@@ -212,7 +212,50 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
      */
     @Override
     public FriendList getFriendList() {
-        return get(new GetFriendList()).orElse(null);
+        // 好友列表格式较为特殊，进行特殊处理
+        GetFriendList friendList = new GetFriendList();
+        return get(friendList.getApi(), JSON.toJSONString(friendList), res -> {
+            // 数据在data下
+            JSONObject baseData = JSON.parseObject(res);
+            // 判断请求是否获取成功
+            CoolQHttpInteractionException.requireNotFailed(baseData);
+
+            // 准备保存
+            QQFriendList qqFriendList = new QQFriendList();
+            // 首先记录originalData
+            qqFriendList.setOriginalData(res);
+
+            // 获取data数据，此处data数据为数组
+            JSONArray arrayData = baseData.getJSONArray("data");
+            int arrayLength = arrayData.size();
+            QQFriendList.QQFriends[] friends = new QQFriendList.QQFriends[arrayLength];
+            for (int i = 0; i < arrayLength; i++) {
+                JSONObject objectData = arrayData.getJSONObject(i);
+                QQFriendList.QQFriends thisFriends = new QQFriendList.QQFriends();
+                friends[i] = thisFriends;
+                // set data
+                thisFriends.setFriend_group_id(objectData.getString("friend_group_id"));
+                thisFriends.setFriend_group_name(objectData.getString("friend_group_name"));
+                // 设置friend的originalData
+                JSONArray friendsJsonArray = objectData.getJSONArray("friends");
+                int groupFriendSize = friendsJsonArray.size();
+                QQFriendList.QQfriend[] friendArray = new QQFriendList.QQfriend[groupFriendSize];
+                // set friend array
+                thisFriends.setFriends(friendArray);
+                for (int k = 0; k < groupFriendSize; k++) {
+                    // 当前好友
+                    JSONObject friendJSONData = friendsJsonArray.getJSONObject(k);
+                    friendArray[k] = friendJSONData.toJavaObject(QQFriendList.QQfriend.class);
+                    friendArray[k].setOriginalData(friendJSONData.toJSONString());
+                }
+            }
+
+            qqFriendList.setFriends(friends);
+
+            return qqFriendList;
+
+
+        }).orElse(null);
     }
 
 
