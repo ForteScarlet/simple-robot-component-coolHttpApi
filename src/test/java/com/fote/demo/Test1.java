@@ -49,8 +49,6 @@ public class Test1 implements CoolQNoServerResourceApp {
 
     @Override
     public void after(CQCodeUtil cqCodeUtil, MsgSender sender) {
-//        sender.SENDER.sendPrivateMsg("1149159218", "test run;");
-
         FriendList friendList = sender.GETTER.getFriendList();
 
         System.out.println(friendList);
@@ -59,12 +57,10 @@ public class Test1 implements CoolQNoServerResourceApp {
         Map<String, Friend[]> fl = friendList.getFriendList();
 
 
-
         fl.forEach((k, v) -> {
             System.out.println("k: " + k);
             for (Friend f : v) {
                 System.out.println(f);
-                System.out.println(f.getOriginalData());
             }
         });
 
