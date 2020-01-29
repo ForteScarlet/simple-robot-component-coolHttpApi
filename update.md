@@ -1,6 +1,9 @@
 # 更新日志
 
 - ##### 0.6.3-BETA-1.6.0
+    > 修复GETTER中，getFriendList API获取后的排序异常问题
+                           
+- ##### 0.6.3-BETA-1.6.0
     > 修复GETTER中，getFriendList API无效的问题
 
 - ##### 0.6.2-BETA-1.6.0
