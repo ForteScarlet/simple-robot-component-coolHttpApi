@@ -24,7 +24,7 @@ public class CoolQHttpConfiguration extends BaseConfiguration<CoolQHttpConfigura
     private int javaPort = 15514;
 
     /**
-     * 酷Q端插件的端口，默认5700（插件默认就是5700，不开启多账号模式的话。）
+     * 酷Q端插件的端口，默认5700（插件默认就是5700）
      */
     @Conf("simple.robot.conf.coolqhttpapi.serverPort")
     private int serverPort = 5700;
@@ -43,7 +43,7 @@ public class CoolQHttpConfiguration extends BaseConfiguration<CoolQHttpConfigura
      * 接收的请求方式，默认为 post
      */
     @Conf("simple.robot.conf.coolqhttpapi.method")
-    private String[] method = {"post"};
+        private String[] method = {"post"};
 
 
     /*
