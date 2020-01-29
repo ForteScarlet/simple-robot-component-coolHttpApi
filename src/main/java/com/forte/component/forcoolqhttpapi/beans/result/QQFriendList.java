@@ -78,7 +78,7 @@ public class QQFriendList implements FriendList, Result {
                 try {
                     Arrays.sort(friends);
                 }catch (Exception e){
-                    QQLog.debug("好友数组排序异常, 错误已忽略。messag: " + e.getMessage());
+                    QQLog.debug("好友数组排序异常, 错误已忽略。message: " + e.getMessage());
                 }
                 for (QQFriends fs : friends) {
                     realFriendList.merge(
