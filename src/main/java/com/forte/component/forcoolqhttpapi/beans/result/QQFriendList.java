@@ -2,6 +2,7 @@ package com.forte.component.forcoolqhttpapi.beans.result;
 
 import com.forte.qqrobot.beans.messages.result.FriendList;
 import com.forte.qqrobot.beans.messages.result.inner.Friend;
+import com.forte.qqrobot.log.QQLog;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -74,7 +75,11 @@ public class QQFriendList implements FriendList, Result {
             // 根据groupId排序
             realFriendList = new LinkedHashMap<>(8);
             if (friends != null) {
-                Arrays.sort(friends);
+                try {
+                    Arrays.sort(friends);
+                }catch (Exception e){
+                    QQLog.debug("好友数组排序异常, 错误已忽略。messag: " + e.getMessage());
+                }
                 for (QQFriends fs : friends) {
                     realFriendList.merge(
                             fs.friend_group_name,
@@ -129,7 +134,7 @@ public class QQFriendList implements FriendList, Result {
 
         @Override
         public int compareTo(QQFriends o) {
-            return Integer.compare(sortId, o.sortId);
+            return Integer.compare(getSortId(), o.getSortId());
         }
     }
 
