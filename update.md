@@ -5,6 +5,7 @@
     > 优化getAuthInfo接口                       
     > 增加getLoginInfo接口中所获得的信息                       
     > 增加一个getVipInfo接口(spAPI中)
+    > 更新核心至1.6.3                       
 
 - ##### 0.6.4-BETA-1.6.0
     > 处理getFriendList获取后的排序异常问题
