@@ -11,6 +11,7 @@ import com.forte.component.forcoolqhttpapi.beans.msg.Anonymous;
 import com.forte.component.forcoolqhttpapi.beans.result.*;
 import com.forte.component.forcoolqhttpapi.beans.send.*;
 import com.forte.component.forcoolqhttpapi.beans.set.*;
+import com.forte.qqrobot.beans.messages.QQCodeAble;
 import com.forte.qqrobot.beans.messages.result.GroupList;
 import com.forte.qqrobot.beans.messages.result.GroupMemberList;
 import com.forte.qqrobot.beans.messages.result.StrangerInfo;
@@ -89,7 +90,6 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
             CoolQHttpInteractionException.requireNotFailed(baseData);
 
             // 获取data数据, 并置入原始数据字符串
-//            JSONObject jsonObject = baseData.getJSONObject("data");
             Object jsonData = baseData.get("data");
             if(jsonData instanceof JSONObject){
                 // 如果是object类型
@@ -114,7 +114,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
 
     public <T extends Result> Optional<T> get(Get<T> get){
-            return get(get.getApi(), JSON.toJSONString(get), get.getResultType());
+            return get(get.getApi(), get.toJSON(), get.getResultType());
     }
 
     /**
@@ -167,25 +167,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
      */
     @Override
     public AuthInfo getAuthInfo() {
-        // 权限信息中，存在cookie和
-        GetCookies cookies = json.getCookies();
-        String qqCookies = get(cookies.getApi(), JSON.toJSONString(cookies), cookies.getResultType())
-                .map(QQCookies::getCookies)
-                .orElse(null);
-
-        // 和csrfToken
-        GetCsrfToken csrfToken = json.getCsrfToken();
-        String qqCsrfToken = get(csrfToken.getApi(), JSON.toJSONString(csrfToken), csrfToken.getResultType())
-                .map(QQCsrfToken::getToken)
-                .orElse(null);
-
-        CoolQAuthInfo coolQAuthInfo = new CoolQAuthInfo();
-        coolQAuthInfo.setCookies(qqCookies);
-        coolQAuthInfo.setCsrfToken(qqCsrfToken);
-        coolQAuthInfo.setOriginalData(JSON.toJSONString(coolQAuthInfo));
-
-        return coolQAuthInfo;
-
+        return get(new GetCredentials()).orElse(null);
     }
 
 
@@ -385,12 +367,13 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
     }
 
     /**
-     * 不支持的API
+     * 获取图片详细信息
      */
     @Override
     @Deprecated
     public ImageInfo getImageInfo(String flag) {
-        return super.getImageInfo(flag);
+        GetImage getImage = new GetImage(flag);
+        return get(getImage.getApi(), JSON.toJSONString(getImage), getImage.getResultType()).orElse(null);
     }
 
     /**
@@ -398,8 +381,30 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
      */
     @Override
     public LoginQQInfo getLoginQQInfo() {
-        return get(new GetLoginInfo()).orElse(null);
+        LoginInfo loginInfo = get(new GetLoginInfo()).orElse(null);
+        if(loginInfo != null){
+            QQVipInfo vipInfo = getVipInfo(loginInfo.getUser_id());
+            if(vipInfo != null){
+                loginInfo.setLevel(vipInfo.getLevel());
+            }
+            return loginInfo;
+        }else{
+            return null;
+        }
     }
+
+    /**
+     * 获取用户Vip信息
+     * @param code QQ号
+     */
+    public QQVipInfo getVipInfo(String code){
+        return get(new GetVipInfo(code)).orElse(null);
+    }
+
+    public QQVipInfo getVipInfo(QQCodeAble codeAble){
+        return getVipInfo(codeAble.getQQCode());
+    }
+
 
     /**
      * 不支持的API

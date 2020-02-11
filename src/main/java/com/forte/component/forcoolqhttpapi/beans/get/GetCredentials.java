@@ -16,7 +16,6 @@ import lombok.Setter;
  **/
 @Getter
 @Setter
-//@AllArgsConstructor
 @NoArgsConstructor
 public class GetCredentials implements Get<Credentials>  {
 

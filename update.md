@@ -1,5 +1,14 @@
 # 更新日志
 
+- ##### 0.6.5-BETA-1.6.0
+    > 开始支持getImage接口(实测目前并不好用)
+    > 优化getAuthInfo接口                       
+    > 增加getLoginInfo接口中所获得的信息                       
+    > 增加一个getVipInfo接口(spAPI中)
+
+- ##### 0.6.4-BETA-1.6.0
+    > 处理getFriendList获取后的排序异常问题
+
 - ##### 0.6.3-BETA-1.6.0
     > 修复GETTER中，getFriendList API获取后的排序异常问题
                            

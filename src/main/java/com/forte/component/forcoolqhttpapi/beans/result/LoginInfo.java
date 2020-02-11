@@ -26,6 +26,9 @@ public class LoginInfo extends AbstractInfoResult implements LoginQQInfo, Result
     private String user_id;
     private String nickname;
     private String originalData;
+    private Integer level = -1;
+
+    private volatile String headUrl = "";
 
     /** 昵称 */
     @Override
@@ -43,7 +46,11 @@ public class LoginInfo extends AbstractInfoResult implements LoginQQInfo, Result
      */
     @Override
     public String getHeadUrl() {
-        return null;
+        if("".equals(headUrl)){
+            headUrl = user_id == null ? null : "http://q.qlogo.cn/headimg_dl?dst_uin="+ user_id +"&spec=640";
+        }
+        return headUrl;
+
     }
 
     /**
@@ -51,7 +58,7 @@ public class LoginInfo extends AbstractInfoResult implements LoginQQInfo, Result
      */
     @Override
     public Integer getLevel() {
-        return -1;
+        return level;
     }
 
 }

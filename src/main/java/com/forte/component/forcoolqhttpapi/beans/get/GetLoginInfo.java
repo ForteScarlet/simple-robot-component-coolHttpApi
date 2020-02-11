@@ -13,7 +13,6 @@ import lombok.*;
  **/
 @Getter
 @Setter
-//@AllArgsConstructor
 @NoArgsConstructor
 public class GetLoginInfo implements Get<LoginInfo> {
 

@@ -19,20 +19,14 @@ import java.util.Properties;
  **/
 public class Test1 implements CoolQNoServerResourceApp {
 
-    public static void main(String[] args) throws Exception {
-//        System.out.println("run...");
+    public static void main(String[] args) {
         CoolQNoServerApplication application = new CoolQNoServerApplication();
         // 启动...
         application.run(new Test1());
-
-
-//        TestPrivateMsg msg = new TestPrivateMsg();
-//        application.getMsgReceiver().onMsg(msg, null, null, null);
-
     }
 
     public String resourceName() {
-        return "/conf.properties";
+        return "/config.properties";
     }
 
     @Override
@@ -43,26 +37,19 @@ public class Test1 implements CoolQNoServerResourceApp {
 
     @Override
     public void before(Properties args, CoolQNoServerConfiguration configuration) {
-        System.out.println(args.getProperty("simple.robot.conf.cqPath"));
-        System.out.println(configuration.getCqPath());
+
     }
 
     @Override
     public void after(CQCodeUtil cqCodeUtil, MsgSender sender) {
-        FriendList friendList = sender.GETTER.getFriendList();
 
-        System.out.println(friendList);
-        System.out.println(friendList.getOriginalData());
+        sender.SENDER.sendPrivateMsg("1149159218", "hello");
 
-        Map<String, Friend[]> fl = friendList.getFriendList();
+        System.out.println(sender.GETTER.getAuthInfo());
 
+        sender.SETTER.setGroupBan("581250423", "1149159218", 60);
 
-        fl.forEach((k, v) -> {
-            System.out.println("k: " + k);
-            for (Friend f : v) {
-                System.out.println(f);
-            }
-        });
+        System.exit(-1);
 
     }
 }

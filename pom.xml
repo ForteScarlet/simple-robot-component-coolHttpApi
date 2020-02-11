@@ -13,14 +13,13 @@
     <groupId>io.github.ForteScarlet.simple-robot-core</groupId>
     <artifactId>component-forcoolqhttpapi</artifactId>
 
-    <!-- 版本号 下次部署大于0.6.4-1.6.0 2020/1/29 -->
-    <version>0.6.4-BETA-1.6.0</version>
+    <!-- 版本号 下次部署大于0.6.5-1.6.3 2020/2/11 -->
+    <version>0.6.5-BETA-1.6.3</version>
 
     <!-- 依赖版本号 -->
     <properties>
         <!--　核心版本号　-->
-        <core.version>1.6.0</core.version>
-<!--        <core.version>1.5.0</core.version>-->
+        <core.version>1.6.3</core.version>
         <!-- lombok -->
         <lombok.version>1.16.20</lombok.version>
     </properties>

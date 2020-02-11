@@ -1,5 +1,6 @@
 package com.forte.component.forcoolqhttpapi.beans.result;
 
+import com.forte.qqrobot.beans.messages.result.AuthInfo;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -12,7 +13,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Credentials implements Result {
+public class Credentials implements Result, AuthInfo {
     /*
         响应数据
         字段名	数据类型	说明
@@ -24,4 +25,13 @@ public class Credentials implements Result {
     private String csrf_token;
     private String originalData;
 
+    @Override
+    public String getCode() {
+        return null;
+    }
+
+    @Override
+    public String getCsrfToken() {
+        return csrf_token;
+    }
 }

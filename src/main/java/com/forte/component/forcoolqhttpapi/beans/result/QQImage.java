@@ -1,8 +1,11 @@
 package com.forte.component.forcoolqhttpapi.beans.result;
 
+import com.forte.qqrobot.beans.messages.result.ImageInfo;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.io.File;
 
 /**
  *
@@ -14,7 +17,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class QQImage implements Result {
+public class QQImage implements Result, ImageInfo {
     /*
         响应数据
         字段名	数据类型	说明
@@ -24,6 +27,58 @@ public class QQImage implements Result {
     private String file;
     private String originalData;
 
+
+    @Override
+    public String getMD5() {
+        return null;
+    }
+
+    @Override
+    public Double getWidth() {
+        return -1.0;
+    }
+
+    @Override
+    public Double getHeight() {
+        return -1.0;
+    }
+
+    @Override
+    public Long getSize() {
+        return -1L;
+    }
+
+    /**
+     * 路径
+     */
+    @Override
+    public String getUrl() {
+        return file;
+    }
+
+    @Override
+    public Long getTime() {
+        return -1L;
+    }
+
+    @Override
+    public String getFileBase64() {
+        return null;
+    }
+
+    /**
+     * 获取图片文件的文姓下载后的路径
+     */
+    public String getFilePath(){
+        return file;
+    }
+
+    /**
+     * 获取图片文件本体
+     */
+    public File getFile(){
+        return new File(getFilePath());
+    }
 
 
 }
