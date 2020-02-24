@@ -62,6 +62,15 @@ public class QQDiscussMsg extends BaseMsg implements DiscussMsg {
         return message;
     }
 
+    /**
+     * 重新设置消息
+     *
+     * @param newMsg msg
+     * @since 1.7.x
+     */
+    @Override
+    public void setMsg(String newMsg) { }
+
 
     @Getter
     @Setter

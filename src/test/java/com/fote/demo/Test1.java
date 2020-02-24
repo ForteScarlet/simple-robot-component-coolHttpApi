@@ -1,55 +1,41 @@
 package com.fote.demo;
 
 import com.forte.component.forcoolqhttpapi.*;
-import com.forte.qqrobot.BaseConfiguration;
-import com.forte.qqrobot.beans.messages.result.FriendList;
-import com.forte.qqrobot.beans.messages.result.inner.Friend;
 import com.forte.qqrobot.sender.MsgSender;
 import com.forte.qqrobot.utils.CQCodeUtil;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 
-import java.io.InputStream;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Properties;
 
 /**
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-public class Test1 implements CoolQNoServerResourceApp {
+public class Test1 implements CoolQHttpResourceApp {
 
     public static void main(String[] args) {
-        CoolQNoServerApplication application = new CoolQNoServerApplication();
+        CoolQHttpApplication application = new CoolQHttpApplication();
         // 启动...
         application.run(new Test1());
     }
 
     public String resourceName() {
-        return "/config.properties";
+        return "/conf.properties";
     }
 
-    @Override
-    public InputStream getStream() {
-        InputStream stream = this.getClass().getResourceAsStream(resourceName());
-        return Objects.requireNonNull(stream, "未读取到配置文件 : resource inputstream is null.");
-    }
-
-    @Override
-    public void before(Properties args, CoolQNoServerConfiguration configuration) {
-
-    }
 
     @Override
     public void after(CQCodeUtil cqCodeUtil, MsgSender sender) {
-
         sender.SENDER.sendPrivateMsg("1149159218", "hello");
+    }
 
-        System.out.println(sender.GETTER.getAuthInfo());
-
-        sender.SETTER.setGroupBan("581250423", "1149159218", 60);
-
-        System.exit(-1);
-
+    /**
+     * 此方法将会在配置文件装配完成后执行.
+     * 所以如果这个时候更改Properties是 没有用的~没有用的~
+     *
+     * @param args          properties配置内容
+     * @param configuration 配置好的配置文件
+     */
+    @Override
+    public void before(Properties args, CoolQHttpConfiguration configuration) {
     }
 }

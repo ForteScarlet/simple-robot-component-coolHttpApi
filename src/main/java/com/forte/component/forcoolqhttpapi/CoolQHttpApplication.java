@@ -5,14 +5,19 @@ import com.forte.component.forcoolqhttpapi.beans.msg.Lifecycle;
 import com.forte.component.forcoolqhttpapi.beans.msg.MsgOn;
 import com.forte.component.forcoolqhttpapi.beans.msg.PostType;
 import com.forte.component.forcoolqhttpapi.server.CoolQHttpHandler;
+import com.forte.component.forcoolqhttpapi.server.CoolQHttpHandlerFactory;
 import com.forte.component.forcoolqhttpapi.server.CoolQHttpMsgSender;
 import com.forte.component.forcoolqhttpapi.server.CoolQHttpServer;
 import com.forte.component.forcoolqhttpapi.utils.PostTypeUtils;
+import com.forte.lang.Language;
 import com.forte.plusutils.consoleplus.console.Colors;
 import com.forte.qqrobot.BaseApplication;
 import com.forte.qqrobot.beans.messages.msgget.MsgGet;
 import com.forte.qqrobot.beans.messages.result.LoginQQInfo;
 import com.forte.qqrobot.depend.DependCenter;
+import com.forte.qqrobot.exception.EnumInstantiationException;
+import com.forte.qqrobot.exception.EnumInstantiationRequireException;
+import com.forte.qqrobot.exception.RobotRunException;
 import com.forte.qqrobot.exception.RobotRuntimeException;
 import com.forte.qqrobot.factory.MsgGetTypeFactory;
 import com.forte.qqrobot.listener.invoker.ListenerManager;
@@ -26,6 +31,7 @@ import com.sun.net.httpserver.HttpHandler;
 import org.apache.commons.collections.map.SingletonMap;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 
@@ -69,9 +75,21 @@ public class CoolQHttpApplication extends BaseApplication<CoolQHttpConfiguration
 
         // 构建额外几种msgGet类型
         // 元事件 - 生命周期
-        MsgGetTypeFactory.registerType(ExMsgGet.LIFECYCLE, Lifecycle.class);
+        try {
+            MsgGetTypeFactory.registerType(ExMsgGet.LIFECYCLE, Lifecycle.class);
+            getLog().debug("enum.register", ExMsgGet.LIFECYCLE);
+        } catch (EnumInstantiationRequireException | EnumInstantiationException e) {
+            getLog().warning("enum.register.failed", ExMsgGet.LIFECYCLE);
+            getLog().debug("enum.register.failed", e, ExMsgGet.LIFECYCLE);
+        }
         // 元事件 - 心跳
-        MsgGetTypeFactory.registerType(ExMsgGet.HEARTBEAT, Heartbeat.class);
+        try {
+            MsgGetTypeFactory.registerType(ExMsgGet.HEARTBEAT, Heartbeat.class);
+            getLog().debug("enum.register", ExMsgGet.HEARTBEAT);
+        } catch (EnumInstantiationRequireException | EnumInstantiationException e) {
+            getLog().warning("enum.register.failed", ExMsgGet.HEARTBEAT);
+            getLog().debug("enum.register.failed", e, ExMsgGet.HEARTBEAT);
+        }
     }
 
     /**
@@ -123,11 +141,11 @@ public class CoolQHttpApplication extends BaseApplication<CoolQHttpConfiguration
     protected String start(DependCenter dependCenter, ListenerManager manager) {
         CoolQHttpConfiguration conf = getConfiguration();
         // 获取QQ信息
-        QQLog.info("尝试获取登录QQ信息...");
+        getLog().info("login.get");
         try {
             getAndShowQQInfo(conf);
         }catch (Exception e){
-            QQLog.error("登录QQ信息获取失败！请确保已手动配置登录QQ信息, 或后续进行配置。", e);
+            getLog().error("login.null", e);
         }
 
         String requestPath = conf.getServerPath();
@@ -137,7 +155,8 @@ public class CoolQHttpApplication extends BaseApplication<CoolQHttpConfiguration
         // 扫描并获取所有的监听对象，然后转化
         Set<Class<?>> msgOnClasses = new FileScanner()
                 .find(
-                        "com.forte.component.forcoolqhttpapi.beans.msg",
+//                        "com.forte.component.forcoolqhttpapi.beans.msg",
+                        CoolQHttpHandlerFactory.MSG_GET_PACK,
                         c -> c.getAnnotation(MsgOn.class) != null
                 ).get();
 
@@ -169,13 +188,18 @@ public class CoolQHttpApplication extends BaseApplication<CoolQHttpConfiguration
 
             );
         } catch (IOException e) {
-            throw new RobotRuntimeException("监听服务启动失败！", e);
+            throw new RobotRunException("serverStartFailed", e);
         }
-
-
 
         // 记录启动的服务
         dependCenter.loadIgnoreThrow(server);
+
+        // show server info
+        String listenUrl = "http://[::]:" + javaPort + requestPath;
+
+        getLog().info("server.listenurl", listenUrl);
+        getLog().info("server.method", Arrays.toString(method));
+        getLog().info("server.sendurl", conf.getRequestPath());
 
         return "coolQ HTTP API server";
     }
@@ -183,16 +207,19 @@ public class CoolQHttpApplication extends BaseApplication<CoolQHttpConfiguration
 
     /**
      * 获取并展示登录的QQ的部分信息并在配置中记录此信息
-     * @param configuration
+     * @param configuration 配置类
      */
     private void getAndShowQQInfo(CoolQHttpConfiguration configuration){
         //获取登录的机器人的信息
         LoginQQInfo loginQQInfo = msgSender.getLoginQQInfo();
+        if(loginQQInfo == null){
+            // 直接是个空，抛出异常
+            throw new NullPointerException();
+        }
         configuration.setLoginQQInfo(loginQQInfo);
-
-        QQLog.info(Colors.builder().add("QQ    : "+loginQQInfo.getQQ(), Colors.FONT.YELLOW).build());
-        QQLog.info(Colors.builder().add("NICK  : "+loginQQInfo.getName(), Colors.FONT.YELLOW).build());
-        QQLog.info(Colors.builder().add("LEVEL : "+loginQQInfo.getLevel(), Colors.FONT.YELLOW).build());
+        getLog().info("login.info.code",  Colors.builder().add(loginQQInfo.getQQ(),    Colors.FONT.YELLOW).build());
+        getLog().info("login.info.nick",  Colors.builder().add(loginQQInfo.getName(),  Colors.FONT.YELLOW).build());
+        getLog().info("login.info.level", Colors.builder().add(loginQQInfo.getLevel(), Colors.FONT.YELLOW).build());
 
     }
 

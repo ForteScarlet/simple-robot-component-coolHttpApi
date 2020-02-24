@@ -38,9 +38,4 @@ public class QQFriendAdd extends BaseMsg implements FriendAdd {
     public String getQQ() {
         return user_id;
     }
-
-//    @Override
-//    public String getId() {
-//        return id;
-//    }
 }

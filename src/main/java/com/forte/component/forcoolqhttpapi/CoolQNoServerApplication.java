@@ -10,6 +10,8 @@ import com.forte.qqrobot.beans.messages.msgget.MsgGet;
 import com.forte.qqrobot.beans.messages.result.LoginQQInfo;
 import com.forte.qqrobot.depend.DependCenter;
 import com.forte.qqrobot.exception.ConfigurationException;
+import com.forte.qqrobot.exception.EnumInstantiationException;
+import com.forte.qqrobot.exception.EnumInstantiationRequireException;
 import com.forte.qqrobot.factory.MsgGetTypeFactory;
 import com.forte.qqrobot.listener.invoker.ListenerManager;
 import com.forte.qqrobot.listener.invoker.MsgReceiver;
@@ -80,9 +82,21 @@ public class CoolQNoServerApplication extends BaseApplication<CoolQNoServerConfi
 
         // 构建额外几种msgGet类型
         // 元事件 - 生命周期
-        MsgGetTypeFactory.registerType(ExMsgGet.LIFECYCLE, Lifecycle.class);
+        try {
+            MsgGetTypeFactory.registerType(ExMsgGet.LIFECYCLE, Lifecycle.class);
+            getLog().debug("enum.register", ExMsgGet.LIFECYCLE);
+        } catch (EnumInstantiationRequireException | EnumInstantiationException e) {
+            getLog().warning("enum.register.failed", ExMsgGet.LIFECYCLE);
+            getLog().debug("enum.register.failed", e, ExMsgGet.LIFECYCLE);
+        }
         // 元事件 - 心跳
-        MsgGetTypeFactory.registerType(ExMsgGet.HEARTBEAT, Heartbeat.class);
+        try {
+            MsgGetTypeFactory.registerType(ExMsgGet.HEARTBEAT, Heartbeat.class);
+            getLog().debug("enum.register", ExMsgGet.HEARTBEAT);
+        } catch (EnumInstantiationRequireException | EnumInstantiationException e) {
+            getLog().warning("enum.register.failed", ExMsgGet.HEARTBEAT);
+            getLog().debug("enum.register.failed", e, ExMsgGet.HEARTBEAT);
+        }
     }
 
     @Override
@@ -116,11 +130,11 @@ public class CoolQNoServerApplication extends BaseApplication<CoolQNoServerConfi
     protected String start(DependCenter dependCenter, ListenerManager manager) {
         // 由于不需要启动监听服务，所以直接获取QQ信息，并将manager转化为msgOn
         // 获取QQ信息
-        QQLog.info("尝试获取登录QQ信息...");
+        getLog().info("login.get");
         try {
             getAndShowQQInfo(this.config);
         }catch (Exception e){
-            QQLog.error("登录QQ信息获取失败！请确保已手动配置登录QQ信息, 或后续进行配置。", e);
+            getLog().error("login.null", e);
         }
 
         this.manager = manager;
@@ -134,17 +148,9 @@ public class CoolQNoServerApplication extends BaseApplication<CoolQNoServerConfi
      */
     public MsgReceiver getMsgReceiver(){
         if(manager == null){
-            throw new ConfigurationException("服务尚未启动");
+            throw new ConfigurationException("server has not start.");
         }else{
             return manager;
-//            if(receiver != null){
-//                return receiver;
-//            }else{
-//                receiver = new MsgReceiver() {
-//
-//                };
-//                return receiver;
-//            }
         }
     }
 
@@ -168,9 +174,9 @@ public class CoolQNoServerApplication extends BaseApplication<CoolQNoServerConfi
         LoginQQInfo loginQQInfo = msgSender.getLoginQQInfo();
         configuration.setLoginQQInfo(loginQQInfo);
 
-        QQLog.info(Colors.builder().add("QQ    : "+loginQQInfo.getQQ(), Colors.FONT.YELLOW).build());
-        QQLog.info(Colors.builder().add("NICK  : "+loginQQInfo.getName(), Colors.FONT.YELLOW).build());
-        QQLog.info(Colors.builder().add("LEVEL : "+loginQQInfo.getLevel(), Colors.FONT.YELLOW).build());
+        getLog().info("login.info.code",  Colors.builder().add(loginQQInfo.getQQ(), Colors.FONT.YELLOW).build());
+        getLog().info("login.info.nick",  Colors.builder().add(loginQQInfo.getName(), Colors.FONT.YELLOW).build());
+        getLog().info("login.info.level", Colors.builder().add(loginQQInfo.getLevel(), Colors.FONT.YELLOW).build());
 
     }
 }

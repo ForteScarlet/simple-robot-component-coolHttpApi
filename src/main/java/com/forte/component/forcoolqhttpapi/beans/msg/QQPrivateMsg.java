@@ -85,6 +85,10 @@ sender	object	-	发送人信息
         return message;
     }
 
+    @Override
+    public void setMsg(String msg){
+        this.message = msg;
+    }
 
     /**
      * 私信的消息内容封装类

@@ -2,10 +2,12 @@ package com.forte.component.forcoolqhttpapi.server;
 
 import com.alibaba.fastjson.JSONObject;
 import com.forte.component.forcoolqhttpapi.utils.JSONDataUtil;
+import com.forte.lang.Language;
 import com.forte.qqrobot.ResourceDispatchCenter;
 import com.forte.qqrobot.beans.messages.msgget.MsgGet;
 import com.forte.qqrobot.exception.RobotRuntimeException;
 import com.forte.qqrobot.listener.invoker.ListenerManager;
+import com.forte.qqrobot.log.QQLogLang;
 import com.forte.qqrobot.sender.senderlist.SenderList;
 import com.forte.qqrobot.utils.ObjectsPlus;
 import com.sun.net.httpserver.HttpExchange;
@@ -29,6 +31,12 @@ import java.util.function.Predicate;
  * @since JDK1.8
  **/
 public class CoolQHttpHandlerFactory {
+
+    /** factory中使用的log日志 */
+    protected static final QQLogLang LOG_LANG = new QQLogLang("cq.httpapi.handler.factory");
+    protected QQLogLang getLog(){
+        return LOG_LANG;
+    }
 
     /**
      * post_type上报类型的key值
@@ -62,7 +70,7 @@ public class CoolQHttpHandlerFactory {
 
     // 到时候直接扫描这个包就行了
 
-    private static final String MSG_GET_PACK = "com.forte.component.forcoolqhttpapi.beans.msg";
+    public static final String MSG_GET_PACK = "com.forte.component.forcoolqhttpapi.beans.msg";
 
     /**
      * 创建所有的监听消息handler
@@ -72,6 +80,7 @@ public class CoolQHttpHandlerFactory {
      * @param listenerManager 监听消息分配器
      * @param sender          送信器实例对象
      */
+    @Deprecated
     public static Map<String, HttpHandler> getHandlerMap(String encode, String[] methods, ListenerManager listenerManager, CoolQHttpMsgSender sender) {
         // 扫描所有的消息类型
 
@@ -94,7 +103,7 @@ public class CoolQHttpHandlerFactory {
             String postType = json.getString(POST_TYPE_KEY);
             // 获取对应的key值
             String msgTypeKey = Objects.requireNonNull(POST_TPYE_FOR_MSG_TYPE_KEY.get(postType),
-                    "未知的post_type类型：" + postType);
+                    Language.format("cq.httpapi.handler.factory.unknownType", postType));
             // 获取此key值并判断类型
             return json.getString(msgTypeKey).equalsIgnoreCase(mt);
         };

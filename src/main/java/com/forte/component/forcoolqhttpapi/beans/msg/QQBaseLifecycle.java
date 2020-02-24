@@ -32,9 +32,40 @@ public class QQBaseLifecycle extends BaseMsg implements Lifecycle {
         return sub_type;
     }
 
+    /**
+     * 一般来讲，监听到的消息大部分都会有个“消息内容”。定义此方法获取消息内容。
+     * 如果不存在，则为null。（旧版本推荐为空字符串，现在不了。我变卦了）
+     */
+    @Override
+    public String getMsg() {
+        return sub_type.name();
+    }
+
+    /**
+     * 重新设置消息
+     *
+     * @param newMsg msg
+     * @since 1.7.x
+     */
+    @Override
+    public void setMsg(String newMsg) { }
+
+    /**
+     * 获取消息的字体
+     */
+    @Override
+    public String getFont() {
+        return null;
+    }
+
 
     public static enum LifecycleType {
         enable,
-        disable
+        disable,
+        /**
+         * @since 1.7.x , http api v 4.14.0
+         */
+        connect
+        ;
     }
 }

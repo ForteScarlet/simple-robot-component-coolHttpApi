@@ -6,9 +6,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- *
  * 全部监听消息的父类
- *
+ * <p>
  * 实现{@link MsgGet} 接口
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -44,26 +43,40 @@ public abstract class BaseMsg implements MsgGet {
     private String originalData;
 
 
+    /**
+     * 获取ID, 默认ID就是当前对象的hashcode
+     */
     @Override
-    public String getMsg(){
-        return null;
+    public String getId() {
+        return self_id + "@" + Integer.toHexString(hashCode());
     }
 
-    /** 获取ID, 默认不存在所谓的ID */
+    /**
+     * 此消息获取的时候，代表的是哪个账号获取到的消息。
+     *
+     * @return 接收到此消息的账号。
+     */
     @Override
-    public String getId(){
-        return null;
+    public String getThisCode() {
+        return self_id;
     }
 
-    /** 获取消息的字体 */
+    /**
+     * 允许重新定义Code以实现在存在多个机器人的时候切换处理。
+     *
+     * @param code code
+     */
     @Override
-    public String getFont(){
-        return null;
+    public void setThisCode(String code) {
+        self_id = code;
     }
 
-    /** 获取到的时间, 代表某一时间的秒值。注意是秒值！如果类型不对请自行转化 */
+
+    /**
+     * 获取到的时间, 代表某一时间的毫秒值或者秒值。此处默认为此对象被创建的时候的毫秒值
+     */
     @Override
-    public Long getTime(){
-        return -1L;
+    public Long getTime() {
+        return time;
     }
 }

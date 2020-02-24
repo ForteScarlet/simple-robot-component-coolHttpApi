@@ -19,7 +19,8 @@
     <!-- 依赖版本号 -->
     <properties>
         <!--　核心版本号　-->
-        <core.version>1.6.3</core.version>
+<!--        <core.version>1.6.3</core.version>-->
+        <core.version>1.7.0</core.version>
         <!-- lombok -->
         <lombok.version>1.16.20</lombok.version>
     </properties>

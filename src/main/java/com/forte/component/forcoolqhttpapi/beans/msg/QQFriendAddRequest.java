@@ -47,6 +47,11 @@ public class QQFriendAddRequest extends BaseMsg implements FriendAddRequest {
 
     @Override
     public String getMsg() {
-        return comment;
+        return getComment();
+    }
+
+    @Override
+    public void setMsg(String msg){
+        setComment(msg);
     }
 }

@@ -10,6 +10,7 @@ import com.forte.qqrobot.beans.types.ResultSelectType;
 import com.forte.qqrobot.listener.invoker.ListenerManager;
 import com.forte.qqrobot.listener.result.ListenResult;
 import com.forte.qqrobot.log.QQLog;
+import com.forte.qqrobot.log.QQLogLang;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.apache.commons.io.IOUtils;
@@ -30,6 +31,11 @@ import java.util.function.Predicate;
  **/
 public class CoolQHttpHandler implements HttpHandler {
 
+    /** 此处的日志前缀为cq.httpapi.handler */
+    protected static final QQLogLang LOG_LANG = new QQLogLang("cq.httpapi.handler");
+    protected QQLogLang getLog(){
+        return LOG_LANG;
+    }
     /** 编码格式 */
     private String encoding;
 
@@ -111,7 +117,6 @@ public class CoolQHttpHandler implements HttpHandler {
         //使用线程异步接收消息
         ResourceDispatchCenter.getThreadPool().execute(() -> doHandle(httpExchange));
 
-
     }
 
 
@@ -130,7 +135,8 @@ public class CoolQHttpHandler implements HttpHandler {
                 InputStream requestBody = httpExchange.getRequestBody();
                 //编码转义  貌似不再需要编码转义
                 String paramsUrl = IOUtils.toString(requestBody, this.encoding);
-                QQLog.debug("http request body: " + paramsUrl);
+
+                getLog().debug("onmessage", paramsUrl);
                 // 先转化为json格式
                 JSONObject paramsJSON = JSONObject.parseObject(paramsUrl);
 
@@ -162,10 +168,12 @@ public class CoolQHttpHandler implements HttpHandler {
                     //获取响应输出流
                     OutputStream out = httpExchange.getResponseBody();
 
+                    // 相应消息内容
                     String resultBody = getResultBody(result);
 
                     // 响应信息
                     IOUtils.write(resultBody, out, this.encoding);
+                    getLog().debug("response", resultBody);
                 }
             }else{
                 // 不是支持的请求方式，返回405类型
@@ -175,12 +183,14 @@ public class CoolQHttpHandler implements HttpHandler {
                     OutputStream out = httpExchange.getResponseBody();
                     // 响应信息
                     IOUtils.write("no method type", out, this.encoding);
+                    getLog().debug("response", "no method type");
+
                 } catch (IOException e1) {
-                    QQLog.error("消息响应异常", e1);
+                    getLog().error("response.failed", e1);
                 }
             }
         }catch (Exception e){
-            QQLog.error("[QQ_HTTP_handler] 消息监听处理出现异常: ", e);
+            getLog().error("onmessage.failed", e);
             // 出现异常，返回信息
             try {
                 // 设置响应code和内容长度
@@ -188,8 +198,9 @@ public class CoolQHttpHandler implements HttpHandler {
                 OutputStream out = httpExchange.getResponseBody();
                 // 响应信息
                 IOUtils.write("error", out, this.encoding);
+                getLog().debug("response", "error");
             } catch (IOException e1) {
-                QQLog.error("消息响应异常", e1);
+                getLog().error("response.failed", e1);
             }
         }finally{
             // 关闭处理器, 同时将关闭请求和响应的输入输出流（如果还没关闭）
@@ -203,7 +214,7 @@ public class CoolQHttpHandler implements HttpHandler {
      * 通过result获取返回值体
      * @param result 执行结果
      */
-    private static String getResultBody(ListenResult result){
+    private String getResultBody(ListenResult result){
         if(result == null){
             return DEFAULT_RESULT;
         }
@@ -222,7 +233,7 @@ public class CoolQHttpHandler implements HttpHandler {
                 try {
                     ((Map) jsonData).put("block", true);
                 }catch (Exception e){
-                    QQLog.error("响应值转化异常", e);
+                    getLog().error("response.format.failed", e);
                 }
                 return JSON.toJSONString(jsonData);
             }else{

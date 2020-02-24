@@ -130,7 +130,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
             String resultJson = getResultJson(requestPath, requestJson);
             return Optional.ofNullable(resultJson).map(resultGetter);
         } catch (Exception e) {
-            QQLog.error("信息获取失败!", e);
+            QQLog.error("cq.httpapi.sender.send.failed", e);
             return Optional.empty();
         }
 

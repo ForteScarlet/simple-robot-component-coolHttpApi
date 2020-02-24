@@ -55,7 +55,12 @@ public class QQGroupAddRequest extends BaseMsg implements GroupAddRequest {
 
     @Override
     public String getMsg() {
-        return comment;
+        return getComment();
+    }
+
+    @Override
+    public void setMsg(String msg){
+        setComment(msg);
     }
 
     @Override

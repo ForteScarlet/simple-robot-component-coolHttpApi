@@ -33,4 +33,12 @@ public class QQBaseHeartbeat extends BaseMsg implements Heartbeat {
     private PluginStatus status;
 
 
+    /**
+     * 重新设置消息
+     *
+     * @param newMsg msg
+     * @since 1.7.x
+     */
+    @Override
+    public void setMsg(String newMsg) { }
 }
