@@ -1,7 +1,7 @@
 # 更新日志
 
-- ##### 0.7-BETA-1.7.0
-    > 配置文件中，所有的前缀`coolqhttpapi` 替换为 `cqhttp`
+- ##### 0.7.0-BETA-1.7.0
+    > 配置文件中，所有的前缀`simple.robot.conf.coolqhttpapi` 替换为 `cqhttp`
     > 替换并适配核心`1.7.0`
     > 提供语言文件
 
