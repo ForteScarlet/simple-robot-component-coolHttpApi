@@ -4,6 +4,8 @@
 > 如果需要获得更好的阅读体验，请前往 [原文档](https://www.kancloud.cn/forte-scarlet/simple-coolq-doc/) -> `组件-酷Q-CoolQ HTTP API(推荐)` -> `快速开始` 处阅读
 > 或尝试直接进入[快速开始](https://www.kancloud.cn/forte-scarlet/simple-coolq-doc/1519585)
 
+**点击项目右上角的`star`展示完整文档**
+
 # 快速开始
 
 *****
