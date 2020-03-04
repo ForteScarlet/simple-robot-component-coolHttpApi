@@ -11,13 +11,17 @@ import com.forte.component.forcoolqhttpapi.beans.msg.Anonymous;
 import com.forte.component.forcoolqhttpapi.beans.result.*;
 import com.forte.component.forcoolqhttpapi.beans.send.*;
 import com.forte.component.forcoolqhttpapi.beans.set.*;
+import com.forte.qqrobot.BotRuntime;
 import com.forte.qqrobot.beans.messages.QQCodeAble;
+import com.forte.qqrobot.beans.messages.ThisCodeAble;
 import com.forte.qqrobot.beans.messages.result.GroupList;
 import com.forte.qqrobot.beans.messages.result.GroupMemberList;
 import com.forte.qqrobot.beans.messages.result.StrangerInfo;
 import com.forte.qqrobot.beans.messages.result.*;
 import com.forte.qqrobot.beans.messages.result.inner.GroupNote;
 import com.forte.qqrobot.beans.messages.types.GroupAddRequestType;
+import com.forte.qqrobot.bot.BotInfo;
+import com.forte.qqrobot.bot.BotManager;
 import com.forte.qqrobot.exception.RobotRuntimeException;
 import com.forte.qqrobot.log.QQLog;
 import com.forte.qqrobot.sender.senderlist.BaseRootSenderList;
@@ -38,28 +42,27 @@ import java.util.stream.Collectors;
 public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     /**
-     * json获取器
-     */
-    private SendJsonCreator json;
-
-    /**
      * 空的jsonObject，请不要对其内容进行任何修改
      */
     private static final JSON EMPTY_JSON = new JSONObject();
 
     /**
-     * 构造，提供一个Json获取器
+     * 当前的送信器对应的botInfo, 一般仅用作获取请求路径
      */
-    public CoolQHttpMsgSender(SendJsonCreator creator) {
-        this.json = creator;
+    private BotInfo botInfo;
+
+    protected BotInfo getBotInfo(){
+        return botInfo;
     }
 
     /**
-     * 直接通过代理工具创建json获取器
+     * 构造
+     * 内部需要一个BotManager对象与一个ThisCodeAble对象
      */
-    public CoolQHttpMsgSender() {
-        this(JSONParameterCreatorHelper.toJsonParameterCreator(SendJsonCreator.class));
+    public CoolQHttpMsgSender(BotInfo botInfo) {
+        this.botInfo = botInfo;
     }
+
 
     /**
      * 请求接口，并返回原生返回值字符串
@@ -68,8 +71,9 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
      */
     private String getResultJson(String requestPath, String requestJson) throws Exception {
         //获取HTTP API请求地址参数
-        CoolQHttpConfiguration httpConfiguration = CoolQHttpResourceDispatchCenter.getCoolQHttpConfiguration();
-        String url = httpConfiguration.getRequestPath() + requestPath;
+//        CoolQHttpConfiguration httpConfiguration = CoolQHttpResourceDispatchCenter.getCoolQHttpConfiguration();
+//        String url = httpConfiguration.getRequestPath() + requestPath;
+        String url = getBotInfo().getPath() + requestPath;
         //请求并返回响应数据
         return HttpClientUtil.postJson(url, requestJson);
     }
@@ -136,18 +140,12 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     }
 
-//    @Override
-//    public AnonInfo getAnonInfo(String flag) {
-//        不支持的API
-//        return null;
-//    }
-
     /**
      * 获取cookies信息
      * @return cookies
      */
     public QQCookies getCookies(){
-        GetCookies in = json.getCookies();
+        GetCookies in = new GetCookies();
         return get(in.getApi(), JSON.toJSONString(in), in.getResultType()).orElse(null);
     }
 
@@ -157,7 +155,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
      * @return csrfToken
      */
     public QQCsrfToken getCsrfToken(){
-        GetCsrfToken csrfToken = json.getCsrfToken();
+        GetCsrfToken csrfToken = new GetCsrfToken();
         return get(csrfToken.getApi(), JSON.toJSONString(csrfToken), csrfToken.getResultType()).orElse(null);
     }
 
@@ -380,7 +378,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
      * 获取登录的QQ的信息
      */
     @Override
-    public LoginQQInfo getLoginQQInfo() {
+    public com.forte.qqrobot.bot.LoginInfo getLoginQQInfo() {
         LoginInfo loginInfo = get(new GetLoginInfo()).orElse(null);
         if(loginInfo != null){
             QQVipInfo vipInfo = getVipInfo(loginInfo.getUser_id());

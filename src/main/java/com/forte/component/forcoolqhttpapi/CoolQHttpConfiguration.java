@@ -27,6 +27,7 @@ public class CoolQHttpConfiguration extends BaseConfiguration<CoolQHttpConfigura
      * 酷Q端插件的端口，默认5700（插件默认就是5700）
      */
     @Conf("cqhttp.serverPort")
+    @Deprecated
     private int serverPort = 5700;
 
     /**
@@ -65,6 +66,7 @@ public class CoolQHttpConfiguration extends BaseConfiguration<CoolQHttpConfigura
         return this;
     }
 
+    @Deprecated
     public int getServerPort() {
         return serverPort;
     }
@@ -75,6 +77,7 @@ public class CoolQHttpConfiguration extends BaseConfiguration<CoolQHttpConfigura
      * Java --[请求]--> CoolQ
      * @param serverPort    酷Q端插件监听请求的端口号
      */
+    @Deprecated
     public CoolQHttpConfiguration setServerPort(int serverPort) {
         this.serverPort = serverPort;
         return this;
@@ -95,6 +98,7 @@ public class CoolQHttpConfiguration extends BaseConfiguration<CoolQHttpConfigura
         return this;
     }
 
+    @Deprecated
     public String getRequestPath(){
         return "http://" + getIp() + ":" + getServerPort();
     }

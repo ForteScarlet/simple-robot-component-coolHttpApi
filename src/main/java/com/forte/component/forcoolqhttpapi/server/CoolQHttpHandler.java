@@ -9,8 +9,8 @@ import com.forte.qqrobot.beans.messages.msgget.MsgGet;
 import com.forte.qqrobot.beans.types.ResultSelectType;
 import com.forte.qqrobot.listener.invoker.ListenerManager;
 import com.forte.qqrobot.listener.result.ListenResult;
-import com.forte.qqrobot.log.QQLog;
 import com.forte.qqrobot.log.QQLogLang;
+import com.forte.qqrobot.sender.senderlist.*;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.apache.commons.io.IOUtils;
@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
@@ -46,7 +47,7 @@ public class CoolQHttpHandler implements HttpHandler {
     private ListenerManager manager;
 
     /** 送信器 */
-    private CoolQHttpMsgSender httpSender;
+    private Function<MsgGet, RootSenderList> rootSenderList;
 
     /**
      * 根据postType类型和type类型来获取真正对应的MsgGet数据类型
@@ -67,18 +68,19 @@ public class CoolQHttpHandler implements HttpHandler {
     /** 返回值结果的筛选方案 */
     private final ResultSelectType resultSelectType ;
 
+
     /**
      * 构造，提供所需参数
      * @param encoding  编码格式，一般来讲就是固定为utf-8了
      * @param methods   请求方式，一般来讲就是post了
      * @param manager   监听消息管理器
-     * @param httpSender    送信器
+     * @param rootSenderList    送信器获取函数
      * @param typeMap   所有监听中的posttype类型与根据值对应的封装类类型
      */
     public CoolQHttpHandler(String encoding,
                             String[] methods,
                             ListenerManager manager,
-                            CoolQHttpMsgSender httpSender,
+                            Function<MsgGet, RootSenderList> rootSenderList,
                             ResultSelectType resultSelectType,
                             Map<PostType, Map<String, Class<? extends MsgGet>>> typeMap){
         this.encoding = encoding;
@@ -86,7 +88,9 @@ public class CoolQHttpHandler implements HttpHandler {
         this.manager = manager;
         this.resultSelectType = resultSelectType;
         this.typeMap = typeMap;
-        this.httpSender = httpSender;
+
+        this.rootSenderList = rootSenderList;
+
         if(methods == null || methods.length == 0){
             // 如果参数中methods没东西或者为空，默认使用post类型
             this.isMethod = "post"::equalsIgnoreCase;
@@ -137,6 +141,7 @@ public class CoolQHttpHandler implements HttpHandler {
                 String paramsUrl = IOUtils.toString(requestBody, this.encoding);
 
                 getLog().debug("onmessage", paramsUrl);
+
                 // 先转化为json格式
                 JSONObject paramsJSON = JSONObject.parseObject(paramsUrl);
 
@@ -153,7 +158,7 @@ public class CoolQHttpHandler implements HttpHandler {
 
                     // 消息处理
                     if(msgGet != null){
-                        results = manager.onMsg(msgGet, httpSender);
+                        results = manager.onMsg(msgGet, rootSenderList.apply(msgGet));
                     }else{
                         results = new ListenResult[0];
                     }

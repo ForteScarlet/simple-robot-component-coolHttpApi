@@ -8,12 +8,15 @@ run.login.get=尝试获取登录QQ信息...
 run.enum.register=额外事件{0}注册成功。
 run.enum.register.failed=额外事件{0}注册失败，将无法使用事件[{0}]
 
+run.login.bot.info.failed=账号信息验证失败: {0} -> {1}
+run.login.bot.info=账号信息获取成功: 账号: {0}, 昵称: {1}, 等级: {2}
+
 run.login.info.code=QQ号：{0}
 run.login.info.nick=昵称：{0}
 run.login.info.level=等级：{0}
 
 run.server.listenurl=监听网址   ：{0}
-run.server.sendurl=酷Q端推送网址：{0}
+run.server.sendurl=推送网址：{0} -> {1}
 run.server.method=接受请求方式  ：{0}
 
 # 消息监听服务器的日志前缀

@@ -8,6 +8,7 @@ import com.forte.qqrobot.BaseApplication;
 import com.forte.qqrobot.anno.Version;
 import com.forte.qqrobot.beans.messages.msgget.MsgGet;
 import com.forte.qqrobot.beans.messages.result.LoginQQInfo;
+import com.forte.qqrobot.bot.BotInfo;
 import com.forte.qqrobot.depend.DependCenter;
 import com.forte.qqrobot.exception.ConfigurationException;
 import com.forte.qqrobot.exception.EnumInstantiationException;
@@ -22,6 +23,8 @@ import com.forte.qqrobot.sender.senderlist.SenderSendList;
 import com.forte.qqrobot.sender.senderlist.SenderSetList;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 /**
@@ -71,10 +74,9 @@ public class CoolQNoServerApplication extends BaseApplication<CoolQNoServerConfi
     @Override
     protected void resourceInit() {
         //初始化配置类实例
-        config = new CoolQNoServerConfiguration();
-        CoolQHttpResourceDispatchCenter.saveCoolQHttpConfiguration(config);
-        //初始化送信器
-        msgSender = new CoolQHttpMsgSender();
+        getConf();
+//        config = new CoolQNoServerConfiguration();
+//        CoolQHttpResourceDispatchCenter.saveCoolQHttpConfiguration(config);
         CoolQHttpResourceDispatchCenter.saveCoolQHttpMsgSender(msgSender);
         //初始化特殊API并提供真正的msgSender以初始化
         spAPI = new CoolQHttpAPI(msgSender);
@@ -114,6 +116,16 @@ public class CoolQNoServerApplication extends BaseApplication<CoolQNoServerConfi
         return msgSender;
     }
 
+    /**
+     * start之前，会先对账号进行验证。将会使用此方法对注册的bot账号信息进行验证
+     *
+     * @param confBotInfos
+     */
+    @Override
+    protected BotInfo[] verifyBots(Map<String, List<BotInfo>> confBotInfos) {
+        return new BotInfo[0];
+    }
+
     @Override
     public CoolQHttpAPI getSpecialApi() {
         return spAPI;
@@ -137,6 +149,9 @@ public class CoolQNoServerApplication extends BaseApplication<CoolQNoServerConfi
             getLog().error("login.null", e);
         }
 
+        //初始化送信器
+        msgSender = new CoolQHttpMsgSender(getBotManager().defaultBot());
+
         this.manager = manager;
 
         return "no listen server coolQ HTTP API server";
@@ -155,9 +170,17 @@ public class CoolQNoServerApplication extends BaseApplication<CoolQNoServerConfi
     }
 
 
+    /**
+     * 开发者实现的获取Config对象的方法,对象请保证每次获取的时候都是唯一的
+     */
     @Override
     protected CoolQNoServerConfiguration getConfiguration() {
-        return config;
+        CoolQHttpConfiguration coolQHttpConfiguration = CoolQHttpResourceDispatchCenter.getCoolQHttpConfiguration();
+        if(coolQHttpConfiguration == null){
+            coolQHttpConfiguration = new CoolQNoServerConfiguration();
+            CoolQHttpResourceDispatchCenter.saveCoolQHttpConfiguration(coolQHttpConfiguration);
+        }
+        return (CoolQNoServerConfiguration) coolQHttpConfiguration;
     }
 
     @Override

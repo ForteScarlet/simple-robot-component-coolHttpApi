@@ -15,7 +15,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class LoginInfo extends AbstractInfoResult implements LoginQQInfo, Result {
+public class LoginInfo extends AbstractInfoResult implements com.forte.qqrobot.bot.LoginInfo, Result {
     /*
     响应数据
         字段名	数据类型	说明

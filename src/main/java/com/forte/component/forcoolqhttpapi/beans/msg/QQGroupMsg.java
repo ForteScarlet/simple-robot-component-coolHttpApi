@@ -3,6 +3,7 @@ package com.forte.component.forcoolqhttpapi.beans.msg;
 import com.forte.qqrobot.beans.messages.QQCodeAble;
 import com.forte.qqrobot.beans.messages.msgget.GroupMsg;
 import com.forte.qqrobot.beans.messages.types.GroupMsgType;
+import com.forte.qqrobot.beans.messages.types.PowerType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -47,6 +48,7 @@ public class QQGroupMsg extends BaseMsg implements GroupMsg {
     private String raw_message;
     private String font;
     private Sender sender;
+    private PowerType powerType;
 
     @Override
     public String getQQ() {
@@ -87,6 +89,42 @@ public class QQGroupMsg extends BaseMsg implements GroupMsg {
     @Override
     public void setMsg(String newMsg) {
         setMessage(newMsg);
+    }
+
+    /**
+     * 获取此人在群里的权限
+     *
+     * @return 权限，例如群员、管理员等
+     */
+    @Override
+    public PowerType getPowerType() {
+        if(powerType != null){
+            return powerType;
+        }
+        if(sender != null){
+            //角色，owner 或 admin 或 member
+            String role = sender.getRole();
+            if("owner".equals(role)){
+                this.powerType = PowerType.OWNER;
+            }else if("admin".equals(role)){
+                this.powerType = PowerType.ADMIN;
+            }else{
+                this.powerType = PowerType.MEMBER;
+            }
+            return this.powerType;
+        }else{
+            return null;
+        }
+    }
+
+    /**
+     * 重新定义此人的权限
+     *
+     * @param powerType 权限
+     */
+    @Override
+    public void setPowerType(PowerType powerType) {
+        this.powerType = powerType;
     }
 
 
