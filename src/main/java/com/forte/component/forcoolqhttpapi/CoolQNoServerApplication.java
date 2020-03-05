@@ -8,11 +8,9 @@ import com.forte.qqrobot.BaseApplication;
 import com.forte.qqrobot.anno.Version;
 import com.forte.qqrobot.beans.messages.msgget.MsgGet;
 import com.forte.qqrobot.beans.messages.result.LoginQQInfo;
-import com.forte.qqrobot.bot.BotInfo;
+import com.forte.qqrobot.bot.*;
 import com.forte.qqrobot.depend.DependCenter;
-import com.forte.qqrobot.exception.ConfigurationException;
-import com.forte.qqrobot.exception.EnumInstantiationException;
-import com.forte.qqrobot.exception.EnumInstantiationRequireException;
+import com.forte.qqrobot.exception.*;
 import com.forte.qqrobot.factory.MsgGetTypeFactory;
 import com.forte.qqrobot.listener.invoker.ListenerManager;
 import com.forte.qqrobot.listener.invoker.MsgReceiver;
@@ -30,10 +28,12 @@ import java.util.function.Function;
 /**
  *
  * 无监听启动器
- *
+ * 核心1.7.0 - 1.8.0中暂未对此类做出适配, 因此暂时标记过时
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
+ * @deprecated 核心1.7.0 - 1.8.0中暂未对此类做出适配
  **/
+@Deprecated
 public class CoolQNoServerApplication extends BaseApplication<CoolQNoServerConfiguration, CoolQHttpAPI> {
 
     /**
@@ -117,14 +117,52 @@ public class CoolQNoServerApplication extends BaseApplication<CoolQNoServerConfi
     }
 
     /**
-     * start之前，会先对账号进行验证。将会使用此方法对注册的bot账号信息进行验证
-     *
-     * @param confBotInfos
+     * <pre> start之前，会先对账号进行验证。将会使用此方法对注册的bot账号信息进行验证。
+     * <pre> 鉴于机制的变更，最好在bot初始化的时候便将每个bot所对应的sender初始化结束。
+     * <pre> 此验证函数后续会被注入至BotManager对象中用于动态验证。
+     * <pre> 推荐在验证失败的时候抛出异常。
+     * @param code 用户账号，可能为null
+     * @param info 用于验证的bot，一般来讲应当至少存在一个path
      */
     @Override
-    protected BotInfo[] verifyBots(Map<String, List<BotInfo>> confBotInfos) {
-        return new BotInfo[0];
+    protected BotInfo verifyBot(String code, BotInfo info) {
+        // 验证
+        BotInfo loginInfo;
+        try {
+            loginInfo = this.getLoginInfo(info);
+        }catch (RobotRunException e){
+            throw new BotVerifyException("failed", code, e.getMessage(), e);
+        }
+        // code不为null，验证code是否匹配
+        if(code != null){
+            // code 不匹配
+            if(!loginInfo.getBotCode().equals(code)){
+                throw new BotVerifyException("failed.mismatch", code, loginInfo);
+            }
+        }
+
+        return loginInfo;
     }
+
+    /**
+     * 根据验证前的botInfo构建一个验证后的botInfo并初始化其BotSender
+     * @param botInfo botInfo对象
+     * @return 验证后的botInfo对象。与原来的BotInfo一致。如果验证失败则返回null
+     */
+    private BotInfo getLoginInfo(BotInfo botInfo){
+        // 构建送信器
+        CoolQHttpMsgSender coolQHttpMsgSender = new CoolQHttpMsgSender(botInfo);
+        // 尝试获取登录信息
+        LoginInfo loginInfo = coolQHttpMsgSender.getLoginQQInfo();
+        if(loginInfo == null){
+            throw new RobotRunException("login.bot.info.failed", botInfo.getBotCode(), botInfo.getPath());
+        }
+        // 验证后的botInfo
+        BotInfo verifyBot = new BotInfoImpl(loginInfo.getCode(), botInfo.getPath(), loginInfo, new BotSender(coolQHttpMsgSender));
+
+        return verifyBot;
+    }
+
 
     @Override
     public CoolQHttpAPI getSpecialApi() {
@@ -140,19 +178,22 @@ public class CoolQNoServerApplication extends BaseApplication<CoolQNoServerConfi
      */
     @Override
     protected String start(DependCenter dependCenter, ListenerManager manager) {
+        CoolQHttpConfiguration conf = getConf();
         // 由于不需要启动监听服务，所以直接获取QQ信息，并将manager转化为msgOn
-        // 获取QQ信息
-        getLog().info("login.get");
-        try {
-            getAndShowQQInfo(this.config);
-        }catch (Exception e){
-            getLog().error("login.null", e);
-        }
+        // 构建默认的Bot送信器
+        BotInfo defaultBot = conf.getDefaultBotInfo();
+        BotManager botManager = getBotManager();
+
+        BotInfo defaultBotInfo = botManager.getBot(defaultBot.getBotCode());
+        CoolQHttpMsgSender coolQHttpMsgSender = new CoolQHttpMsgSender(defaultBotInfo);
+
+        //初始化sender
+        CoolQHttpResourceDispatchCenter.saveCoolQHttpMsgSender(coolQHttpMsgSender);
+        msgSender = coolQHttpMsgSender;
 
         //初始化送信器
-        msgSender = new CoolQHttpMsgSender(getBotManager().defaultBot());
-
-        this.manager = manager;
+//        msgSender = new CoolQHttpMsgSender(getBotManager().defaultBot());
+//        this.manager = manager;
 
         return "no listen server coolQ HTTP API server";
     }
