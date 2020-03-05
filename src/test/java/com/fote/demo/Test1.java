@@ -46,6 +46,10 @@ public class Test1 {
             System.out.println(bot);
         }
 
+        botManager.getBot("2240189254").getSender().SENDER.sendPrivateMsg("1149159218", "我被注册啦！");
+
+
+        System.exit(-1);
     }
 
     public String resourceName() {

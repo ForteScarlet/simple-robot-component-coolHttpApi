@@ -9,7 +9,6 @@ run.enum.register=Extra event {0} registered successfully.
 run.enum.register.failed=Extra event {0} failed to register, event [{0}] will not be available
 
 run.login.bot.info.failed=bot information verification failed: {0} -> {1}
-run.login.bot.info=bot info verification success: Code: {0}, Nickname: {1}, Level: {2}
 
 run.login.info.code=QQ Code:  {0}
 run.login.info.nick=Nickname: {0}

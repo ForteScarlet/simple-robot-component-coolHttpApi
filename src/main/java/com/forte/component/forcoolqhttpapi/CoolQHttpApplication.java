@@ -291,9 +291,6 @@ public class CoolQHttpApplication extends BaseApplication<CoolQHttpConfiguration
         // 验证后的botInfo
         BotInfo verifyBot = new BotInfoImpl(loginInfo.getCode(), botInfo.getPath(), loginInfo, new BotSender(coolQHttpMsgSender));
 
-        // 没有抛出异常，验证成功，设置信息并log信息
-        getLog().info("login.bot.info", loginInfo.getQQ(), loginInfo.getName(), loginInfo.getLevel());
-
         return verifyBot;
     }
 
