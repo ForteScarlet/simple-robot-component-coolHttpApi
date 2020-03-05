@@ -8,6 +8,7 @@ import com.forte.qqrobot.SimpleRobotConfiguration;
 import com.forte.qqrobot.bot.BotInfo;
 import com.forte.qqrobot.bot.BotManager;
 import com.forte.qqrobot.listener.invoker.AtDetection;
+import com.forte.qqrobot.listener.invoker.ListenerFilter;
 import com.forte.qqrobot.sender.MsgSender;
 import com.forte.qqrobot.utils.CQCodeUtil;
 
@@ -20,7 +21,7 @@ import java.util.Properties;
  **/
 @SimpleRobotApplication(resources = "/conf.properties")
 @SimpleRobotConfiguration({
-        @ConfigurationProperty(key = "core.bots", value = ":http://47.100.38.59:8877"),
+        @ConfigurationProperty(key = "core.bots", value = ":http://127.0.0.1:5700"),
         @ConfigurationProperty(key = "", value = ""),
         @ConfigurationProperty(key = "", value = ""),
         @ConfigurationProperty(key = "", value = ""),
@@ -31,23 +32,12 @@ public class Test1 {
         // http://127.0.0.1:5700
         CoolQHttpApplication application = new CoolQHttpApplication();
         // 启动...
-        application.run(Test1.class);
+        application.run(Test1.class, args);
 
-        BotManager botManager = BotRuntime.getRuntime().getBotManager();
+        ListenerFilter.registerFilter("", new TestFilter1());
 
-        for (BotInfo bot : botManager.bots()) {
-            System.out.println(bot);
-        }
-
-        System.out.println("动态注册...");
-        botManager.registerBot("http://127.0.0.1:5700");
-
-        for (BotInfo bot : botManager.bots()) {
-            System.out.println(bot);
-        }
-
-        botManager.getBot("2240189254").getSender().SENDER.sendPrivateMsg("1149159218", "我被注册啦！");
-
+        System.out.println(ListenerFilter.getFilter("filter1"));
+        System.out.println(ListenerFilter.getFilter("testFilter2"));
 
         System.exit(-1);
     }
