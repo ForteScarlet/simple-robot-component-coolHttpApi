@@ -23,7 +23,7 @@ public class GroupNoticeList implements Result, GroupNoteList {
 
     @Override
     public GroupNotice[] getList() {
-        return new GroupNotice[0];
+        return groupNotices;
     }
     /*
         [
