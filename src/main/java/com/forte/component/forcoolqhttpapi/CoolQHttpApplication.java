@@ -289,9 +289,7 @@ public class CoolQHttpApplication extends BaseApplication<CoolQHttpConfiguration
             throw new RobotRunException("login.bot.info.failed", botInfo.getBotCode(), botInfo.getPath());
         }
         // 验证后的botInfo
-        BotInfo verifyBot = new BotInfoImpl(loginInfo.getCode(), botInfo.getPath(), loginInfo, new BotSender(coolQHttpMsgSender));
-
-        return verifyBot;
+        return new BotInfoImpl(loginInfo.getCode(), botInfo.getPath(), loginInfo, new BotSender(coolQHttpMsgSender));
     }
 
 

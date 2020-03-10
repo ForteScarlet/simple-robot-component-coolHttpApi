@@ -47,7 +47,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
     private static final JSON EMPTY_JSON = new JSONObject();
 
     /**
-     * 当前的送信器对应的botInfo, 一般仅用作获取请求路径
+     * 当前的送信器对应的botInfo
      */
     private BotInfo botInfo;
 
@@ -71,8 +71,6 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
      */
     private String getResultJson(String requestPath, String requestJson) throws Exception {
         //获取HTTP API请求地址参数
-//        CoolQHttpConfiguration httpConfiguration = CoolQHttpResourceDispatchCenter.getCoolQHttpConfiguration();
-//        String url = httpConfiguration.getRequestPath() + requestPath;
         String url = getBotInfo().getPath() + requestPath;
         //请求并返回响应数据
         return HttpClientUtil.postJson(url, requestJson);
@@ -237,6 +235,8 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
         }).orElse(null);
     }
+
+
 
 
     /**
@@ -531,6 +531,27 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
     public boolean sendLike(String QQ, int times) {
         return send(new SendLike(QQ, times));
     }
+
+    /**
+     * 发布群公告
+     * 目前，top、toNewMember、confirm参数是无效的
+     * @param group 群号
+     * @param title 标题
+     * @param text   正文
+     * @param top    是否置顶，默认false
+     * @param toNewMember 是否发给新成员 默认false
+     * @param confirm 是否需要确认 默认false
+     * @return s是否发布成功
+     */
+    public boolean sendGroupNotice(String group, String title, String text, boolean top, boolean toNewMember, boolean confirm){
+        return send(new SendGroupNotice(group, title, text));
+    }
+
+
+
+
+    //**************** SETTER ****************//
+
 
     /**
      * 是否同意好友申请
