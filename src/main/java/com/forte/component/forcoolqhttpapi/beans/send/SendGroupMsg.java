@@ -35,29 +35,5 @@ public class SendGroupMsg implements Send {
     public String getApi() {
         return API;
     }
-//
-//    public long getUser_id() {
-//        return user_id;
-//    }
-//
-//    public void setUser_id(String user_id) {
-//        this.user_id = user_id;
-//    }
-//
-//    public String getMessage() {
-//        return message;
-//    }
-//
-//    public void setMessage(String message) {
-//        this.message = message;
-//    }
-//
-//    public boolean isAuto_escape() {
-//        return auto_escape;
-//    }
-//
-//    public void setAuto_escape(boolean auto_escape) {
-//        this.auto_escape = auto_escape;
-//    }
 
 }
