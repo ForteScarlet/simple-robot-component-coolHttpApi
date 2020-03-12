@@ -1,0 +1,33 @@
+# 监听服务器启动失败
+exception.run.serverStartFailed=监听服务启动失败！
+
+# 启动时候的一些信息
+# 登录的QQ信息获取失败 - null信息
+run.login.null=登录QQ信息获取失败！请确保已手动配置登录QQ信息, 或后续进行配置。
+run.login.get=尝试获取登录QQ信息...
+run.enum.register=额外事件{0}注册成功。
+run.enum.register.failed=额外事件{0}注册失败，将无法使用事件[{0}]
+
+exception.robotRun.login.bot.info.failed=账号信息验证失败: {0} -> {1}
+
+run.login.info.code=QQ号：{0}
+run.login.info.nick=昵称：{0}
+run.login.info.level=等级：{0}
+
+run.server.listenurl=监听网址   ：{0}
+run.server.sendurl=推送网址：{0} -> {1}
+run.server.method=接受请求方式  ：{0}
+
+# 消息监听服务器的日志前缀
+cq.httpapi.handler.onmessage=接收到请求：{0}
+cq.httpapi.handler.onmessage.failed=消息监听处理出现异常!
+cq.httpapi.handler.response=响应请求: {0}
+cq.httpapi.handler.response.failed=消息响应异常!
+cq.httpapi.handler.response.format.failed=响应值转化异常!
+
+cq.httpapi.handler.factory.unknownType=未知的post_type类型: {0}
+
+cq.httpapi.sender.send.failed=送信失败！
+
+# 其他的一些
+cq.httpapi.qq.friendlist.sort.failed=好友数组排序异常, 错误已忽略。信息:

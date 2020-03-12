@@ -566,6 +566,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
      * @param confirm 是否需要确认 默认false
      * @return s是否发布成功
      */
+    @Override
     public boolean sendGroupNotice(String group, String title, String text, boolean top, boolean toNewMember, boolean confirm){
         return send(new SendGroupNotice(group, title, text));
     }
@@ -684,10 +685,11 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
     /**
      * 退出群组
      * @param group 群号
+     * @param dissolve 假如此账号是群主，则此参数代表是否要解散群。默认为false
      */
     @Override
-    public boolean setGroupLeave(String group) {
-        return send(new SetGroupLeave(group));
+    public boolean setGroupLeave(String group, boolean dissolve) {
+        return send(new SetGroupLeave(group, dissolve));
     }
 
     /**
@@ -695,7 +697,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
      * @param group 群号
      */
     public boolean setGroupLeaveIfGroupOwner(String group) {
-        return send(new SetGroupLeave(group, true));
+        return setGroupLeave(group, true);
     }
 
     /**

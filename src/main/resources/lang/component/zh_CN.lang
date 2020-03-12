@@ -8,7 +8,7 @@ run.login.get=尝试获取登录QQ信息...
 run.enum.register=额外事件{0}注册成功。
 run.enum.register.failed=额外事件{0}注册失败，将无法使用事件[{0}]
 
-run.login.bot.info.failed=账号信息验证失败: {0} -> {1}
+exception.robotRun.login.bot.info.failed=账号信息验证失败: {0} -> {1}
 
 run.login.info.code=QQ号：{0}
 run.login.info.nick=昵称：{0}
