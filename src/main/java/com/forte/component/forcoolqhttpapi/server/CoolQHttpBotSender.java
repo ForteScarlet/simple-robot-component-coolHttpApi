@@ -3,7 +3,6 @@ package com.forte.component.forcoolqhttpapi.server;
 import com.forte.qqrobot.beans.messages.ThisCodeAble;
 import com.forte.qqrobot.bot.BotInfo;
 import com.forte.qqrobot.bot.BotManager;
-import com.forte.qqrobot.sender.senderlist.BaseRootSenderList;
 
 /**
  *
@@ -12,7 +11,6 @@ import com.forte.qqrobot.sender.senderlist.BaseRootSenderList;
  * @author <a href="https://github.com/ForteScarlet"> ForteScarlet </a>
  */
 public class CoolQHttpBotSender extends CoolQHttpMsgSender {
-
 
     private ThisCodeAble thisCodeAble;
     private BotManager botManager;
@@ -33,8 +31,4 @@ public class CoolQHttpBotSender extends CoolQHttpMsgSender {
             return botManager.getBot(thisCode);
         }
     }
-
-
-
-
 }

@@ -14,14 +14,14 @@
     <artifactId>component-forcoolqhttpapi</artifactId>
 
     <!-- 版本号 下次部署大于0.8.0-BETA-1.8.0 2020/3/5 -->
-    <version>0.8.0-BETA-1.8.0</version>
+    <version>0.8.0-BETA-1.9</version>
 
     <!-- 依赖版本号 -->
     <properties>
         <!--　核心版本号　-->
 <!--        <core.version>1.6.3</core.version>-->
 <!--        <core.version>1.7.0</core.version>-->
-        <core.version>1.8.0</core.version>
+        <core.version>1.9.0</core.version>
         <!-- lombok -->
         <lombok.version>1.16.20</lombok.version>
     </properties>

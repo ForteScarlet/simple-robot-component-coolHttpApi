@@ -72,6 +72,7 @@ public class CoolQHttpInteractionException extends RobotRuntimeException {
         if(msg != null){
             sb.append("\r\nerror info:\t").append(msg);
         }
+
         sb.append("\r\n");
         return sb.toString();
     }

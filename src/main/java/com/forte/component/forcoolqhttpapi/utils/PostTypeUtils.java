@@ -1,5 +1,6 @@
 package com.forte.component.forcoolqhttpapi.utils;
 
+import com.forte.component.forcoolqhttpapi.beans.msg.BaseMsg;
 import com.forte.component.forcoolqhttpapi.beans.msg.MsgOn;
 import com.forte.component.forcoolqhttpapi.beans.msg.PostType;
 import com.forte.qqrobot.beans.messages.msgget.MsgGet;
@@ -20,7 +21,7 @@ public class PostTypeUtils {
      * @param collections
      * @return
      */
-    public static Map<PostType, Map<String, Class<? extends MsgGet>>> toTypeMap(Collection<Class<?>> collections){
+    public static Map<PostType, Map<String, Class<? extends MsgGet>>> toTypeMap(Collection<Class<? extends BaseMsg>> collections){
         // 过滤转化
         return collections.stream()
                 .filter(c -> c.getAnnotation(MsgOn.class) != null)

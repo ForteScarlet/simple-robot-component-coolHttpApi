@@ -4,13 +4,15 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.forte.component.forcoolqhttpapi.beans.msg.PostType;
 import com.forte.component.forcoolqhttpapi.utils.JSONDataUtil;
+import com.forte.qqrobot.MsgParser;
+import com.forte.qqrobot.MsgProcessor;
 import com.forte.qqrobot.ResourceDispatchCenter;
 import com.forte.qqrobot.beans.messages.msgget.MsgGet;
 import com.forte.qqrobot.beans.types.ResultSelectType;
 import com.forte.qqrobot.listener.invoker.ListenerManager;
 import com.forte.qqrobot.listener.result.ListenResult;
 import com.forte.qqrobot.log.QQLogLang;
-import com.forte.qqrobot.sender.senderlist.*;
+import com.forte.qqrobot.sender.senderlist.RootSenderList;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.apache.commons.io.IOUtils;
@@ -37,6 +39,7 @@ public class CoolQHttpHandler implements HttpHandler {
     protected QQLogLang getLog(){
         return LOG_LANG;
     }
+
     /** 编码格式 */
     private String encoding;
 
@@ -46,13 +49,13 @@ public class CoolQHttpHandler implements HttpHandler {
     /** 监听消息管理器 */
     private ListenerManager manager;
 
-    /** 送信器 */
-    private Function<MsgGet, RootSenderList> rootSenderList;
+//    /** 送信器 */
+//    private Function<MsgGet, RootSenderList> rootSenderList;
 
-    /**
-     * 根据postType类型和type类型来获取真正对应的MsgGet数据类型
-     */
-    private Map<PostType, Map<String, Class<? extends MsgGet>>> typeMap;
+//    /**
+//     * 根据postType类型和type类型来获取真正对应的MsgGet数据类型
+//     */
+//    private Map<PostType, Map<String, Class<? extends MsgGet>>> typeMap;
 
     /**
      * 用于判断请求类型是否正确的函数
@@ -66,30 +69,31 @@ public class CoolQHttpHandler implements HttpHandler {
     private static final String POST_TYPE_KEY_NAME = "post_type";
 
     /** 返回值结果的筛选方案 */
-    private final ResultSelectType resultSelectType ;
+//    private final ResultSelectType resultSelectType ;
 
+    /** 消息处理器 */
+    private final MsgProcessor processor;
+
+    /** 字符串消息解析器 */
+    private final MsgParser parser;
 
     /**
      * 构造，提供所需参数
      * @param encoding  编码格式，一般来讲就是固定为utf-8了
      * @param methods   请求方式，一般来讲就是post了
      * @param manager   监听消息管理器
-     * @param rootSenderList    送信器获取函数
-     * @param typeMap   所有监听中的posttype类型与根据值对应的封装类类型
      */
     public CoolQHttpHandler(String encoding,
                             String[] methods,
                             ListenerManager manager,
-                            Function<MsgGet, RootSenderList> rootSenderList,
-                            ResultSelectType resultSelectType,
-                            Map<PostType, Map<String, Class<? extends MsgGet>>> typeMap){
+                            MsgProcessor processor,
+                            MsgParser parser){
         this.encoding = encoding;
         this.methods = methods;
         this.manager = manager;
-        this.resultSelectType = resultSelectType;
-        this.typeMap = typeMap;
 
-        this.rootSenderList = rootSenderList;
+        this.processor = processor;
+        this.parser = parser;
 
         if(methods == null || methods.length == 0){
             // 如果参数中methods没东西或者为空，默认使用post类型
@@ -120,7 +124,6 @@ public class CoolQHttpHandler implements HttpHandler {
     public void handle(HttpExchange httpExchange) {
         //使用线程异步接收消息
         ResourceDispatchCenter.getThreadPool().execute(() -> doHandle(httpExchange));
-
     }
 
 
@@ -142,29 +145,27 @@ public class CoolQHttpHandler implements HttpHandler {
 
                 getLog().debug("onmessage", paramsUrl);
 
-                // 先转化为json格式
-                JSONObject paramsJSON = JSONObject.parseObject(paramsUrl);
+                // 转化为MsgGet
+                MsgGet msgGet = parser.parse(paramsUrl);
 
-                // 获取值
-                Class<? extends MsgGet> type = getTypeByPostType(typeMap, paramsJSON);
+//                // 先转化为json格式
+//                JSONObject paramsJSON = JSONObject.parseObject(paramsUrl);
+//
+//                // 获取值
+//                Class<? extends MsgGet> type = getTypeByPostType(typeMap, paramsJSON);
 
-                // 如果有对应的值，将JSON转化为携带原始数据的json
-                if(type != null){
-                    // 封装
-                    JSONObject json = JSONDataUtil.putObjOriginal(paramsJSON);
-                    MsgGet msgGet = JSONObject.toJavaObject(json, type);
+                // 如果有对应的结果集
 
-                    ListenResult[] results;
-
-                    // 消息处理
-                    if(msgGet != null){
-                        results = manager.onMsg(msgGet, rootSenderList.apply(msgGet));
-                    }else{
-                        results = new ListenResult[0];
-                    }
-
+                if(msgGet != null){
+//                    ListenResult[] results;
+                    ListenResult<?> result = processor.onMsgSelected(msgGet);
+//                    // 消息处理
+//                    if(msgGet != null){
+//                    }else{
+//                        results = new ListenResult[0];
+//                    }
                     // 过滤返回值结果
-                    ListenResult<?> result = resultSelectType.filter(results);
+//                    ListenResult<?> result = resultSelectType.filter(results);
 
                     // 响应数据
                     // 设置响应code和内容长度

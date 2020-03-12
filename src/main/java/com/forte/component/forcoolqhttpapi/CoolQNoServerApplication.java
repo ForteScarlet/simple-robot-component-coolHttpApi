@@ -5,6 +5,8 @@ import com.forte.component.forcoolqhttpapi.beans.msg.Lifecycle;
 import com.forte.component.forcoolqhttpapi.server.CoolQHttpMsgSender;
 import com.forte.plusutils.consoleplus.console.Colors;
 import com.forte.qqrobot.BaseApplication;
+import com.forte.qqrobot.MsgParser;
+import com.forte.qqrobot.MsgProcessor;
 import com.forte.qqrobot.anno.Version;
 import com.forte.qqrobot.beans.messages.msgget.MsgGet;
 import com.forte.qqrobot.beans.messages.result.LoginQQInfo;
@@ -16,6 +18,8 @@ import com.forte.qqrobot.listener.invoker.ListenerManager;
 import com.forte.qqrobot.listener.invoker.MsgReceiver;
 import com.forte.qqrobot.listener.result.ListenResult;
 import com.forte.qqrobot.log.QQLog;
+import com.forte.qqrobot.sender.MsgSender;
+import com.forte.qqrobot.sender.senderlist.RootSenderList;
 import com.forte.qqrobot.sender.senderlist.SenderGetList;
 import com.forte.qqrobot.sender.senderlist.SenderSendList;
 import com.forte.qqrobot.sender.senderlist.SenderSetList;
@@ -26,15 +30,16 @@ import java.util.Map;
 import java.util.function.Function;
 
 /**
- *
- * 无监听启动器
- * 核心1.7.0 - 1.8.0中暂未对此类做出适配, 因此暂时标记过时
- * @author ForteScarlet <[email]ForteScarlet@163.com>
- * @since JDK1.8
- * @deprecated 核心1.7.0 - 1.8.0中暂未对此类做出适配
+ * 无服务启动现在依赖于核心中的 {@code core.enableServer} 配置来控制
  **/
 @Deprecated
-public class CoolQNoServerApplication extends BaseApplication<CoolQNoServerConfiguration, CoolQHttpAPI> {
+public class CoolQNoServerApplication extends BaseApplication<
+        CoolQNoServerConfiguration,
+        CoolQHttpMsgSender,
+        CoolQHttpMsgSender,
+        CoolQHttpMsgSender,
+        CQHttpContext
+        > {
 
     /**
      * 送信器
@@ -101,19 +106,55 @@ public class CoolQNoServerApplication extends BaseApplication<CoolQNoServerConfi
         }
     }
 
+    /**
+     * 提供一个msgGet，将其转化为SendList
+     *
+     * @param msgGet     msgGet
+     * @param botManager
+     * @return {@link SenderSendList}
+     */
     @Override
-    protected SenderSendList getSender() {
-        return msgSender;
+    protected CoolQHttpMsgSender getSender(MsgGet msgGet, BotManager botManager) {
+        return null;
     }
 
+    /**
+     * 提供一个msgGet，将其转化为SetList
+     *
+     * @param msgGet     msgGet
+     * @param botManager
+     * @return {@link SenderSetList}
+     */
     @Override
-    protected SenderSetList getSetter() {
-        return msgSender;
+    protected CoolQHttpMsgSender getSetter(MsgGet msgGet, BotManager botManager) {
+        return null;
     }
 
+    /**
+     * 提供一个msgGet，将其转化为GetList
+     *
+     * @param msgGet     msgGet
+     * @param botManager
+     * @return {@link SenderGetList}
+     */
     @Override
-    protected SenderGetList getGetter() {
-        return msgSender;
+    protected CoolQHttpMsgSender getGetter(MsgGet msgGet, BotManager botManager) {
+        return null;
+    }
+
+    /**
+     * 获取一个组件专属的SimpleRobotContext对象
+     *
+     * @param defaultMsgSender 函数{@link #getDefaultSender(DependCenter, ListenerManager, BotManager)}的最终返回值
+     * @param manager          botManager对象
+     * @param msgParser        消息字符串转化函数
+     * @param processor        消息处理器
+     * @param dependCenter     依赖中心
+     * @return 组件的Context对象实例
+     */
+    @Override
+    protected CQHttpContext getComponentContext(MsgSender defaultMsgSender, BotManager manager, MsgParser msgParser, MsgProcessor processor, DependCenter dependCenter) {
+        return null;
     }
 
     /**
@@ -170,14 +211,53 @@ public class CoolQNoServerApplication extends BaseApplication<CoolQNoServerConfi
     }
 
     /**
+     * 获取一个不使用在监听函数中的默认送信器
+     *
+     * @param dependCenter 依赖中心
+     * @param manager      监听器管理中心
+     * @param botManager   bot管理中心
+     * @return
+     */
+    @Override
+    protected MsgSender getDefaultSender(DependCenter dependCenter, ListenerManager manager, BotManager botManager) {
+        return null;
+    }
+
+    /**
+     * 启动一个服务，这有可能是http或者是ws的监听服务
+     *
+     * @param dependCenter 依赖中心
+     * @param manager      监听管理器
+     * @param msgProcessor 送信解析器
+     * @param msgParser
+     * @return
+     */
+    @Override
+    protected String runServer(DependCenter dependCenter, ListenerManager manager, MsgProcessor msgProcessor, MsgParser msgParser) {
+        return null;
+    }
+
+    /**
+     * 字符串转化为MsgGet的方法，最终会被转化为{@link MsgParser}函数，
+     * 会作为参数传入{@link #runServer(DependCenter, ListenerManager, MsgProcessor, MsgParser)}, 也会封装进{@link SimpleRobotContext}中
+     *
+     * @param str
+     * @return
+     */
+    @Override
+    protected MsgGet msgParse(String str) {
+        return null;
+    }
+
+
+    /**
      * 开发者实现的启动方法
      * v1.1.2-BETA后返回值修改为String，意义为启动结束后打印“启动成功”的时候使用的名字
      * 例如，返回值为“server”，则会输出“server”启动成功
      *
      * @param manager 监听管理器，用于分配获取到的消息
      */
-    @Override
-    protected String start(DependCenter dependCenter, ListenerManager manager) {
+    protected String start2(DependCenter dependCenter, ListenerManager manager) {
         CoolQHttpConfiguration conf = getConf();
         // 由于不需要启动监听服务，所以直接获取QQ信息，并将manager转化为msgOn
         // 构建默认的Bot送信器

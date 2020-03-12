@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  *
  * 配置读取启动器接口
- *
+ * 1.8.x之后，如果不是需要自定义输入流，推荐使用注解配置
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/

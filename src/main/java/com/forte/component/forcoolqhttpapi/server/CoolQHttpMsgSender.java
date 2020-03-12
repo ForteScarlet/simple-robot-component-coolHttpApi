@@ -3,17 +3,13 @@ package com.forte.component.forcoolqhttpapi.server;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.forte.component.forcoolqhttpapi.CoolQHttpConfiguration;
 import com.forte.component.forcoolqhttpapi.CoolQHttpInteractionException;
-import com.forte.component.forcoolqhttpapi.CoolQHttpResourceDispatchCenter;
 import com.forte.component.forcoolqhttpapi.beans.get.*;
 import com.forte.component.forcoolqhttpapi.beans.msg.Anonymous;
 import com.forte.component.forcoolqhttpapi.beans.result.*;
 import com.forte.component.forcoolqhttpapi.beans.send.*;
 import com.forte.component.forcoolqhttpapi.beans.set.*;
-import com.forte.qqrobot.BotRuntime;
 import com.forte.qqrobot.beans.messages.QQCodeAble;
-import com.forte.qqrobot.beans.messages.ThisCodeAble;
 import com.forte.qqrobot.beans.messages.result.GroupList;
 import com.forte.qqrobot.beans.messages.result.GroupMemberList;
 import com.forte.qqrobot.beans.messages.result.StrangerInfo;
@@ -21,12 +17,11 @@ import com.forte.qqrobot.beans.messages.result.*;
 import com.forte.qqrobot.beans.messages.result.inner.GroupNote;
 import com.forte.qqrobot.beans.messages.types.GroupAddRequestType;
 import com.forte.qqrobot.bot.BotInfo;
-import com.forte.qqrobot.bot.BotManager;
 import com.forte.qqrobot.exception.RobotRuntimeException;
 import com.forte.qqrobot.log.QQLog;
+import com.forte.qqrobot.sender.HttpClientAble;
+import com.forte.qqrobot.sender.HttpClientHelper;
 import com.forte.qqrobot.sender.senderlist.BaseRootSenderList;
-import com.forte.qqrobot.utils.HttpClientUtil;
-import com.forte.qqrobot.utils.proxyhelper.JSONParameterCreatorHelper;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,6 +35,10 @@ import java.util.stream.Collectors;
  * @since JDK1.8
  **/
 public class CoolQHttpMsgSender extends BaseRootSenderList {
+
+    protected static HttpClientAble getHttp(){
+        return HttpClientHelper.getDefaultHttp();
+    }
 
     /**
      * 空的jsonObject，请不要对其内容进行任何修改
@@ -65,17 +64,15 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
 
     /**
-     * 请求接口，并返回原生返回值字符串
-     * @return 原生返回值字符串
+     * 请求接口，并返回原生值字符串
+     * @return 返回值原生字符串
      * @throws Exception 可能会出现请求返回值错误
      */
     private String getResultJson(String requestPath, String requestJson) throws Exception {
         //获取HTTP API请求地址参数
-//        CoolQHttpConfiguration httpConfiguration = CoolQHttpResourceDispatchCenter.getCoolQHttpConfiguration();
-//        String url = httpConfiguration.getRequestPath() + requestPath;
         String url = getBotInfo().getPath() + requestPath;
         //请求并返回响应数据
-        return HttpClientUtil.postJson(url, requestJson);
+        return getHttp().postJson(url, requestJson);
     }
 
     /**
@@ -424,10 +421,26 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     //**************** 发送消息 ****************//
 
+    public <T extends Send> boolean send(T send){
+        try {
+            String resultJson = getResultJson(send.getApi(), JSON.toJSONString(send));
+            // 判断请求是否获取成功
+            CoolQHttpInteractionException.requireNotFailed(JSONObject.parseObject(resultJson));
+            return true;
+        }catch (Exception e){
+            if(e instanceof CoolQHttpInteractionException){
+                throw (CoolQHttpInteractionException) e;
+            }else{
+                QQLog.error(e);
+            }
+            return false;
+        }
+    }
+
     /**
      * 发送消息
      */
-    public <T extends Send> boolean send(T send){
+    public <T extends Send> String sendAndId(T send){
         /*
             发送消息，一般存在两种返回值可能：
             1：返回消息ID
@@ -438,13 +451,21 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
         try {
             String resultJson = getResultJson(send.getApi(), JSON.toJSONString(send));
             // 判断请求是否获取成功
-            CoolQHttpInteractionException.requireNotFailed(JSONObject.parseObject(resultJson));
-            return true;
+            JSONObject baseData = JSONObject.parseObject(resultJson);
+            CoolQHttpInteractionException.requireNotFailed(baseData);
+            JSONObject data = baseData.getJSONObject("data");
+            if(data != null){
+                return data.getString("message_id");
+            }else{
+                return null;
+            }
         }catch (Exception e){
             if(e instanceof CoolQHttpInteractionException){
                 throw (CoolQHttpInteractionException) e;
+            }else{
+                QQLog.error(e);
             }
-            return false;
+            return null;
         }
     }
 
@@ -455,9 +476,9 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
      * @param msg   消息正文
      */
     @Override
-    public boolean sendDiscussMsg(String group, String msg) {
+    public String sendDiscussMsg(String group, String msg) {
         // 默认解析CQ码
-        return send(new SendDiscussMsg(group, msg));
+        return sendAndId(new SendDiscussMsg(group, msg));
     }
 
     /**
@@ -466,8 +487,8 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
      * @param msg        消息正文
      * @param autoEscape 是否自动解码CQ码
      */
-    public boolean sendDiscussMsg(String group, String msg, boolean autoEscape){
-        return send(new SendDiscussMsg(group, msg, autoEscape));
+    public String sendDiscussMsg(String group, String msg, boolean autoEscape){
+        return sendAndId(new SendDiscussMsg(group, msg, autoEscape));
     }
 
     /**
@@ -477,8 +498,8 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
      * @return
      */
     @Override
-    public boolean sendGroupMsg(String group, String msg) {
-        return send(new SendGroupMsg(group, msg));
+    public String sendGroupMsg(String group, String msg) {
+        return sendAndId(new SendGroupMsg(group, msg));
     }
 
     /**
@@ -488,8 +509,8 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
      * @param autoEscape 是否自动解码CQ码
      * @return
      */
-    public boolean sendGroupMsg(String group, String msg, boolean autoEscape) {
-        return send(new SendGroupMsg(group, msg, autoEscape));
+    public String sendGroupMsg(String group, String msg, boolean autoEscape) {
+        return sendAndId(new SendGroupMsg(group, msg, autoEscape));
     }
 
     /**
@@ -498,8 +519,8 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
      * @param msg   正文消息
      */
     @Override
-    public boolean sendPrivateMsg(String QQ, String msg) {
-        return send(new SendPrivateMsg(QQ, msg));
+    public String sendPrivateMsg(String QQ, String msg) {
+        return sendAndId(new SendPrivateMsg(QQ, msg));
     }
 
     /**
@@ -508,8 +529,8 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
      * @param msg   正文消息
      * @param autoEscape CQ码自动转码
      */
-    public boolean sendPrivateMsg(String QQ, String msg, boolean autoEscape) {
-        return send(new SendPrivateMsg(QQ, msg, autoEscape));
+    public String sendPrivateMsg(String QQ, String msg, boolean autoEscape) {
+        return sendAndId(new SendPrivateMsg(QQ, msg, autoEscape));
     }
 
     /**

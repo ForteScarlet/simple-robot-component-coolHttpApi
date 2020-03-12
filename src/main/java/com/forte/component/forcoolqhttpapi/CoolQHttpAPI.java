@@ -3,13 +3,9 @@ package com.forte.component.forcoolqhttpapi;
 import com.forte.component.forcoolqhttpapi.server.CoolQHttpMsgSender;
 
 /**
- *
- * 保存特殊API
- * 将不会对公提供构造和setter方法
- *
- * @author ForteScarlet <[email]ForteScarlet@163.com>
- * @since JDK1.8
+ * 弃用
  **/
+@Deprecated
 public class CoolQHttpAPI {
 
     /** 真正的CoolQMsgSender */
