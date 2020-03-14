@@ -5,7 +5,13 @@ import com.forte.component.forcoolqhttpapi.CoolQHttpApplication;
 import com.forte.qqrobot.ConfigurationProperty;
 import com.forte.qqrobot.SimpleRobotApplication;
 import com.forte.qqrobot.SimpleRobotConfiguration;
+import com.forte.qqrobot.beans.types.KeywordMatchType;
 import com.forte.qqrobot.bot.BotSender;
+import com.forte.qqrobot.exception.EnumInstantiationException;
+import com.forte.qqrobot.exception.EnumInstantiationRequireException;
+import com.forte.qqrobot.factory.KeywordMatchTypeFactory;
+
+import java.util.regex.Pattern;
 
 /**
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -20,17 +26,10 @@ import com.forte.qqrobot.bot.BotSender;
 })
 public class Test1 {
 
-    public static void main(String[] args) {
-        // http://127.0.0.1:5700
-        CoolQHttpApplication application = new CoolQHttpApplication();
-        // 启动...
-        CQHttpContext context = application.run(Test1.class, args);
+    public static void main(String[] args)  {
+        final CQHttpContext run = new CoolQHttpApplication().run(Test1.class, args);
 
-        final BotSender sender = context.getBotManager().defaultBot().getSender();
 
-        sender.SENDER.sendPrivateMsg("1149159218", "转瞬即逝..");
-
-        System.exit(-1);
 
     }
 }

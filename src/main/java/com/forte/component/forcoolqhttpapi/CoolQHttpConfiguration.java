@@ -2,6 +2,7 @@ package com.forte.component.forcoolqhttpapi;
 
 import com.forte.config.Conf;
 import com.forte.qqrobot.BaseConfiguration;
+import com.forte.qqrobot.log.QQLog;
 
 /**
  * CoolQ HTTP API 对接组件 配置类
@@ -24,7 +25,7 @@ public class CoolQHttpConfiguration extends BaseConfiguration<CoolQHttpConfigura
     private int javaPort = 15514;
 
     /**
-     * 酷Q端插件的端口，默认5700（插件默认就是5700）
+     * @see #registerBot(String)
      */
     @Conf("cqhttp.serverPort")
     @Deprecated
@@ -44,7 +45,7 @@ public class CoolQHttpConfiguration extends BaseConfiguration<CoolQHttpConfigura
      * 接收的请求方式，默认为 post
      */
     @Conf("cqhttp.method")
-        private String[] method = {"post"};
+    private String[] method = {"post"};
 
 
     /*
@@ -79,6 +80,7 @@ public class CoolQHttpConfiguration extends BaseConfiguration<CoolQHttpConfigura
      */
     @Deprecated
     public CoolQHttpConfiguration setServerPort(int serverPort) {
+        QQLog.error("{0}", "setPort参数已经被弃用!");
         this.serverPort = serverPort;
         return this;
     }

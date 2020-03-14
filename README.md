@@ -12,6 +12,10 @@
 
 <br>
 
+- ## 入门级项目搭建视频教程： [av96117517](https://www.bilibili.com/video/av96117517)
+网址：[https://www.bilibili.com/video/av96117517](https://www.bilibili.com/video/av96117517)
+
+<iframe src="//player.bilibili.com/player.html?aid=96117517&cid=164081604&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" height=600 width=700> </iframe>
 
 ## 一、**安装**
 
