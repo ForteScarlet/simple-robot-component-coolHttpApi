@@ -49,14 +49,6 @@ public class CoolQHttpHandler implements HttpHandler {
     /** 监听消息管理器 */
     private ListenerManager manager;
 
-//    /** 送信器 */
-//    private Function<MsgGet, RootSenderList> rootSenderList;
-
-//    /**
-//     * 根据postType类型和type类型来获取真正对应的MsgGet数据类型
-//     */
-//    private Map<PostType, Map<String, Class<? extends MsgGet>>> typeMap;
-
     /**
      * 用于判断请求类型是否正确的函数
      */
@@ -67,9 +59,6 @@ public class CoolQHttpHandler implements HttpHandler {
 
     /** post_type 的键的值 */
     private static final String POST_TYPE_KEY_NAME = "post_type";
-
-    /** 返回值结果的筛选方案 */
-//    private final ResultSelectType resultSelectType ;
 
     /** 消息处理器 */
     private final MsgProcessor processor;
@@ -114,7 +103,6 @@ public class CoolQHttpHandler implements HttpHandler {
                 }
                 return false;
             };
-
         }
 
 
@@ -148,25 +136,8 @@ public class CoolQHttpHandler implements HttpHandler {
                 // 转化为MsgGet
                 MsgGet msgGet = parser.parse(paramsUrl);
 
-//                // 先转化为json格式
-//                JSONObject paramsJSON = JSONObject.parseObject(paramsUrl);
-//
-//                // 获取值
-//                Class<? extends MsgGet> type = getTypeByPostType(typeMap, paramsJSON);
-
-                // 如果有对应的结果集
-
                 if(msgGet != null){
-//                    ListenResult[] results;
                     ListenResult<?> result = processor.onMsgSelected(msgGet);
-//                    // 消息处理
-//                    if(msgGet != null){
-//                    }else{
-//                        results = new ListenResult[0];
-//                    }
-                    // 过滤返回值结果
-//                    ListenResult<?> result = resultSelectType.filter(results);
-
                     // 响应数据
                     // 设置响应code和内容长度
                     httpExchange.sendResponseHeaders(200, 0);

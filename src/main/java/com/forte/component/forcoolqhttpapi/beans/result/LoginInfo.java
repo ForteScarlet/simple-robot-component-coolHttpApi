@@ -50,7 +50,6 @@ public class LoginInfo extends AbstractInfoResult implements com.forte.qqrobot.b
             headUrl = user_id == null ? null : "http://q.qlogo.cn/headimg_dl?dst_uin="+ user_id +"&spec=640";
         }
         return headUrl;
-
     }
 
     /**

@@ -78,7 +78,7 @@ public class QQFriendList implements FriendList, Result {
                 try {
                     Arrays.sort(friends);
                 }catch (Exception e){
-                    QQLog.debug("cq.httpapi.qq.friendlist.sort.failed" + e.getMessage());
+                    QQLog.debug("cq.httpapi.qq.friendlist.sort.failed", e.getLocalizedMessage());
                 }
                 for (QQFriends fs : friends) {
                     realFriendList.merge(

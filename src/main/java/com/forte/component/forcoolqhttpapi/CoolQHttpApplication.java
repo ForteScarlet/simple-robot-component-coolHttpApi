@@ -112,7 +112,7 @@ public class CoolQHttpApplication extends BaseApplication<
         try {
             loginInfo = this.getLoginInfo(info);
         } catch (RobotRunException e) {
-            throw new BotVerifyException("failed", code, e.getMessage(), e);
+            throw new BotVerifyException("failed", e, code == null ? "" : code, e.getLocalizedMessage());
         }
         // code不为null，验证code是否匹配
         if (code != null) {
@@ -436,9 +436,32 @@ public class CoolQHttpApplication extends BaseApplication<
         // 构建送信器
         CoolQHttpMsgSender coolQHttpMsgSender = new CoolQHttpMsgSender(botInfo);
         // 尝试获取登录信息
-        LoginInfo loginInfo = coolQHttpMsgSender.getLoginQQInfo();
+        LoginInfo loginInfo;
+        final String botCode = botInfo.getBotCode();
+        final String path = botInfo.getPath();
+        int time = 0;
+        int timeMax = 3;
+        // 初始等待
+        long sleep = 1000;
+        // 增长量
+        long sleepUpper = 1000;
+        do{
+            if(time > 0){
+                // 无法请求账号{0}的上报路径{1}, 等待{2}s后重试{3}/{4}
+                getLog().debug("login.retry", botCode == null ? "" : botCode, path, sleep / 1000, time, timeMax);
+                try {
+                    // wait...
+                    Thread.sleep(sleep);
+                    sleep += 1000;
+                } catch (InterruptedException ignored) { }
+            }
+            loginInfo = coolQHttpMsgSender.getLoginQQInfo();
+            time++;
+            // 重试三次
+        }while (loginInfo == null && time < timeMax);
         if (loginInfo == null) {
-            throw new RobotRunException("login.bot.info.failed", botInfo.getBotCode(), botInfo.getPath());
+            final String nopath = Language.format("login.bot.info.failed.why.nopath");
+            throw new RobotRunException("login.bot.info.failed", nopath, botInfo.getBotCode() == null ? "unknown" : botInfo.getBotCode(), botInfo.getPath());
         }
         // 验证后的botInfo
         return new BotInfoImpl(loginInfo.getCode(), botInfo.getPath(), loginInfo, new BotSender(coolQHttpMsgSender));

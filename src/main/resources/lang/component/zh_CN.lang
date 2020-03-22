@@ -8,7 +8,10 @@ run.login.get=尝试获取登录QQ信息...
 run.enum.register=额外事件{0}注册成功。
 run.enum.register.failed=额外事件{0}注册失败，将无法使用事件[{0}]
 
-exception.robotRun.login.bot.info.failed=账号信息验证失败: {0} -> {1}
+exception.robotRun.login.bot.info.failed=账号信息验证失败: {0}; 账号：{1} 上报地址：{2}
+login.bot.info.failed.why.nopath=上报地址访问失败
+
+run.login.retry=无法请求账号{0}的上报路径{1}, 等待{2}s后重试{3}/{4}
 
 run.login.info.code=QQ号：{0}
 run.login.info.nick=昵称：{0}
@@ -30,4 +33,4 @@ cq.httpapi.handler.factory.unknownType=未知的post_type类型: {0}
 cq.httpapi.sender.send.failed=送信失败！
 
 # 其他的一些
-cq.httpapi.qq.friendlist.sort.failed=好友数组排序异常, 错误已忽略。信息:
+cq.httpapi.qq.friendlist.sort.failed=好友数组排序异常, 错误已忽略。信息: {0}

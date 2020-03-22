@@ -8,7 +8,11 @@ run.login.get=Try to get login QQ information ...
 run.enum.register=Extra event {0} registered successfully.
 run.enum.register.failed=Extra event {0} failed to register, event [{0}] will not be available
 
-exception.robotRun.login.bot.info.failed=bot information verification failed: {0} -> {1}
+exception.robotRun.login.bot.info.failed=bot information verification failed: {0}; code: {1} path: {2}
+login.bot.info.failed.why.nopath=path request failed
+
+run.login.retry=Unable to request the report path {1} for account {0}, wait {2} s and try again {3}/{4}
+
 
 run.login.info.code=QQ Code:  {0}
 run.login.info.nick=Nickname: {0}
@@ -30,4 +34,4 @@ cq.httpapi.handler.factory.unknownType=Unknown post_type type: {0}
 cq.httpapi.sender.send.failed=Delivery failed!
 
 # 其他的一些
-cq.httpapi.qq.friendlist.sort.failed=The friend array is sorted abnormally, the error has been ignored. information:
+cq.httpapi.qq.friendlist.sort.failed=The friend array is sorted abnormally, the error has been ignored. information: {0}

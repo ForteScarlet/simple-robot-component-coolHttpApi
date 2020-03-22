@@ -3,6 +3,7 @@ package com.forte.component.forcoolqhttpapi;
 import com.forte.component.forcoolqhttpapi.beans.msg.Heartbeat;
 import com.forte.component.forcoolqhttpapi.beans.msg.Lifecycle;
 import com.forte.component.forcoolqhttpapi.server.CoolQHttpMsgSender;
+import com.forte.lang.Language;
 import com.forte.plusutils.consoleplus.console.Colors;
 import com.forte.qqrobot.BaseApplication;
 import com.forte.qqrobot.MsgParser;
@@ -172,7 +173,7 @@ public class CoolQNoServerApplication extends BaseApplication<
         try {
             loginInfo = this.getLoginInfo(info);
         }catch (RobotRunException e){
-            throw new BotVerifyException("failed", code, e.getMessage(), e);
+            throw new BotVerifyException("failed", e, code, e.getLocalizedMessage());
         }
         // code不为null，验证code是否匹配
         if(code != null){
@@ -196,7 +197,8 @@ public class CoolQNoServerApplication extends BaseApplication<
         // 尝试获取登录信息
         LoginInfo loginInfo = coolQHttpMsgSender.getLoginQQInfo();
         if(loginInfo == null){
-            throw new RobotRunException("login.bot.info.failed", botInfo.getBotCode(), botInfo.getPath());
+            final String nopath = Language.format("login.bot.info.failed.why.nopath");
+            throw new RobotRunException("login.bot.info.failed", nopath, botInfo.getBotCode(), botInfo.getPath());
         }
         // 验证后的botInfo
         BotInfo verifyBot = new BotInfoImpl(loginInfo.getCode(), botInfo.getPath(), loginInfo, new BotSender(coolQHttpMsgSender));
