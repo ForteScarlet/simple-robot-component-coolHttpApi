@@ -119,7 +119,6 @@ public class CoolQHttpHandler implements HttpHandler {
      * 新线程中进行操作
      */
     public void doHandle(HttpExchange httpExchange){
-
         try {
             //获得表单提交数据
             //判断请求方式

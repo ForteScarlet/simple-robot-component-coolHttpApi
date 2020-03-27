@@ -8,6 +8,8 @@ import com.forte.qqrobot.ConfigurationProperty;
 import com.forte.qqrobot.SimpleRobotApplication;
 import com.forte.qqrobot.SimpleRobotConfiguration;
 import com.forte.qqrobot.beans.messages.result.FriendList;
+import com.forte.qqrobot.beans.messages.result.GroupMemberInfo;
+import com.forte.qqrobot.bot.BotSender;
 import com.forte.qqrobot.factory.MsgGetTypeFactory;
 import com.forte.qqrobot.log.QQLog;
 import com.forte.qqrobot.log.QQLogBack;
@@ -22,7 +24,7 @@ import com.forte.qqrobot.log.QQLogBack;
         /*
             一些测试用的配置
          */
-        @ConfigurationProperty(key = "core.bots", value = ":http://127.0.0.1:5701"),
+        @ConfigurationProperty(key = "core.bots", value = ":http://47.100.38.59:8877"),
         @ConfigurationProperty(key = "cqhttp.serverPath", value = "/coolq/listen"),
         @ConfigurationProperty(key = "cqhttp.javaPort", value = "8877"),
         @ConfigurationProperty(key = "core.checkVersion", value = "false"),
@@ -43,5 +45,10 @@ public class Test1 {
         final CQHttpContext run = new CoolQHttpApplication().run(Test1.class, args);
 
 
+        final BotSender sender = run.getBotManager().defaultBot().getSender();
+
+        final GroupMemberInfo groupMemberInfo = sender.GETTER.getGroupMemberInfo("782930037", "1149159218");
+
+        System.out.println(groupMemberInfo.getPowerType());
     }
 }
