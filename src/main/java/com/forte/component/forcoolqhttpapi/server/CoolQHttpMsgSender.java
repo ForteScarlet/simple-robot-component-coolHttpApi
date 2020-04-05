@@ -384,10 +384,12 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
     public com.forte.qqrobot.bot.LoginInfo getLoginQQInfo() {
         LoginInfo loginInfo = get(new GetLoginInfo()).orElse(null);
         if (loginInfo != null) {
-            QQVipInfo vipInfo = getVipInfo(loginInfo.getUser_id());
-            if (vipInfo != null) {
-                loginInfo.setLevel(vipInfo.getLevel());
-            }
+            try {
+                QQVipInfo vipInfo = getVipInfo(loginInfo.getUser_id());
+                if (vipInfo != null) {
+                    loginInfo.setLevel(vipInfo.getLevel());
+                }
+            }catch (CoolQHttpInteractionException ignored){ }
             return loginInfo;
         } else {
             return null;
