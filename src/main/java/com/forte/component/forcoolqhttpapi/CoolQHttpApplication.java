@@ -1,10 +1,11 @@
 package com.forte.component.forcoolqhttpapi;
 
 import com.alibaba.fastjson.JSONObject;
-import com.forte.component.forcoolqhttpapi.beans.msg.*;
+import com.forte.component.forcoolqhttpapi.beans.msg.Heartbeat;
+import com.forte.component.forcoolqhttpapi.beans.msg.Lifecycle;
+import com.forte.component.forcoolqhttpapi.beans.msg.PostType;
 import com.forte.component.forcoolqhttpapi.server.*;
 import com.forte.component.forcoolqhttpapi.utils.JSONDataUtil;
-import com.forte.component.forcoolqhttpapi.utils.PostTypeUtils;
 import com.forte.lang.Language;
 import com.forte.plusutils.consoleplus.console.Colors;
 import com.forte.qqrobot.*;
@@ -12,12 +13,13 @@ import com.forte.qqrobot.beans.messages.msgget.MsgGet;
 import com.forte.qqrobot.beans.messages.result.LoginQQInfo;
 import com.forte.qqrobot.bot.*;
 import com.forte.qqrobot.depend.DependCenter;
-import com.forte.qqrobot.exception.*;
+import com.forte.qqrobot.exception.BotVerifyException;
+import com.forte.qqrobot.exception.EnumInstantiationException;
+import com.forte.qqrobot.exception.EnumInstantiationRequireException;
+import com.forte.qqrobot.exception.RobotRunException;
 import com.forte.qqrobot.factory.MsgGetTypeFactory;
 import com.forte.qqrobot.listener.invoker.ListenerManager;
-import com.forte.qqrobot.log.QQLog;
 import com.forte.qqrobot.log.QQLogBack;
-import com.forte.qqrobot.scanner.FileScanner;
 import com.forte.qqrobot.sender.MsgSender;
 import com.forte.qqrobot.sender.senderlist.RootSenderList;
 import com.forte.qqrobot.sender.senderlist.SenderGetList;
@@ -28,9 +30,7 @@ import org.apache.commons.collections.map.SingletonMap;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Function;
 
 /**
@@ -338,6 +338,7 @@ public class CoolQHttpApplication extends BaseApplication<
      * @param manager 监听管理器，用于分配获取到的消息
      */
 //    @Override
+    @Deprecated
     protected String start2(DependCenter dependCenter, ListenerManager manager) {
         CoolQHttpConfiguration conf = getConf();
 

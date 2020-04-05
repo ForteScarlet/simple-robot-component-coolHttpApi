@@ -3,7 +3,6 @@ package com.forte.component.forcoolqhttpapi;
 import com.forte.component.forcoolqhttpapi.beans.msg.BaseMsg;
 import com.forte.component.forcoolqhttpapi.beans.msg.MsgOn;
 import com.forte.component.forcoolqhttpapi.beans.msg.PostType;
-import com.forte.component.forcoolqhttpapi.server.CoolQHttpHandlerFactory;
 import com.forte.component.forcoolqhttpapi.utils.PostTypeUtils;
 import com.forte.qqrobot.beans.messages.msgget.MsgGet;
 import com.forte.qqrobot.scanner.FileScanner;

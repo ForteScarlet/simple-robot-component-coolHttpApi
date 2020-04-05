@@ -1,6 +1,5 @@
 package com.forte.component.forcoolqhttpapi.beans.result;
 
-import com.forte.qqrobot.beans.messages.result.AbstractInfoResult;
 import com.forte.qqrobot.beans.messages.types.SexType;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,13 +1,10 @@
 package com.forte.component.forcoolqhttpapi.beans.msg;
 
-import com.forte.qqrobot.beans.messages.msgget.GroupMemberIncrease;
 import com.forte.qqrobot.beans.messages.msgget.GroupMemberReduce;
 import com.forte.qqrobot.beans.messages.types.ReduceType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.UUID;
 
 /**
  *

@@ -13,6 +13,8 @@ login.bot.info.failed.why.nopath=上报地址访问失败
 
 run.login.retry=无法请求账号{0}的上报路径{1}, 等待{2}s后重试{3}/{4}
 
+run.server.name=CQ HTTP组件 监听服务器
+
 run.login.info.code=QQ号：{0}
 run.login.info.nick=昵称：{0}
 run.login.info.level=等级：{0}

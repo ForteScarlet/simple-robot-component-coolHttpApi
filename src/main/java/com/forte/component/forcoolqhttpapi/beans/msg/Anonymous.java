@@ -1,7 +1,6 @@
 package com.forte.component.forcoolqhttpapi.beans.msg;
 
 import com.forte.qqrobot.beans.messages.FlagAble;
-import com.forte.qqrobot.beans.messages.result.AbstractAnonInfo;
 import lombok.Getter;
 import lombok.Setter;
 

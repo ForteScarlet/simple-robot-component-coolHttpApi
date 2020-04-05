@@ -1,7 +1,6 @@
 package com.forte.component.forcoolqhttpapi.beans.result;
 
 import com.forte.qqrobot.beans.messages.result.GroupInfo;
-import com.forte.qqrobot.beans.messages.result.inner.GroupMember;
 import com.forte.qqrobot.beans.messages.types.PowerType;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +8,6 @@ import lombok.ToString;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Map;
 
 /**

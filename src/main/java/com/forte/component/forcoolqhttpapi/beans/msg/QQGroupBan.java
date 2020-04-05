@@ -1,7 +1,6 @@
 package com.forte.component.forcoolqhttpapi.beans.msg;
 
 import com.forte.qqrobot.beans.messages.msgget.GroupBan;
-import com.forte.qqrobot.beans.messages.types.GroupBanType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,7 +17,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @MsgOn(type = PostType.notice, messageType = QQGroupBan.NOTICE_TYPE)
-public class QQGroupBan extends BaseMsg  implements GroupBan {
+public class QQGroupBan extends BaseMsg implements GroupBan {
     /*
         字段名	数据类型	可能的值	说明
         post_type	string	notice	上报类型

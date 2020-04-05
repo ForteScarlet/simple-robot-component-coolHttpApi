@@ -1,6 +1,9 @@
 package com.forte.component.forcoolqhttpapi.beans.set;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  *

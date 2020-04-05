@@ -18,7 +18,6 @@ import com.forte.qqrobot.beans.messages.result.inner.GroupNote;
 import com.forte.qqrobot.beans.messages.types.GroupAddRequestType;
 import com.forte.qqrobot.bot.BotInfo;
 import com.forte.qqrobot.exception.RobotRuntimeException;
-import com.forte.qqrobot.log.QQLog;
 import com.forte.qqrobot.sender.HttpClientAble;
 import com.forte.qqrobot.sender.HttpClientHelper;
 import com.forte.qqrobot.sender.senderlist.BaseRootSenderList;
@@ -36,7 +35,7 @@ import java.util.stream.Collectors;
  **/
 public class CoolQHttpMsgSender extends BaseRootSenderList {
 
-    protected static HttpClientAble getHttp(){
+    protected static HttpClientAble getHttp() {
         return HttpClientHelper.getDefaultHttp();
     }
 
@@ -50,7 +49,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
      */
     private BotInfo botInfo;
 
-    protected BotInfo getBotInfo(){
+    protected BotInfo getBotInfo() {
         return botInfo;
     }
 
@@ -65,10 +64,11 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     /**
      * 请求接口，并返回原生值字符串
+     *
      * @return 返回值原生字符串
      * @throws Exception 可能会出现请求返回值错误
      */
-    private String getResultJson(String requestPath, String requestJson) throws Exception {
+    private String getResultJson(String requestPath, String requestJson) {
         //获取HTTP API请求地址参数
         String url = getBotInfo().getPath() + requestPath;
         //请求并返回响应数据
@@ -77,10 +77,11 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     /**
      * 发送并获取返回值
-     * @param requestPath   请求API地址
-     * @param requestJson   请求参数JSON格式
-     * @param resultType    返回值类型
-     * @return  返回值封装类
+     *
+     * @param requestPath 请求API地址
+     * @param requestJson 请求参数JSON格式
+     * @param resultType  返回值类型
+     * @return 返回值封装类
      */
     public <T extends InfoResult> Optional<T> get(String requestPath, String requestJson, Class<T> resultType) {
         return get(requestPath, requestJson, res -> {
@@ -92,56 +93,53 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
             // 获取data数据, 并置入原始数据字符串
             Object jsonData = baseData.get("data");
-            if(jsonData instanceof JSONObject){
+            if (jsonData instanceof JSONObject) {
                 // 如果是object类型
                 ((JSONObject) jsonData).put("originalData", res);
                 return ((JSONObject) jsonData).toJavaObject(resultType);
-            }else if(jsonData instanceof JSONArray){
+            } else if (jsonData instanceof JSONArray) {
                 // 是数组类型, 将数组放在list字段中并增加originalData字段
                 JSONObject newJsonData = new JSONObject(2);
                 newJsonData.put("list", jsonData);
                 newJsonData.put("originalData", res);
                 return newJsonData.toJavaObject(resultType);
-            }else if(jsonData == null){
+            } else if (jsonData == null) {
                 // 如果是null，说明没有返回值，赋值为空值
                 return JSON.toJavaObject(EMPTY_JSON, resultType);
-            }else{
+            } else {
                 // 既不是object也不是array， 那能是啥？字符串么？
                 // 先抛个异常吧/
-                throw new RobotRuntimeException("无法解析json: " + res);
+                throw new CoolQHttpInteractionException("cannot parse json: " + res);
             }
         });
     }
 
 
-    public <T extends Result> Optional<T> get(Get<T> get){
-            return get(get.getApi(), get.toJSON(), get.getResultType());
+    public <T extends Result> Optional<T> get(Get<T> get) {
+        return get(get.getApi(), get.toJSON(), get.getResultType());
     }
 
     /**
      * 发送并获取返回值
-     * @param requestPath   请求API地址
-     * @param requestJson   请求参数JSON格式
-     * @param resultGetter  返回值封装类获取函数，参数为请求接口返回的响应字符串
-     * @return  返回值封装类
+     *
+     * @param requestPath  请求API地址
+     * @param requestJson  请求参数JSON格式
+     * @param resultGetter 返回值封装类获取函数，参数为请求接口返回的响应字符串
+     * @return 返回值封装类
      */
     public <T extends InfoResult> Optional<T> get(String requestPath, String requestJson, Function<String, T> resultGetter) {
-        try {
-            //转化为bean对象，并做防止空指针的处理
-            String resultJson = getResultJson(requestPath, requestJson);
-            return Optional.ofNullable(resultJson).map(resultGetter);
-        } catch (Exception e) {
-            QQLog.error("cq.httpapi.sender.send.failed", e);
-            return Optional.empty();
-        }
+        //转化为bean对象，并做防止空指针的处理
+        String resultJson = getResultJson(requestPath, requestJson);
+        return Optional.ofNullable(resultJson).map(resultGetter);
 
     }
 
     /**
      * 获取cookies信息
+     *
      * @return cookies
      */
-    public QQCookies getCookies(){
+    public QQCookies getCookies() {
         GetCookies in = new GetCookies();
         return get(in.getApi(), JSON.toJSONString(in), in.getResultType()).orElse(null);
     }
@@ -149,15 +147,17 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     /**
      * 获取csrfToken信息
+     *
      * @return csrfToken
      */
-    public QQCsrfToken getCsrfToken(){
+    public QQCsrfToken getCsrfToken() {
         GetCsrfToken csrfToken = new GetCsrfToken();
         return get(csrfToken.getApi(), JSON.toJSONString(csrfToken), csrfToken.getResultType()).orElse(null);
     }
 
     /**
      * 权限信息，其中包含获取Cookie信息和CsrfToken
+     *
      * @return
      */
     @Override
@@ -185,6 +185,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     /**
      * 获取好友列表
+     *
      * @return 好友列表
      */
     @Override
@@ -236,8 +237,6 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
     }
 
 
-
-
     /**
      * 不支持的API
      */
@@ -248,9 +247,10 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     /**
      * 获取群信息
+     *
      * @param group 群号
      * @param cache 是否开启缓存
-     * @return  群信息
+     * @return 群信息
      */
     @Override
     public GroupInfo getGroupInfo(String group, boolean cache) {
@@ -275,10 +275,11 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     /**
      * 获取群成员信息
+     *
      * @param group 群号
      * @param QQ    QQ号
      * @param cache 是否缓存
-     * @return  群成员详细信息
+     * @return 群成员详细信息
      */
     @Override
     public GroupMemberInfo getGroupMemberInfo(String group, String QQ, boolean cache) {
@@ -287,6 +288,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     /**
      * 获取群成员列表
+     *
      * @param group
      * @return
      */
@@ -298,7 +300,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
 
     @Override
-    public GroupNoteList getGroupNoteList(String group){
+    public GroupNoteList getGroupNoteList(String group) {
         // 默认使用-1，效率更高
         return getGroupNoteList(group, -1);
     }
@@ -306,8 +308,9 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
     /**
      * 取群公告列表.
      * 参数number对于cqhttpapi来说是不存在的，所以假如大于0，则会通过代码进行截取。
-     * @param group     群号
-     * @param number    截取数量( 无效参数 ), 如果大于0则截取
+     *
+     * @param group  群号
+     * @param number 截取数量( 无效参数 ), 如果大于0则截取
      */
     @Override
     public GroupNoteList getGroupNoteList(String group, @Deprecated int number) {
@@ -321,7 +324,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
             GroupNoticeList groupNotesList = new GroupNoticeList();
             JSONArray jsonArray = baseData.getJSONArray("data");
             GroupNoticeList.GroupNotice[] array;
-            if(number > 0){
+            if (number > 0) {
                 // 截断并转化为List
                 List<Object> list = jsonArray.stream().limit(number).peek(o -> {
                     if (o instanceof JSONObject) {
@@ -331,11 +334,11 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
                 }).collect(Collectors.toList());
                 // 赋值
                 array = JSONArray.parseArray(JSON.toJSONString(list), GroupNoticeList.GroupNotice.class).toArray(new GroupNoticeList.GroupNotice[0]);
-            }else{
+            } else {
                 // 截断数值小于1，认为不需要截断，直接转化
                 // 相对于大于1时候的频繁转化，小于1的时候不会截断，效率相对更高
                 jsonArray.forEach(o -> {
-                    if(o instanceof JSONObject){
+                    if (o instanceof JSONObject) {
                         // 添加原生数据值
                         ((JSONObject) o).put("originalData", ((JSON) o).toJSONString());
                     }
@@ -353,8 +356,9 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     /**
      * 不存在此API，因此调用{@link #getGroupNoteList(String, int)}并获取第一个
+     *
      * @param group 群号
-     * @return  返回值
+     * @return 返回值
      */
     @Override
     public GroupTopNote getGroupTopNote(String group) {
@@ -379,26 +383,27 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
     @Override
     public com.forte.qqrobot.bot.LoginInfo getLoginQQInfo() {
         LoginInfo loginInfo = get(new GetLoginInfo()).orElse(null);
-        if(loginInfo != null){
+        if (loginInfo != null) {
             QQVipInfo vipInfo = getVipInfo(loginInfo.getUser_id());
-            if(vipInfo != null){
+            if (vipInfo != null) {
                 loginInfo.setLevel(vipInfo.getLevel());
             }
             return loginInfo;
-        }else{
+        } else {
             return null;
         }
     }
 
     /**
      * 获取用户Vip信息
+     *
      * @param code QQ号
      */
-    public QQVipInfo getVipInfo(String code){
+    public QQVipInfo getVipInfo(String code) {
         return get(new GetVipInfo(code)).orElse(null);
     }
 
-    public QQVipInfo getVipInfo(QQCodeAble codeAble){
+    public QQVipInfo getVipInfo(QQCodeAble codeAble) {
         return getVipInfo(codeAble.getQQCode());
     }
 
@@ -419,61 +424,61 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
     }
 
 
-
-
     //**************** 发送消息 ****************//
 
-    public <T extends Send> boolean send(T send){
+    public <T extends Send> boolean send(T send) {
         try {
             String resultJson = getResultJson(send.getApi(), JSON.toJSONString(send));
             // 判断请求是否获取成功
             CoolQHttpInteractionException.requireNotFailed(JSONObject.parseObject(resultJson));
             return true;
-        }catch (Exception e){
-            if(e instanceof CoolQHttpInteractionException){
+        } catch (Exception e) {
+            if (e instanceof CoolQHttpInteractionException) {
                 throw (CoolQHttpInteractionException) e;
-            }else{
-                QQLog.error(e);
+            } else if (e instanceof RobotRuntimeException) {
+                throw (RobotRuntimeException) e;
+            } else {
+                throw new CoolQHttpInteractionException(e);
             }
-            return false;
         }
     }
 
     /**
-     * 发送消息
+     * 发送消息并得到id返回值
      */
-    public <T extends Send> String sendAndId(T send){
+    public <T extends Send> String sendAndId(T send) {
         /*
             发送消息，一般存在两种返回值可能：
             1：返回消息ID
             2：无返回值
             根据目前的接口定义，暂时不处理消息ID的内容
          */
-
         try {
             String resultJson = getResultJson(send.getApi(), JSON.toJSONString(send));
             // 判断请求是否获取成功
             JSONObject baseData = JSONObject.parseObject(resultJson);
             CoolQHttpInteractionException.requireNotFailed(baseData);
             JSONObject data = baseData.getJSONObject("data");
-            if(data != null){
+            if (data != null) {
                 return data.getString("message_id");
-            }else{
+            } else {
                 return null;
             }
-        }catch (Exception e){
-            if(e instanceof CoolQHttpInteractionException){
+        } catch (Exception e) {
+            if (e instanceof CoolQHttpInteractionException) {
                 throw (CoolQHttpInteractionException) e;
-            }else{
-                QQLog.error(e);
+            } else if (e instanceof RobotRuntimeException) {
+                throw (RobotRuntimeException) e;
+            } else {
+                throw new CoolQHttpInteractionException(e);
             }
-            return null;
         }
     }
 
 
     /**
      * 发送消息
+     *
      * @param group 群号
      * @param msg   消息正文
      */
@@ -485,16 +490,18 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     /**
      * 发送讨论组消息
+     *
      * @param group      讨论组号
      * @param msg        消息正文
      * @param autoEscape 是否自动解码CQ码
      */
-    public String sendDiscussMsg(String group, String msg, boolean autoEscape){
+    public String sendDiscussMsg(String group, String msg, boolean autoEscape) {
         return sendAndId(new SendDiscussMsg(group, msg, autoEscape));
     }
 
     /**
      * 发送群消息
+     *
      * @param group 群号
      * @param msg   消息
      * @return
@@ -506,8 +513,9 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     /**
      * 发送群消息
-     * @param group 群号
-     * @param msg   消息
+     *
+     * @param group      群号
+     * @param msg        消息
      * @param autoEscape 是否自动解码CQ码
      * @return
      */
@@ -517,8 +525,9 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     /**
      * 发送私信
-     * @param QQ    QQ号
-     * @param msg   正文消息
+     *
+     * @param QQ  QQ号
+     * @param msg 正文消息
      */
     @Override
     public String sendPrivateMsg(String QQ, String msg) {
@@ -527,8 +536,9 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     /**
      * 发送私信
-     * @param QQ    QQ号
-     * @param msg   正文消息
+     *
+     * @param QQ         QQ号
+     * @param msg        正文消息
      * @param autoEscape CQ码自动转码
      */
     public String sendPrivateMsg(String QQ, String msg, boolean autoEscape) {
@@ -546,6 +556,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     /**
      * 点赞
+     *
      * @param QQ    QQ号
      * @param times 次数，每个好友每天最多10次数，则单次应当必定不可超过10次数
      * @return
@@ -558,20 +569,19 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
     /**
      * 发布群公告
      * 目前，top、toNewMember、confirm参数是无效的
-     * @param group 群号
-     * @param title 标题
-     * @param text   正文
-     * @param top    是否置顶，默认false
+     *
+     * @param group       群号
+     * @param title       标题
+     * @param text        正文
+     * @param top         是否置顶，默认false
      * @param toNewMember 是否发给新成员 默认false
-     * @param confirm 是否需要确认 默认false
+     * @param confirm     是否需要确认 默认false
      * @return s是否发布成功
      */
     @Override
-    public boolean sendGroupNotice(String group, String title, String text, boolean top, boolean toNewMember, boolean confirm){
+    public boolean sendGroupNotice(String group, String title, String text, boolean top, boolean toNewMember, boolean confirm) {
         return send(new SendGroupNotice(group, title, text));
     }
-
-
 
 
     //**************** SETTER ****************//
@@ -579,9 +589,10 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     /**
      * 是否同意好友申请
-     * @param flag          请求的标识
-     * @param friendName    备注
-     * @param agree         是否同意
+     *
+     * @param flag       请求的标识
+     * @param friendName 备注
+     * @param agree      是否同意
      */
     @Override
     public boolean setFriendAddRequest(String flag, String friendName, boolean agree) {
@@ -590,10 +601,11 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     /**
      * 处理加群请求
-     * @param flag          唯一标识
-     * @param requestType   请求类型
-     * @param agree         是否同意
-     * @param why           如果拒绝，为什么拒绝
+     *
+     * @param flag        唯一标识
+     * @param requestType 请求类型
+     * @param agree       是否同意
+     * @param why         如果拒绝，为什么拒绝
      */
     @Override
     public boolean setGroupAddRequest(String flag, GroupAddRequestType requestType, boolean agree, String why) {
@@ -602,6 +614,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     /**
      * 设置群管理员
+     *
      * @param group 群号
      * @param QQ    QQ号
      * @param set   是否设置为管理员
@@ -613,6 +626,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     /**
      * 是否允许群匿名聊天
+     *
      * @param group 群号
      * @param agree 是否同意
      */
@@ -623,6 +637,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     /**
      * 设置群匿名禁言
+     *
      * @param group 群号
      * @param flag  唯一标识
      * @param time  时长
@@ -634,6 +649,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     /**
      * 设置群匿名禁言
+     *
      * @param group 群号
      * @param flag  唯一标识对象
      * @param time  时长
@@ -644,6 +660,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     /**
      * 设置群禁言
+     *
      * @param group 群号
      * @param QQ    QQ号
      * @param time  禁言时长
@@ -655,6 +672,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     /**
      * 设置群标签/昵称
+     *
      * @param group 群号
      * @param QQ    QQ号
      * @param card  昵称
@@ -675,6 +693,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     /**
      * 退出讨论组
+     *
      * @param group 群号
      */
     @Override
@@ -684,7 +703,8 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     /**
      * 退出群组
-     * @param group 群号
+     *
+     * @param group    群号
      * @param dissolve 假如此账号是群主，则此参数代表是否要解散群。默认为false
      */
     @Override
@@ -694,6 +714,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     /**
      * 群主解散群组
+     *
      * @param group 群号
      */
     public boolean setGroupLeaveIfGroupOwner(String group) {
@@ -702,9 +723,10 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     /**
      * 踢出群员
-     * @param group     群号
-     * @param QQ        QQ号
-     * @param dontBack  是否不允许他再回来了
+     *
+     * @param group    群号
+     * @param QQ       QQ号
+     * @param dontBack 是否不允许他再回来了
      */
     @Override
     public boolean setGroupMemberKick(String group, String QQ, boolean dontBack) {
@@ -714,6 +736,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
     /**
      * 群签到
      * 貌似不支持的API
+     *
      * @param group 群号
      */
     @Override
@@ -724,6 +747,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     /**
      * 设置群成员专属头衔
+     *
      * @param group 群号
      * @param QQ    QQ号
      * @param title 头衔
@@ -736,6 +760,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     /**
      * 设置群成员专属头衔
+     *
      * @param group 群号
      * @param QQ    QQ号
      * @param title 头衔
@@ -746,6 +771,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     /**
      * 设置全群禁言
+     *
      * @param group 群号
      * @param in    QQ
      */
@@ -757,6 +783,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
     /**
      * 消息撤回 似乎只需要一个消息ID即可
      * 需要pro
+     *
      * @param flag 标识
      */
     @Override

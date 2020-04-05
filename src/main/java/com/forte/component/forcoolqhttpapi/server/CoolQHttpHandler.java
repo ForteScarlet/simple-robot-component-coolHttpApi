@@ -3,16 +3,13 @@ package com.forte.component.forcoolqhttpapi.server;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.forte.component.forcoolqhttpapi.beans.msg.PostType;
-import com.forte.component.forcoolqhttpapi.utils.JSONDataUtil;
 import com.forte.qqrobot.MsgParser;
 import com.forte.qqrobot.MsgProcessor;
 import com.forte.qqrobot.ResourceDispatchCenter;
 import com.forte.qqrobot.beans.messages.msgget.MsgGet;
-import com.forte.qqrobot.beans.types.ResultSelectType;
 import com.forte.qqrobot.listener.invoker.ListenerManager;
 import com.forte.qqrobot.listener.result.ListenResult;
 import com.forte.qqrobot.log.QQLogLang;
-import com.forte.qqrobot.sender.senderlist.RootSenderList;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.apache.commons.io.IOUtils;
@@ -22,7 +19,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**

@@ -4,7 +4,6 @@ import com.forte.qqrobot.beans.types.KeywordMatchType;
 import com.forte.qqrobot.exception.EnumInstantiationException;
 import com.forte.qqrobot.exception.EnumInstantiationRequireException;
 import com.forte.qqrobot.factory.BaseFactory;
-import com.forte.qqrobot.factory.KeywordMatchTypeFactory;
 
 import java.util.function.BiPredicate;
 import java.util.function.IntFunction;

@@ -13,7 +13,8 @@ login.bot.info.failed.why.nopath=path request failed
 
 run.login.retry=Unable to request the report path {1} for account {0}, wait {2} s and try again {3}/{4}
 
-
+run.server.name=CQ HTTP component listening server
+ 
 run.login.info.code=QQ Code:  {0}
 run.login.info.nick=Nickname: {0}
 run.login.info.level=Level:   {0}

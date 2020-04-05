@@ -8,7 +8,6 @@ import com.forte.plusutils.consoleplus.console.Colors;
 import com.forte.qqrobot.BaseApplication;
 import com.forte.qqrobot.MsgParser;
 import com.forte.qqrobot.MsgProcessor;
-import com.forte.qqrobot.anno.Version;
 import com.forte.qqrobot.beans.messages.msgget.MsgGet;
 import com.forte.qqrobot.beans.messages.result.LoginQQInfo;
 import com.forte.qqrobot.bot.*;
@@ -17,18 +16,10 @@ import com.forte.qqrobot.exception.*;
 import com.forte.qqrobot.factory.MsgGetTypeFactory;
 import com.forte.qqrobot.listener.invoker.ListenerManager;
 import com.forte.qqrobot.listener.invoker.MsgReceiver;
-import com.forte.qqrobot.listener.result.ListenResult;
-import com.forte.qqrobot.log.QQLog;
 import com.forte.qqrobot.sender.MsgSender;
-import com.forte.qqrobot.sender.senderlist.RootSenderList;
 import com.forte.qqrobot.sender.senderlist.SenderGetList;
 import com.forte.qqrobot.sender.senderlist.SenderSendList;
 import com.forte.qqrobot.sender.senderlist.SenderSetList;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
 
 /**
  * 无服务启动现在依赖于核心中的 {@code core.enableServer} 配置来控制

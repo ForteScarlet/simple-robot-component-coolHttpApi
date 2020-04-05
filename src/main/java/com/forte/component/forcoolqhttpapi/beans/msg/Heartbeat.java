@@ -2,7 +2,6 @@ package com.forte.component.forcoolqhttpapi.beans.msg;
 
 import com.forte.component.forcoolqhttpapi.beans.result.PluginStatus;
 import com.forte.qqrobot.beans.messages.msgget.EventGet;
-import com.forte.qqrobot.beans.messages.msgget.MsgGet;
 
 /**
  *

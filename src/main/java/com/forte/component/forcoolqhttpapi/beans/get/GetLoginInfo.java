@@ -2,7 +2,9 @@ package com.forte.component.forcoolqhttpapi.beans.get;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.forte.component.forcoolqhttpapi.beans.result.LoginInfo;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  *

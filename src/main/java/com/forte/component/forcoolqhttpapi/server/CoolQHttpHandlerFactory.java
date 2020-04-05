@@ -1,26 +1,9 @@
 package com.forte.component.forcoolqhttpapi.server;
 
-import com.alibaba.fastjson.JSONObject;
-import com.forte.component.forcoolqhttpapi.utils.JSONDataUtil;
-import com.forte.lang.Language;
-import com.forte.qqrobot.ResourceDispatchCenter;
-import com.forte.qqrobot.beans.messages.msgget.MsgGet;
-import com.forte.qqrobot.exception.RobotRuntimeException;
-import com.forte.qqrobot.listener.invoker.ListenerManager;
 import com.forte.qqrobot.log.QQLogLang;
-import com.forte.qqrobot.sender.senderlist.RootSenderList;
-import com.forte.qqrobot.sender.senderlist.SenderList;
-import com.forte.qqrobot.utils.ObjectsPlus;
-import com.sun.net.httpserver.HttpExchange;
-import org.apache.commons.io.IOUtils;
 
-import javax.xml.ws.spi.http.HttpHandler;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URLDecoder;
-import java.util.*;
-import java.util.function.BiPredicate;
-import java.util.function.Predicate;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * http监听服务所监听的服务工厂类
