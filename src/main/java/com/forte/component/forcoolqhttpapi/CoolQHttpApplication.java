@@ -437,7 +437,7 @@ public class CoolQHttpApplication extends BaseApplication<
         // 构建送信器
         CoolQHttpMsgSender coolQHttpMsgSender = new CoolQHttpMsgSender(botInfo);
         // 尝试获取登录信息
-        LoginInfo loginInfo;
+        LoginInfo loginInfo = null;
         final String botCode = botInfo.getBotCode();
         final String path = botInfo.getPath();
         int time = 0;
@@ -446,6 +446,7 @@ public class CoolQHttpApplication extends BaseApplication<
         long sleep = 1000;
         // 增长量
         long sleepUpper = 1000;
+        Throwable lastEx = null;
         do{
             if(time > 0){
                 // 无法请求账号{0}的上报路径{1}, 等待{2}s后重试{3}/{4}
@@ -453,16 +454,24 @@ public class CoolQHttpApplication extends BaseApplication<
                 try {
                     // wait...
                     Thread.sleep(sleep);
-                    sleep += 1000;
+                    sleep += sleepUpper;
                 } catch (InterruptedException ignored) { }
             }
-            loginInfo = coolQHttpMsgSender.getLoginQQInfo();
+            try {
+                loginInfo = coolQHttpMsgSender.getLoginQQInfo();
+            }catch (Exception e){
+                lastEx = e;
+            }
             time++;
             // 重试三次
         }while (loginInfo == null && time < timeMax);
         if (loginInfo == null) {
             final String nopath = Language.format("login.bot.info.failed.why.nopath");
-            throw new RobotRunException("login.bot.info.failed", nopath, botInfo.getBotCode() == null ? "unknown" : botInfo.getBotCode(), botInfo.getPath());
+            if(lastEx != null){
+                throw new RobotRunException("login.bot.info.failed", lastEx, nopath, botInfo.getBotCode() == null ? "unknown" : botInfo.getBotCode(), botInfo.getPath());
+            }else{
+                throw new RobotRunException("login.bot.info.failed", nopath, botInfo.getBotCode() == null ? "unknown" : botInfo.getBotCode(), botInfo.getPath());
+            }
         }
         // 验证后的botInfo
         return new BotInfoImpl(loginInfo.getCode(), botInfo.getPath(), loginInfo, new BotSender(coolQHttpMsgSender));
