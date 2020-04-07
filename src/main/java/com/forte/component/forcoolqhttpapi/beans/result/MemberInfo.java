@@ -16,8 +16,6 @@ import lombok.ToString;
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-//@Getter
-//@Setter
 @ToString
 public class MemberInfo
 //        extends AbstractResultInner
@@ -232,5 +230,15 @@ public class MemberInfo
     @Override
     public Long getBanTime() {
         return -1L;
+    }
+
+    @Override
+    public String getGroupCode() {
+        return getGroup();
+    }
+
+    @Override
+    public String getQQCode() {
+        return getCode();
     }
 }
