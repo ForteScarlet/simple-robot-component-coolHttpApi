@@ -49,6 +49,21 @@ public class QQGroupInfo implements Result, GroupInfo {
         role	string	角色，owner 表示群主、admin 表示管理员
      */
 
+    /*
+        2020/4/12 新get_group_info内容
+        /get_group_info 获取群信息
+        参数
+        字段名	数据类型	默认值	说明
+        group_id	number	-	群号
+        no_cache	boolean	false	是否不使用缓存（使用缓存可能更新不及时，但响应更快）
+        响应数据
+        字段名	数据类型	说明
+        group_id	number (int64)	群号
+        group_name	string	群名称
+        member_count	number (int32)	成员数
+        max_member_count	number (int32)	最大成员数（群容量）
+     */
+
     private String group_id;
     private String group_name;
     private Long create_time;

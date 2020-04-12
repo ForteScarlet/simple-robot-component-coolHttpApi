@@ -20,7 +20,12 @@ import lombok.Setter;
 @NoArgsConstructor
 public class GetGroupInfo implements Get<QQGroupInfo> {
 
-    public static final String API = "/_get_group_info";
+    /**
+     * 2020/4/12
+     * cqhttp 新群信息接口
+     */
+//    public static final String API = "/_get_group_info";
+    public static final String API = "/get_group_info";
 
     /**
      * 要查询的群号
