@@ -254,7 +254,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
      */
     @Override
     public GroupInfo getGroupInfo(String group, boolean cache) {
-        return get(new GetGroupInfo(group)).orElse(null);
+        return get(new GetGroupInfo(group, cache)).orElse(null);
     }
 
     /**
