@@ -27,7 +27,7 @@ public class LoginInfo extends AbstractInfoResult implements com.forte.qqrobot.b
     private String originalData;
     private Integer level = -1;
 
-    private volatile String headUrl = "";
+    private String headUrl = "";
 
     /** 昵称 */
     @Override

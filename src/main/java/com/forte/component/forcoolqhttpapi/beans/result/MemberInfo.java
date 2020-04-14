@@ -18,7 +18,6 @@ import lombok.ToString;
  **/
 @ToString
 public class MemberInfo
-//        extends AbstractResultInner
         implements GroupMemberInfo,
                     ResultInner,
                     GroupMember
@@ -213,7 +212,7 @@ public class MemberInfo
      */
     @Override
     public String getHeadUrl() {
-        return null;
+        return getQQHeadUrl();
     }
 
     /**
@@ -221,11 +220,12 @@ public class MemberInfo
      */
     @Override
     public String getHeadImgUrl() {
-        return null;
+        return getQQHeadUrl();
     }
 
     /**
      * 禁言剩余时间
+     * 无此字段
      */
     @Override
     public Long getBanTime() {
