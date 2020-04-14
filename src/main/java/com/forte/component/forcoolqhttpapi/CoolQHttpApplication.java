@@ -11,6 +11,7 @@ import com.forte.plusutils.consoleplus.console.Colors;
 import com.forte.qqrobot.*;
 import com.forte.qqrobot.beans.messages.msgget.MsgGet;
 import com.forte.qqrobot.beans.messages.result.LoginQQInfo;
+import com.forte.qqrobot.beans.types.CQCodeTypes;
 import com.forte.qqrobot.bot.*;
 import com.forte.qqrobot.depend.DependCenter;
 import com.forte.qqrobot.exception.BotVerifyException;
