@@ -9,6 +9,7 @@ import com.forte.qqrobot.beans.messages.TimeAble;
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
+@Deprecated
 public interface Msg extends TimeAble {
 
     /*

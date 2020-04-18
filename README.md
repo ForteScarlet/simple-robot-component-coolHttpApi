@@ -1,7 +1,10 @@
 # 基于simple-robot与CQ HTTP API插件的Java开发框架
 [![](https://img.shields.io/badge/simple--robot-core-green)](https://github.com/ForteScarlet/simple-robot-core)  [![img](https://camo.githubusercontent.com/f8464f5d605886b8369ab6daf28d7130a72fd80e/68747470733a2f2f696d672e736869656c64732e696f2f6d6176656e2d63656e7472616c2f762f696f2e6769746875622e466f727465536361726c65742f73696d706c652d726f626f742d636f7265)](https://search.maven.org/artifact/io.github.ForteScarlet/simple-robot-core) [![](https://img.shields.io/maven-central/v/io.github.ForteScarlet.simple-robot-core/component-forcoolqhttpapi)](https://search.maven.org/artifact/io.github.ForteScarlet.simple-robot-core/component-forcoolqhttpapi)  [![](https://img.shields.io/badge/%E7%9C%8B%E4%BA%91%E6%96%87%E6%A1%A3-doc-green)](https://www.kancloud.cn/forte-scarlet/simple-coolq-doc)  [![](https://img.shields.io/badge/QQ%E7%BE%A4-782930037-blue)](https://jq.qq.com/?_wv=1027&k=57ynqB1)  
 
-> 如果需要获得更好的阅读体验，请前往 [原文档](https://www.kancloud.cn/forte-scarlet/simple-coolq-doc/) -> `组件-酷Q-CoolQ HTTP API(推荐)` -> `快速开始` 处阅读
+> 如果需要获得更好的阅读体验，请前往 
+>[原文档 http://simple-robot-doc.forte.love/](http://simple-robot-doc.forte.love/) -> `组件-酷Q-CoolQ HTTP API(推荐)` -> `快速开始` 处阅读
+>或
+>[https://www.kancloud.cn/forte-scarlet/simple-coolq-doc/](https://www.kancloud.cn/forte-scarlet/simple-coolq-doc/) -> `组件-酷Q-CoolQ HTTP API(推荐)` -> `快速开始` 处阅读
 > 或尝试直接进入[快速开始](https://www.kancloud.cn/forte-scarlet/simple-coolq-doc/1519585)
 
 **点击项目右上角的`star`展示完整文档**
