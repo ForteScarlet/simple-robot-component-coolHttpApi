@@ -1,5 +1,5 @@
 # 监听服务器启动失败
-exception.run.serverStartFailed=Listening service failed to start!
+exception.robotRun.serverStartFailed=Listening service failed to start!
 
 # 启动时候的一些信息
 # 登录的QQ信息获取失败 - null信息
