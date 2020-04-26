@@ -1,8 +1,12 @@
 # 更新日志
 
+# 1.1.2-1.12
+cqhttp组件配置增加`simbot.cqhttp.accessToken`和`simbot.cqhttp.secret`，分别对应了cqhttp插件的`access_token`与`secret`。
+
 # 1.1.1-1.12
 适配1.12的核心
 删除已经被标记弃用的所有`NoServer`相关启动类
+预先在configuration中增加加密权限认证等相关内容
 
 # 1.1.1-1.11
 - 尝试修改获取登录信息的时候重试失效的问题

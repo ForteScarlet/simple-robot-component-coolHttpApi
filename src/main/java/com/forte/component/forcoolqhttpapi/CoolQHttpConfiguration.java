@@ -49,10 +49,32 @@ public class CoolQHttpConfiguration extends BaseConfiguration<CoolQHttpConfigura
     @Conf("cqhttp.method")
     private String[] method = {"post"};
 
-
-    /*
-        TODO 似乎还有加密传输的方式，后期考虑整合一下
+    /**
+     * 上报数据使用的access_token
+     * 如果配置文件中填写了 access_token，则每次请求需要在请求头中加入验证头，如：
+     *
+     *  GET /send_private_msg?user_id=123456&message=hello HTTP/1.1
+     * Authorization: Bearer kSLuTF2GC2Q4q4ugm3
+     * Access token 也可以通过 query 参数 access_token 传入，以便在无法修改请求头的情况下使用，例如：
      */
+    @Conf("cqhttp.accessToken")
+    private String accessToken = null;
+
+    /**
+     * 接收数据的secret
+     *
+     * 如果 secret 配置项也不为空，则会在每次上报的请求头中加入 HMAC 签名，如：
+     *
+     * POST / HTTP/1.1
+     * X-Signature: sha1=f9ddd4863ace61e64f462d41ca311e3d2c1176e2
+     * X-Self-ID: 123456
+     *
+     * 签名以 secret 作为密钥，HTTP 正文作为消息，进行 HMAC SHA1 哈希，
+     * 你的后端可以通过该哈希值来验证上报的数据确实来自 CQHTTP 插件。
+     *
+     */
+    @Conf("cqhttp.secret")
+    private String secret = null;
 
 
     public int getBackLog() {
@@ -127,6 +149,23 @@ public class CoolQHttpConfiguration extends BaseConfiguration<CoolQHttpConfigura
 
     public String[] getMethod() {
         return method;
+    }
+
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public String getSecret() {
+        return secret;
+    }
+
+    public void setSecret(String secret) {
+        this.secret = secret;
     }
 
     /**

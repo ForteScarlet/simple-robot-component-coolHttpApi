@@ -192,7 +192,8 @@ public class CoolQHttpApplication extends BaseApplication<
      */
     @Override
     protected Function<MsgGet, RootSenderList> getRootSenderFunction(BotManager botManager) {
-        return m -> new CoolQHttpBotSender(m, botManager);
+        CoolQHttpConfiguration conf = getConf();
+        return m -> new CoolQHttpBotSender(m, botManager, conf.getAccessToken());
     }
 
     @Override
@@ -207,7 +208,8 @@ public class CoolQHttpApplication extends BaseApplication<
             public void setThisCode(String code) {
             }
         };
-        CoolQHttpBotSender coolQHttpBotManagerSender = new CoolQHttpBotSender(nullThisCode, botManager);
+        CoolQHttpConfiguration conf = getConf();
+        CoolQHttpBotSender coolQHttpBotManagerSender = new CoolQHttpBotSender(nullThisCode, botManager, conf.getAccessToken());
         return new DefaultSenders<>(coolQHttpBotManagerSender, coolQHttpBotManagerSender, coolQHttpBotManagerSender);
     }
 
@@ -303,21 +305,22 @@ public class CoolQHttpApplication extends BaseApplication<
     protected String runServer(DependCenter dependCenter, ListenerManager manager, MsgProcessor processor, MsgParser parser) {
         CoolQHttpConfiguration conf = getConf();
 
+        String secret = conf.getSecret();
         String requestPath = conf.getServerPath();
         String encode = conf.getEncode();
         String[] method = conf.getMethod();
 
         // 响应器
-        CoolQHttpHandler coolQHttpHandler = new CoolQHttpHandler(
+        CoolQHttpHandler coolqHttpHandler = new CoolQHttpHandler(
                 encode,
                 method,
-                null,
+                secret,
                 processor,
                 parser
         );
 
         // 创建一个单值Map，增加一个监听映射
-        Map<String, HttpHandler> map = new SingletonMap(requestPath, coolQHttpHandler);
+        Map<String, HttpHandler> map = new SingletonMap(requestPath, coolqHttpHandler);
 
         int javaPort = conf.getJavaPort();
         int backLog = conf.getBackLog();
@@ -344,80 +347,6 @@ public class CoolQHttpApplication extends BaseApplication<
         return "CQ HTTP 组件监听服务器";
     }
 
-    /**
-     * 开发者实现的启动方法
-     * v1.1.2-BETA后返回值修改为String，意义为启动结束后打印“启动成功”的时候使用的名字
-     * 例如，返回值为“server”，则会输出“server”启动成功
-     *
-     * @param manager 监听管理器，用于分配获取到的消息
-     */
-//    @Override
-    @Deprecated
-    protected String start2(DependCenter dependCenter, ListenerManager manager) {
-        CoolQHttpConfiguration conf = getConf();
-
-        // 构建默认的Bot送信器
-        BotInfo defaultBot = conf.getDefaultBotInfo();
-        BotManager botManager = getBotManager();
-
-        BotInfo defaultBotInfo = botManager.getBot(defaultBot.getBotCode());
-        CoolQHttpMsgSender coolQHttpMsgSender = new CoolQHttpMsgSender(defaultBotInfo);
-
-        //初始化sender
-        CoolQHttpResourceDispatchCenter.saveCoolQHttpMsgSender(coolQHttpMsgSender);
-        msgSender = coolQHttpMsgSender;
-
-
-        String requestPath = conf.getServerPath();
-        String encode = conf.getEncode();
-        String[] method = conf.getMethod();
-
-
-        MsgOnManager.scan(CoolQHttpHandlerFactory.MSG_GET_PACK);
-        Map<PostType, Map<String, Class<? extends MsgGet>>> postTypeMap = MsgOnManager.getPostTypeMap();
-
-        // 响应器
-        CoolQHttpHandler coolQHttpHandler = new CoolQHttpHandler(
-                encode,
-                method,
-                null, null, null
-        );
-
-        // 创建一个单值Map，增加一个监听映射
-        Map<String, HttpHandler> map = new SingletonMap(requestPath, coolQHttpHandler);
-
-        int javaPort = conf.getJavaPort();
-        int backLog = conf.getBackLog();
-
-        // 启动服务器
-        try {
-            // 赋值至成员变量
-            server = CoolQHttpServer.startServer(
-                    javaPort,
-                    map,
-                    backLog
-
-            );
-        } catch (IOException e) {
-            throw new RobotRunException("serverStartFailed", e);
-        }
-
-        // 记录启动的服务
-        dependCenter.loadIgnoreThrow(server);
-
-        // show server info
-        String listenUrl = "http://[::]:" + javaPort + requestPath;
-
-        BotInfo[] bots = botManager.bots();
-
-        getLog().info("server.listenurl", listenUrl);
-        getLog().info("server.method", Arrays.toString(method));
-        for (BotInfo bot : bots) {
-            getLog().info("server.sendurl", bot.getBotCode(), bot.getPath());
-        }
-
-        return "coolQ HTTP API server";
-    }
 
 
     /**
@@ -447,8 +376,9 @@ public class CoolQHttpApplication extends BaseApplication<
      * @return 验证后的botInfo对象。与原来的BotInfo一致。如果验证失败则返回null
      */
     private BotInfo getLoginInfo(BotInfo botInfo) {
+        CoolQHttpConfiguration conf = getConf();
         // 构建送信器
-        CoolQHttpMsgSender coolQHttpMsgSender = new CoolQHttpMsgSender(botInfo);
+        CoolQHttpMsgSender coolqHttpMsgSender = new CoolQHttpMsgSender(botInfo, conf.getAccessToken());
         // 尝试获取登录信息
         LoginInfo loginInfo = null;
         final String botCode = botInfo.getBotCode();
@@ -472,7 +402,7 @@ public class CoolQHttpApplication extends BaseApplication<
                 }
             }
             try {
-                loginInfo = coolQHttpMsgSender.getLoginQQInfo();
+                loginInfo = coolqHttpMsgSender.getLoginQQInfo();
             } catch (Exception e) {
                 lastEx = e;
             }
@@ -488,7 +418,7 @@ public class CoolQHttpApplication extends BaseApplication<
             }
         }
         // 验证后的botInfo
-        return new BotInfoImpl(loginInfo.getCode(), botInfo.getPath(), loginInfo, new BotSender(coolQHttpMsgSender));
+        return new BotInfoImpl(loginInfo.getCode(), botInfo.getPath(), loginInfo, new BotSender(coolqHttpMsgSender));
     }
 
 

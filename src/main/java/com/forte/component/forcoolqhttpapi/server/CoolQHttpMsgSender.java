@@ -22,7 +22,9 @@ import com.forte.qqrobot.sender.HttpClientAble;
 import com.forte.qqrobot.sender.HttpClientHelper;
 import com.forte.qqrobot.sender.senderlist.BaseRootSenderList;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -49,6 +51,12 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
      */
     private BotInfo botInfo;
 
+    /**
+     * 额外的请求头
+     */
+    private Map<String, String> header = new HashMap<>(1);
+
+
     protected BotInfo getBotInfo() {
         return botInfo;
     }
@@ -59,6 +67,23 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
      */
     public CoolQHttpMsgSender(BotInfo botInfo) {
         this.botInfo = botInfo;
+    }
+
+    /**
+     * 构造
+     * 内部需要一个BotManager对象与一个ThisCodeAble对象
+     */
+    public CoolQHttpMsgSender(BotInfo botInfo, String token) {
+        this.botInfo = botInfo;
+        /*
+         * accessToken
+         * 如果存在，则会在请求的时候从请求头中增加：
+         * Authorization: Bearer ${token}
+         */
+        if(token != null) {
+            // Authorization: Bearer ${token}
+            header.put("Authorization", "Bearer " + token);
+        }
     }
 
 
@@ -72,7 +97,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
         //获取HTTP API请求地址参数
         String url = getBotInfo().getPath() + requestPath;
         //请求并返回响应数据
-        return getHttp().postJson(url, requestJson);
+        return getHttp().postJson(url, requestJson, null, header);
     }
 
     /**

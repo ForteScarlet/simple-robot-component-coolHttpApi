@@ -26,3 +26,8 @@ cq.httpapi.handler.factory.unknownType=Unknown post_type type: {0}
 cq.httpapi.sender.send.failed=Delivery failed!
 # 其他的一些
 cq.httpapi.qq.friendlist.sort.failed=The friend array is sorted abnormally, the error has been ignored. information: {0}
+
+# 接收到消息错误
+cq.httpapi.handler.onmessage.verify.failed=Secret verification failed! X-Signature request header: {0} is invalid!
+
+

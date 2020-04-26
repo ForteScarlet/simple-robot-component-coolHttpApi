@@ -8,16 +8,25 @@ import com.forte.qqrobot.MsgProcessor;
 import com.forte.qqrobot.ResourceDispatchCenter;
 import com.forte.qqrobot.beans.messages.msgget.MsgGet;
 import com.forte.qqrobot.listener.result.ListenResult;
+import com.forte.qqrobot.log.QQLog;
 import com.forte.qqrobot.log.QQLogLang;
+import com.mchange.lang.ByteUtils;
+import com.sun.crypto.provider.HmacSHA1;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.io.IOUtils;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.*;
 import java.util.function.Predicate;
 
 /**
@@ -47,9 +56,6 @@ public class CoolQHttpHandler implements HttpHandler {
      */
     private String[] methods;
 
-//    /** 监听消息管理器 */
-//    private ListenerManager manager;
-
     /**
      * 用于判断请求类型是否正确的函数
      */
@@ -75,6 +81,11 @@ public class CoolQHttpHandler implements HttpHandler {
      */
     private final MsgParser parser;
 
+    /**
+     * SHA1 验证密钥
+     */
+    private String secret;
+
     /*
         如果 secret 配置项也不为空，则会在每次上报的请求头中加入 HMAC 签名，如：
         POST / HTTP/1.1
@@ -95,12 +106,11 @@ public class CoolQHttpHandler implements HttpHandler {
     public CoolQHttpHandler(String encoding,
                             String[] methods,
                             String secret,
-//                            ListenerManager manager,
                             MsgProcessor processor,
                             MsgParser parser) {
         this.encoding = encoding;
         this.methods = methods;
-//        this.manager = manager;
+        this.secret = secret;
 
         this.processor = processor;
         this.parser = parser;
@@ -146,10 +156,37 @@ public class CoolQHttpHandler implements HttpHandler {
             String method = httpExchange.getRequestMethod();
             // 如果请求方式正确，进行下一步
             if (isMethod.test(method)) {
+
                 //获取接收到的参数
                 InputStream requestBody = httpExchange.getRequestBody();
                 //编码转义  貌似不再需要编码转义
                 String paramsUrl = IOUtils.toString(requestBody, this.encoding);
+                // 如果密钥不为null，验证密钥
+                if (secret != null) {
+                    // 获取请求头中的验证密钥
+                    // X-Signature: sha1=xxx
+                    String xSignature = httpExchange.getRequestHeaders().getFirst("X-Signature");
+                    if (xSignature == null || (xSignature = xSignature.trim()).length() < 4 || !xSignature.startsWith("sha1")) {
+                        // 没有密钥或者长度根本不对或者开头不是'sha1'
+                        getLog().warning("onmessage.verify.failed", xSignature);
+                        // 出现异常，返回信息
+                        response(httpExchange, 401, 0, "no secret");
+                        // 结束。
+                        return;
+                    } else {
+                        xSignature = xSignature.substring(5);
+                    }
+
+                    boolean verify = secretVerification(paramsUrl, secret, xSignature);
+                    if (!verify) {
+                        getLog().debug("secret.verify.failed", xSignature);
+                        response(httpExchange, 403, 0, "secret verify failed");
+                        // 结束方法
+                        return;
+                    }
+                    // 验证成功，放行。
+                }
+
 
                 getLog().debug("onmessage", paramsUrl);
 
@@ -158,47 +195,20 @@ public class CoolQHttpHandler implements HttpHandler {
 
                 if (msgGet != null) {
                     ListenResult<?> result = processor.onMsgSelected(msgGet);
-                    // 响应数据
-                    // 设置响应code和内容长度
-                    httpExchange.sendResponseHeaders(200, 0);
-
-                    //获取响应输出流
-                    OutputStream out = httpExchange.getResponseBody();
-
                     // 相应消息内容
                     String resultBody = getResultBody(result);
-
-                    // 响应信息
-                    IOUtils.write(resultBody, out, this.encoding);
-                    getLog().debug("response", resultBody);
+                    // 响应数据
+                    // 设置响应code和内容长度
+                    response(httpExchange, 200, 0, resultBody);
                 }
             } else {
                 // 不是支持的请求方式，返回405类型
-                try {
-                    // 设置响应code和内容长度
-                    httpExchange.sendResponseHeaders(405, 0);
-                    OutputStream out = httpExchange.getResponseBody();
-                    // 响应信息
-                    IOUtils.write("no method type", out, this.encoding);
-                    getLog().debug("response", "no method type");
-
-                } catch (IOException e1) {
-                    getLog().error("response.failed", e1);
-                }
+                response(httpExchange, 405, 0, "no method type");
             }
         } catch (Exception e) {
             getLog().error("onmessage.failed", e);
             // 出现异常，返回信息
-            try {
-                // 设置响应code和内容长度
-                httpExchange.sendResponseHeaders(500, 0);
-                OutputStream out = httpExchange.getResponseBody();
-                // 响应信息
-                IOUtils.write("error", out, this.encoding);
-                getLog().debug("response", "error");
-            } catch (IOException e1) {
-                getLog().error("response.failed", e1);
-            }
+            response(httpExchange, 500, 0, "error");
         } finally {
             // 关闭处理器, 同时将关闭请求和响应的输入输出流（如果还没关闭）
             httpExchange.close();
@@ -251,6 +261,28 @@ public class CoolQHttpHandler implements HttpHandler {
         }
     }
 
+    /**
+     * 相应消息
+     *
+     * @param httpExchange
+     * @param statusCode
+     * @param l
+     * @param writeData
+     */
+    private void response(HttpExchange httpExchange, int statusCode, int l, String writeData) {
+        // 出现异常，返回信息
+        try {
+            // 设置响应code和内容长度
+            httpExchange.sendResponseHeaders(statusCode, l);
+            OutputStream out = httpExchange.getResponseBody();
+            // 响应信息
+            IOUtils.write(writeData, out, this.encoding);
+            getLog().debug("response", writeData);
+        } catch (IOException e) {
+            getLog().error("response.failed", e);
+        }
+    }
+
 
     private static Class<? extends MsgGet> getTypeByPostType(Map<PostType, Map<String, Class<? extends MsgGet>>> typeMap, JSONObject jsonObject) {
         // 获取PostType类型
@@ -275,5 +307,62 @@ public class CoolQHttpHandler implements HttpHandler {
         return stringClassMap.get(string);
     }
 
+
+    /**
+     * 根据正文于secret验证监听消息
+     *
+     * @param text     请求正文
+     * @param secret   密钥
+     * @param contrast 对比的secret
+     * @return
+     */
+    private boolean secretVerification(String text, String secret, String contrast) throws NoSuchAlgorithmException, InvalidKeyException, UnsupportedEncodingException {
+        String a = genHMAC(text, secret);
+        System.out.println("this HMAC: " + a);
+        System.out.println("header:    " + contrast);
+        return Objects.equals(a, contrast);
+    }
+
+
+    /**
+     * HMAC-SHA1算法
+     * @param data 正文
+     * @param key  密钥
+     * @return
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeyException
+     */
+    private String genHMAC(String data, String key) throws NoSuchAlgorithmException, InvalidKeyException {
+        //根据给定的字节数组构造一个密钥,第二参数指定一个密钥算法的名称
+        String sha1 = "HmacSHA1";
+        SecretKeySpec signinKey = new SecretKeySpec(key.getBytes(), sha1);
+        //生成一个指定 Mac 算法 的 Mac 对象
+        Mac mac = Mac.getInstance(sha1);
+        //用给定密钥初始化 Mac 对象
+        mac.init(signinKey);
+
+        //完成 Mac 操作
+        byte[] rawHmac = mac.doFinal(data.getBytes());
+
+        return byteToHex(rawHmac);
+    }
+
+    /**
+     * byte[]转hex
+     */
+    public static String byteToHex(byte[] bytes){
+        String strHex = "";
+        StringBuilder sb = new StringBuilder(bytes.length << 1);
+        for (int n = 0; n < bytes.length; n++) {
+            strHex = Integer.toHexString(bytes[n] & 0xFF);
+            // 每个字节由两个字符表示，位数不够，高位补0
+            if((strHex.length() == 1)){
+                sb.append('0').append(strHex);
+            }else{
+                sb.append(strHex);
+            }
+        }
+        return sb.toString().trim();
+    }
 
 }

@@ -20,6 +20,11 @@ public class CoolQHttpBotSender extends CoolQHttpMsgSender {
         this.thisCodeAble = thisCodeAble;
         this.botManager = manager;
     }
+    public CoolQHttpBotSender(ThisCodeAble thisCodeAble, BotManager manager, String token) {
+        super(null, token);
+        this.thisCodeAble = thisCodeAble;
+        this.botManager = manager;
+    }
 
     @Override
     protected BotInfo getBotInfo() {
