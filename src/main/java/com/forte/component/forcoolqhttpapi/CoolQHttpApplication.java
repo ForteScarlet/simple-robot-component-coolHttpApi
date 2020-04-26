@@ -214,6 +214,7 @@ public class CoolQHttpApplication extends BaseApplication<
 
     /**
      * 获取一个组件专属的SimpleRobotContext对象
+     *
      * @param defaultSenders 函数{@link #getDefaultSenders(BotManager)} 的最终返回值
      * @param manager        botManager对象
      * @param msgParser      消息字符串转化函数

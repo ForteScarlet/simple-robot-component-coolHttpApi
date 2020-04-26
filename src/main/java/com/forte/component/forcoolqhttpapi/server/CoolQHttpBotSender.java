@@ -27,7 +27,7 @@ public class CoolQHttpBotSender extends CoolQHttpMsgSender {
         String thisCode = thisCodeAble.getThisCode();
         if (thisCode == null) {
             BotInfo botInfo = botManager.defaultBot();
-            if(botInfo == null){
+            if (botInfo == null) {
                 throw new RobotApiException("noDefault");
             }
             return botInfo;
