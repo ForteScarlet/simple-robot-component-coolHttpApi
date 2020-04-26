@@ -8,7 +8,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- *
  * 群列表
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -21,7 +20,9 @@ public class GroupList extends AbstractInfoResultList<Group>
         implements com.forte.qqrobot.beans.messages.result.GroupList,
         ResultList<com.forte.component.forcoolqhttpapi.beans.result.inner.Group> {
 
-    /** list列表 */
+    /**
+     * list列表
+     */
     private com.forte.component.forcoolqhttpapi.beans.result.inner.Group[] list;
     private String originalData;
 
@@ -39,7 +40,7 @@ public class GroupList extends AbstractInfoResultList<Group>
      */
     @Override
     @JSONField(serialize = false)
-    public Class<com.forte.component.forcoolqhttpapi.beans.result.inner.Group> getListType(){
+    public Class<com.forte.component.forcoolqhttpapi.beans.result.inner.Group> getListType() {
         return com.forte.component.forcoolqhttpapi.beans.result.inner.Group.class;
     }
 

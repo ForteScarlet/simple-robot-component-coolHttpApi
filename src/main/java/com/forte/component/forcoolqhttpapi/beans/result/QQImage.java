@@ -8,7 +8,6 @@ import lombok.ToString;
 import java.io.File;
 
 /**
- *
  * QQ图片
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -69,14 +68,14 @@ public class QQImage implements Result, ImageInfo {
     /**
      * 获取图片文件的文姓下载后的路径
      */
-    public String getFilePath(){
+    public String getFilePath() {
         return file;
     }
 
     /**
      * 获取图片文件本体
      */
-    public File getFile(){
+    public File getFile() {
         return new File(getFilePath());
     }
 

@@ -3,7 +3,6 @@ package com.forte.component.forcoolqhttpapi.beans.set;
 import com.forte.component.forcoolqhttpapi.beans.send.Send;
 
 /**
- *
  * set相关消息的接口
  * 继承Send
  *

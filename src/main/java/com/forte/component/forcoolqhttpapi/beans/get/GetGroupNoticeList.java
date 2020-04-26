@@ -20,14 +20,15 @@ import lombok.Setter;
 @NoArgsConstructor
 public class GetGroupNoticeList implements Get<GroupNoticeList> {
 
-    /** api请求地址 */
+    /**
+     * api请求地址
+     */
     public static final String API = "/_get_group_notice";
     private String group_id;
 
 
-
     @Override
-    public String getApi(){
+    public String getApi() {
         return API;
     }
 

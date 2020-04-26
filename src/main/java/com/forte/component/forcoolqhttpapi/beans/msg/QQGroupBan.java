@@ -6,7 +6,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- *
  * 群禁言事件
  * 1.3.5核心暂时还没有此API，等待添加
  *
@@ -40,11 +39,11 @@ public class QQGroupBan extends BaseMsg implements GroupBan {
 
     @Override
     public com.forte.qqrobot.beans.messages.types.GroupBanType getBanType() {
-        if(sub_type.equals(GroupBanType.ban)){
+        if (sub_type.equals(GroupBanType.ban)) {
             return com.forte.qqrobot.beans.messages.types.GroupBanType.BAN;
-        }else if(sub_type.equals(GroupBanType.lift_ban)){
+        } else if (sub_type.equals(GroupBanType.lift_ban)) {
             return com.forte.qqrobot.beans.messages.types.GroupBanType.LIFT_BAN;
-        }else{
+        } else {
             return null;
         }
     }
@@ -73,8 +72,7 @@ public class QQGroupBan extends BaseMsg implements GroupBan {
     public static enum GroupBanType {
         // ban、lift_ban	事件子类型，分别表示禁言、解除禁言
         ban,
-        lift_ban
-        ;
+        lift_ban;
     }
 
 }

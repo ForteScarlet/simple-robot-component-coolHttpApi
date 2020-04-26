@@ -7,6 +7,7 @@ import lombok.Setter;
 
 /**
  * 发布群公告
+ *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/

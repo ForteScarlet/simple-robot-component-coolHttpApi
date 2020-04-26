@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- *
  * 私信消息
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -29,7 +28,7 @@ public class SendPrivateMsg implements Send {
     private boolean auto_escape = false;
     public static final String API = "/send_private_msg";
 
-    public SendPrivateMsg(String user_id, String message){
+    public SendPrivateMsg(String user_id, String message) {
         this(user_id, message, false);
     }
 

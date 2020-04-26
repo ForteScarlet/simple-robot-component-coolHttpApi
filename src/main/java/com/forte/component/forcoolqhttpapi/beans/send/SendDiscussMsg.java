@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- *
  * 发送讨论组消息
+ *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
@@ -27,15 +27,14 @@ public class SendDiscussMsg implements Send {
     private boolean auto_escape = false;
     public static final String API = "/send_discuss_msg";
 
-    public SendDiscussMsg(String discuss_id, String message){
+    public SendDiscussMsg(String discuss_id, String message) {
         this(discuss_id, message, false);
     }
 
     @Override
-    public String getApi(){
+    public String getApi() {
         return API;
     }
-
 
 
 }

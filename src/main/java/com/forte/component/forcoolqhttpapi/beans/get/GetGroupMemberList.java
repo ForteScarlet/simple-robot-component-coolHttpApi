@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- *
  * 获取群成员列表
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -26,8 +25,9 @@ public class GetGroupMemberList implements Get<GroupMemberList> {
 
     private String group_id;
     public static final String API = "/get_group_member_list";
+
     @Override
-    public String getApi(){
+    public String getApi() {
         return API;
     }
 

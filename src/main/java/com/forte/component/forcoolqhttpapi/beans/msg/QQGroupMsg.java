@@ -9,7 +9,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- *
  * 群消息
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -34,9 +33,13 @@ public class QQGroupMsg extends BaseMsg implements GroupMsg {
         font	number (int32)	-	字体
         sender	object	-	发送人信息
      */
-    /** 上报类型必定为message */
+    /**
+     * 上报类型必定为message
+     */
     public static final PostType POST_TYPE = PostType.message;
-    /** 消息类型 - 群消息 */
+    /**
+     * 消息类型 - 群消息
+     */
     public static final String MESSAGE_TYPE = "group";
 
     private GroupType sub_type;
@@ -98,21 +101,21 @@ public class QQGroupMsg extends BaseMsg implements GroupMsg {
      */
     @Override
     public PowerType getPowerType() {
-        if(powerType != null){
+        if (powerType != null) {
             return powerType;
         }
-        if(sender != null){
+        if (sender != null) {
             //角色，owner 或 admin 或 member
             String role = sender.getRole();
-            if("owner".equals(role)){
+            if ("owner".equals(role)) {
                 this.powerType = PowerType.OWNER;
-            }else if("admin".equals(role)){
+            } else if ("admin".equals(role)) {
                 this.powerType = PowerType.ADMIN;
-            }else{
+            } else {
                 this.powerType = PowerType.MEMBER;
             }
             return this.powerType;
-        }else{
+        } else {
             return null;
         }
     }
@@ -176,12 +179,11 @@ public class QQGroupMsg extends BaseMsg implements GroupMsg {
         // 系统提示（如「管理员已禁止群内匿名聊天」）是 notice
         normal(GroupMsgType.NORMAL_MSG),
         anonymous(GroupMsgType.ANON_MSG),
-        notice(GroupMsgType.NORMAL_MSG)
-        ;
+        notice(GroupMsgType.NORMAL_MSG);
 
         public final GroupMsgType groupMsgType;
 
-        GroupType(GroupMsgType t){
+        GroupType(GroupMsgType t) {
             this.groupMsgType = t;
         }
 

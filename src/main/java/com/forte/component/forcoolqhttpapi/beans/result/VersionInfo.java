@@ -6,6 +6,7 @@ import lombok.ToString;
 
 /**
  * 酷Q 及 HTTP API 插件的版本信息
+ *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/

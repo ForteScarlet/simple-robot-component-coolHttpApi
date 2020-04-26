@@ -10,18 +10,17 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- *
  * 群成员详细信息
  * 也作为群成员列表的数据
+ *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
 @ToString
 public class MemberInfo
         implements GroupMemberInfo,
-                    ResultInner,
-                    GroupMember
-{
+        ResultInner,
+        GroupMember {
     /*
         group_id	number (int64)	群号
         user_id	number (int64)	QQ 号
@@ -40,24 +39,54 @@ public class MemberInfo
         card_changeable	boolean	是否允许修改群名片
      */
 
-    @Getter@Setter private String group_id;
-    @Getter@Setter private String user_id;
-    @Setter        private String nickname;
-    @Getter@Setter private String card;
-    @Getter@Setter private String originalData;
+    @Getter
+    @Setter
+    private String group_id;
+    @Getter
+    @Setter
+    private String user_id;
+    @Setter
+    private String nickname;
+    @Getter
+    @Setter
+    private String card;
+    @Getter
+    @Setter
+    private String originalData;
 
 
-    @Setter        private com.forte.component.forcoolqhttpapi.beans.type.SexType sex;
-    @Getter@Setter private int age;
-    @Getter@Setter private String area;
-    @Getter@Setter private long join_time;
-    @Getter@Setter private long last_sent_time;
-    @Getter@Setter private String level;
-    @Getter@Setter private GroupMemberRoleType role;
-    @Getter@Setter private boolean unfriendly;
-    @Getter@Setter private String title;
-    @Getter@Setter private long title_expire_time;
-    @Getter@Setter private boolean card_changeable;
+    @Setter
+    private com.forte.component.forcoolqhttpapi.beans.type.SexType sex;
+    @Getter
+    @Setter
+    private int age;
+    @Getter
+    @Setter
+    private String area;
+    @Getter
+    @Setter
+    private long join_time;
+    @Getter
+    @Setter
+    private long last_sent_time;
+    @Getter
+    @Setter
+    private String level;
+    @Getter
+    @Setter
+    private GroupMemberRoleType role;
+    @Getter
+    @Setter
+    private boolean unfriendly;
+    @Getter
+    @Setter
+    private String title;
+    @Getter
+    @Setter
+    private long title_expire_time;
+    @Getter
+    @Setter
+    private boolean card_changeable;
 
 
     /**
@@ -77,10 +106,10 @@ public class MemberInfo
     }
 
     @Override
-    public SexType getSex(){
-        if(sex.equals(com.forte.component.forcoolqhttpapi.beans.type.SexType.male))
+    public SexType getSex() {
+        if (sex.equals(com.forte.component.forcoolqhttpapi.beans.type.SexType.male))
             return SexType.MALE;
-        else if(sex.equals(com.forte.component.forcoolqhttpapi.beans.type.SexType.female))
+        else if (sex.equals(com.forte.component.forcoolqhttpapi.beans.type.SexType.female))
             return SexType.FEMALE;
         else
             return SexType.UNKNOWN;
@@ -114,9 +143,9 @@ public class MemberInfo
     @Override
     public String getNickOrName() {
         String card = getCard();
-        if(card == null || card.length() == 0){
+        if (card == null || card.length() == 0) {
             return getName();
-        }else{
+        } else {
             return card;
         }
     }
@@ -158,11 +187,11 @@ public class MemberInfo
      */
     @Override
     public PowerType getPowerType() {
-        if(GroupMemberRoleType.owner.equals(role)){
+        if (GroupMemberRoleType.owner.equals(role)) {
             return PowerType.OWNER;
-        }else if(GroupMemberRoleType.admin.equals(role)){
+        } else if (GroupMemberRoleType.admin.equals(role)) {
             return PowerType.ADMIN;
-        }else{
+        } else {
             return PowerType.MEMBER;
         }
     }

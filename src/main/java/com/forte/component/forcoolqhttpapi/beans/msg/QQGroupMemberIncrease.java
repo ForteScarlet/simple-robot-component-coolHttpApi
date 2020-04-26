@@ -7,7 +7,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- *
  * 群成员增加
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -66,13 +65,13 @@ public class QQGroupMemberIncrease extends BaseMsg implements GroupMemberIncreas
 
     public static enum GroupIncreaseType {
         // approve、invite	事件子类型，分别表示管理员已同意入群、管理员邀请入群
-        approve(IncreaseType.AGREE) ,
-        invite(IncreaseType.INVITE)
-        ;
+        approve(IncreaseType.AGREE),
+        invite(IncreaseType.INVITE);
 
 
         public IncreaseType type;
-        GroupIncreaseType(IncreaseType t){
+
+        GroupIncreaseType(IncreaseType t) {
             this.type = t;
         }
 

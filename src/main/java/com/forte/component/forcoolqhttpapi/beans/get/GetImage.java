@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- *
  * 获取图片
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -26,8 +25,9 @@ public class GetImage implements Get<QQImage> {
 
     private String file;
     public static final String API = "/get_image";
+
     @Override
-    public String getApi(){
+    public String getApi() {
         return API;
     }
 

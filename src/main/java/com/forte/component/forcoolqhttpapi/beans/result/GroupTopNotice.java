@@ -4,7 +4,6 @@ import com.forte.qqrobot.beans.messages.result.GroupTopNote;
 import com.forte.qqrobot.beans.messages.result.inner.GroupNote;
 
 /**
- *
  * 群置顶公告
  * 由于不存在此API，则获取群公告列表的第一个
  *
@@ -16,7 +15,7 @@ public class GroupTopNotice extends GroupNoticeList.GroupNotice implements Group
     /**
      * 通过GroupNotice获取实例对象
      */
-    public static GroupTopNote getInstance(GroupNoticeList.GroupNotice in){
+    public static GroupTopNote getInstance(GroupNoticeList.GroupNotice in) {
         GroupTopNotice top = new GroupTopNotice();
         top.setOriginalData(in.getOriginalData());
         top.setCn(in.getCn());
@@ -34,16 +33,16 @@ public class GroupTopNotice extends GroupNoticeList.GroupNotice implements Group
     /**
      * 通过GroupNotice获取实例对象
      */
-    public static GroupTopNote getInstance(GroupNote in){
-        if(in instanceof GroupNoticeList.GroupNotice){
+    public static GroupTopNote getInstance(GroupNote in) {
+        if (in instanceof GroupNoticeList.GroupNotice) {
             return getInstance((GroupNoticeList.GroupNotice) in);
-        }else{
+        } else {
             GroupTopNotice top = new GroupTopNotice();
             top.setOriginalData(in.getOriginalData());
             top.setCn(in.getId());
             top.setFid(null);
             top.setFn(null);
-            top.setPubt(in.getTime()+"");
+            top.setPubt(in.getTime() + "");
             top.setRead_num(in.getReadNum());
             Settings settings = new Settings();
             settings.setIs_show_edit_card(in.isShowEditCard() ? 0 : 1);

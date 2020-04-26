@@ -26,8 +26,9 @@ public class SetFriendAddRequest implements Set {
 
 
     public static final String API = "/set_friend_add_request";
+
     @Override
-    public String getApi(){
+    public String getApi() {
         return API;
     }
 

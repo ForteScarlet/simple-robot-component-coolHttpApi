@@ -11,12 +11,11 @@ import java.util.Collections;
 import java.util.Map;
 
 /**
- *
  * 群详细信息
  * 实验性接口
- *
+ * <p>
  * 原文档说明文字：
- *
+ * <p>
  * 注意，和其它接口有所不同，这里的所有字段都有可能在返回数据中不存在，例如可能缺少 max_member_count 等，在使用时请注意异常处理。
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -72,7 +71,9 @@ public class QQGroupInfo implements Result, GroupInfo {
     private Integer admin_count;
     private Integer max_admin_count;
     private String owner_id;
-    /** 原始数据 */
+    /**
+     * 原始数据
+     */
     private String originalData;
 
     /**
@@ -140,8 +141,9 @@ public class QQGroupInfo implements Result, GroupInfo {
 
     /**
      * 不存在简略群简介
-     * @deprecated
+     *
      * @see #getCompleteIntro()
+     * @deprecated
      */
     @Override
     @Deprecated
@@ -159,6 +161,7 @@ public class QQGroupInfo implements Result, GroupInfo {
 
     /**
      * 获取最大群人数
+     *
      * @return 最大群人数
      */
     @Override
@@ -185,24 +188,25 @@ public class QQGroupInfo implements Result, GroupInfo {
 
     /**
      * 获取群主QQ
+     *
      * @return 群主QQ
      */
     @Override
     public String getOwnerQQ() {
-        if(owner_id != null){
+        if (owner_id != null) {
             return owner_id;
-        }else{
+        } else {
             // 如果是null，尝试从admin中获取并重新为owner_id赋值
-            if(admins != null){
+            if (admins != null) {
                 for (QQGroupAdmin admin : admins) {
                     // 是群主
-                    if(admin.getPowerType().equals(PowerType.OWNER)){
+                    if (admin.getPowerType().equals(PowerType.OWNER)) {
                         owner_id = admin.getUser_id();
                         return owner_id;
                     }
                 }
                 return null;
-            }else{
+            } else {
                 return null;
             }
         }
@@ -210,6 +214,7 @@ public class QQGroupInfo implements Result, GroupInfo {
 
     /**
      * 获取群号
+     *
      * @return 群号
      */
     @Override
@@ -287,24 +292,29 @@ public class QQGroupInfo implements Result, GroupInfo {
 
         /**
          * 获取管理者权限类型
+         *
          * @return 将role作为{@link PowerType} 类型返回
          */
-        public PowerType getPowerType(){
-            if(role == null){
+        public PowerType getPowerType() {
+            if (role == null) {
                 // 如果无法判别，则判定为群员
                 return PowerType.MEMBER;
-            }else{
+            } else {
                 switch (role) {
-                    case OWNER_ROLE : return PowerType.OWNER;
-                    case ADMIN_ROLE : return PowerType.ADMIN;
-                    default: return PowerType.MEMBER;
+                    case OWNER_ROLE:
+                        return PowerType.OWNER;
+                    case ADMIN_ROLE:
+                        return PowerType.ADMIN;
+                    default:
+                        return PowerType.MEMBER;
                 }
             }
         }
 
         /**
          * 可排序的, 排序值: 群主: 1, 管理员: 0
-         *  如果存在群员类型，则群员为-1
+         * 如果存在群员类型，则群员为-1
+         *
          * @param o
          * @return
          */

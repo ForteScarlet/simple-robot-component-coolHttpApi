@@ -7,6 +7,7 @@ import lombok.Setter;
 
 /**
  * 全群禁言
+ *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
@@ -24,7 +25,7 @@ public class SetGroupWholeBan implements Set {
     public static final String API = "/set_group_whole_ban";
 
     @Override
-    public String getApi(){
+    public String getApi() {
         return API;
     }
 

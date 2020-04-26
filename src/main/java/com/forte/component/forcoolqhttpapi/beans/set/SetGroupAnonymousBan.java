@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- *
  * 群匿名禁言
+ *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
@@ -29,12 +29,13 @@ public class SetGroupAnonymousBan implements Set {
     private long duration = 30 * 60;
     public static final String API = "/set_group_anonymous_ban";
 
-    public SetGroupAnonymousBan(String group_id, String flag, long time){
+    public SetGroupAnonymousBan(String group_id, String flag, long time) {
         this.group_id = group_id;
         this.anonymous_flag = flag;
         this.duration = time;
     }
-    public SetGroupAnonymousBan(String group_id, Anonymous flag, long time){
+
+    public SetGroupAnonymousBan(String group_id, Anonymous flag, long time) {
         this.group_id = group_id;
         this.anonymous = flag;
         this.duration = time;
@@ -42,7 +43,7 @@ public class SetGroupAnonymousBan implements Set {
 
 
     @Override
-    public String getApi(){
+    public String getApi() {
         return API;
     }
 

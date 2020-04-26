@@ -8,10 +8,13 @@ import com.forte.component.forcoolqhttpapi.server.*;
 import com.forte.component.forcoolqhttpapi.utils.JSONDataUtil;
 import com.forte.lang.Language;
 import com.forte.plusutils.consoleplus.console.Colors;
-import com.forte.qqrobot.*;
+import com.forte.qqrobot.BaseApplication;
+import com.forte.qqrobot.MsgParser;
+import com.forte.qqrobot.MsgProcessor;
+import com.forte.qqrobot.SimpleRobotContext;
+import com.forte.qqrobot.beans.messages.ThisCodeAble;
 import com.forte.qqrobot.beans.messages.msgget.MsgGet;
 import com.forte.qqrobot.beans.messages.result.LoginQQInfo;
-import com.forte.qqrobot.beans.types.CQCodeTypes;
 import com.forte.qqrobot.bot.*;
 import com.forte.qqrobot.depend.DependCenter;
 import com.forte.qqrobot.exception.BotVerifyException;
@@ -21,11 +24,7 @@ import com.forte.qqrobot.exception.RobotRunException;
 import com.forte.qqrobot.factory.MsgGetTypeFactory;
 import com.forte.qqrobot.listener.invoker.ListenerManager;
 import com.forte.qqrobot.log.QQLogBack;
-import com.forte.qqrobot.sender.MsgSender;
 import com.forte.qqrobot.sender.senderlist.RootSenderList;
-import com.forte.qqrobot.sender.senderlist.SenderGetList;
-import com.forte.qqrobot.sender.senderlist.SenderSendList;
-import com.forte.qqrobot.sender.senderlist.SenderSetList;
 import com.sun.net.httpserver.HttpHandler;
 import org.apache.commons.collections.map.SingletonMap;
 
@@ -58,7 +57,9 @@ public class CoolQHttpApplication extends BaseApplication<
      */
     private CoolQHttpServer server;
 
-    /** post_type 的键的值 */
+    /**
+     * post_type 的键的值
+     */
     private static final String POST_TYPE_KEY_NAME = "post_type";
 
     /**
@@ -108,6 +109,7 @@ public class CoolQHttpApplication extends BaseApplication<
      */
     @Override
     protected BotInfo verifyBot(String code, BotInfo info) {
+        System.out.println("验证！！！！" + code + " " + info);
         // 验证
         BotInfo loginInfo;
         try {
@@ -128,39 +130,56 @@ public class CoolQHttpApplication extends BaseApplication<
     }
 
     /**
-     * 提供一个msgGet，将其转化为SendList
-     *
-     * @param msgGet     msgGet
-     * @param botManager
-     * @return {@link SenderSendList}
+     * 重写{@link #getRootSenderFunction(BotManager)}后为无用方法
      */
     @Override
+    @Deprecated
     protected CoolQHttpMsgSender getSender(MsgGet msgGet, BotManager botManager) {
-        return new CoolQHttpBotSender(msgGet, botManager);
+        return null;
     }
 
     /**
-     * 提供一个msgGet，将其转化为SetList
-     *
-     * @param msgGet     msgGet
-     * @param botManager
-     * @return {@link SenderSetList}
+     * 重写{@link #getRootSenderFunction(BotManager)}后为无用方法
      */
     @Override
+    @Deprecated
     protected CoolQHttpMsgSender getSetter(MsgGet msgGet, BotManager botManager) {
-        return new CoolQHttpBotSender(msgGet, botManager);
+        return null;
     }
 
     /**
-     * 提供一个msgGet，将其转化为GetList
-     *
-     * @param msgGet     msgGet
-     * @param botManager
-     * @return {@link SenderGetList}
+     * 重写{@link #getRootSenderFunction(BotManager)}后为无用方法
      */
     @Override
     protected CoolQHttpMsgSender getGetter(MsgGet msgGet, BotManager botManager) {
-        return new CoolQHttpBotSender(msgGet, botManager);
+        return null;
+    }
+
+    /**
+     * 重写{@link #getDefaultSenders(BotManager)}后为无用方法
+     */
+    @Override
+    @Deprecated
+    protected CoolQHttpMsgSender getDefaultSetter(BotManager botManager) {
+        return null;
+    }
+
+    /**
+     * 重写{@link #getDefaultSenders(BotManager)}后为无用方法
+     */
+    @Deprecated
+    @Override
+    protected CoolQHttpMsgSender getDefaultSender(BotManager botManager) {
+        return null;
+    }
+
+    /**
+     * 重写{@link #getDefaultSenders(BotManager)}后为无用方法
+     */
+    @Override
+    @Deprecated
+    protected CoolQHttpMsgSender getDefaultGetter(BotManager botManager) {
+        return null;
     }
 
     /**
@@ -176,55 +195,46 @@ public class CoolQHttpApplication extends BaseApplication<
         return m -> new CoolQHttpBotSender(m, botManager);
     }
 
-    /**
-     * 获取一个不使用在监听函数中的默认送信器
-     *
-     * @param dependCenter 依赖中心
-     * @param manager      监听器管理中心
-     * @param botManager   bot管理中心
-     * @return
-     */
     @Override
-    protected MsgSender getDefaultSender(DependCenter dependCenter, ListenerManager manager, BotManager botManager) {
-        CoolQHttpConfiguration conf = getConf();
+    protected DefaultSenders<CoolQHttpMsgSender, CoolQHttpMsgSender, CoolQHttpMsgSender> getDefaultSenders(BotManager botManager) {
+        ThisCodeAble nullThisCode = new ThisCodeAble() {
+            @Override
+            public String getThisCode() {
+                return null;
+            }
 
-        // 构建默认的Bot送信器
-        BotInfo defaultBot = conf.getDefaultBotInfo();
-
-        BotInfo defaultBotInfo = botManager.getBot(defaultBot.getBotCode());
-        CoolQHttpMsgSender coolQHttpMsgSender = new CoolQHttpMsgSender(defaultBotInfo);
-
-        //初始化sender
-        CoolQHttpResourceDispatchCenter.saveCoolQHttpMsgSender(coolQHttpMsgSender);
-        msgSender = coolQHttpMsgSender;
-
-        // 构建一个MsgSender
-        return MsgSender.NoListenerMsgSender.build(msgSender, msgSender, msgSender, BotRuntime.getRuntime());
+            @Override
+            public void setThisCode(String code) {
+            }
+        };
+        CoolQHttpBotSender coolQHttpBotManagerSender = new CoolQHttpBotSender(nullThisCode, botManager);
+        return new DefaultSenders<>(coolQHttpBotManagerSender, coolQHttpBotManagerSender, coolQHttpBotManagerSender);
     }
+
 
     /**
      * 获取一个组件专属的SimpleRobotContext对象
-     *
-     * @param defaultMsgSender 函数{@link #getDefaultSender(DependCenter, ListenerManager, BotManager)}的最终返回值
-     * @param manager          botManager对象
-     * @param msgParser        消息字符串转化函数
-     * @param processor        消息处理器
-     * @param dependCenter     依赖中心
+     * @param defaultSenders 函数{@link #getDefaultSenders(BotManager)} 的最终返回值
+     * @param manager        botManager对象
+     * @param msgParser      消息字符串转化函数
+     * @param processor      消息处理器
+     * @param dependCenter   依赖中心
      * @return 组件的Context对象实例
      */
     @Override
-    protected CQHttpContext getComponentContext(MsgSender defaultMsgSender, BotManager manager, MsgParser msgParser, MsgProcessor processor, DependCenter dependCenter) {
+    protected CQHttpContext getComponentContext(DefaultSenders<CoolQHttpMsgSender, CoolQHttpMsgSender, CoolQHttpMsgSender> defaultSenders, BotManager manager, MsgParser msgParser, MsgProcessor processor, DependCenter dependCenter) {
         return new CQHttpContext(
-                (CoolQHttpMsgSender) defaultMsgSender.SENDER,
-                (CoolQHttpMsgSender) defaultMsgSender.SENDER,
-                (CoolQHttpMsgSender) defaultMsgSender.GETTER,
+                defaultSenders.getSender(),
+                defaultSenders.getSetter(),
+                defaultSenders.getGetter(),
                 manager, msgParser, processor, dependCenter);
     }
 
 
     /**
      * 字符串转化为MsgGet的方法，最终会被转化为{@link MsgParser}函数，
-     * 会作为参数传入{@link #runServer(DependCenter, ListenerManager, MsgProcessor, MsgParser)}, 也会封装进{@link SimpleRobotContext}中
+     * 会作为参数传入{@link #runServer(DependCenter, ListenerManager, MsgProcessor, MsgParser)},
+     * 也会封装进{@link SimpleRobotContext}中
      *
      * @param str
      * @return
@@ -239,35 +249,36 @@ public class CoolQHttpApplication extends BaseApplication<
         // 获取值
         Class<? extends MsgGet> type = getTypeByPostType(postTypeMap, paramsJSON);
 
-        if(type != null){
+        if (type != null) {
             // 封装
             JSONObject json = JSONDataUtil.putObjOriginal(paramsJSON);
             return JSONObject.toJavaObject(json, type);
-        }else{
+        } else {
             return null;
         }
     }
 
     /**
      * 根据获取到的参数类型转化为MsgGet对象
-     * @param typeMap       类型映射map
-     * @param jsonObject    解析后的jsonObject对象
+     *
+     * @param typeMap    类型映射map
+     * @param jsonObject 解析后的jsonObject对象
      * @return
      */
-    private static Class<? extends MsgGet> getTypeByPostType(Map<PostType, Map<String, Class<? extends MsgGet>>> typeMap, JSONObject jsonObject){
+    private static Class<? extends MsgGet> getTypeByPostType(Map<PostType, Map<String, Class<? extends MsgGet>>> typeMap, JSONObject jsonObject) {
         // 获取PostType类型
         String postTypeValue = jsonObject.getString(POST_TYPE_KEY_NAME);
 
         PostType postType;
         try {
             postType = PostType.valueOf(postTypeValue);
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             return null;
         }
 
         // 获取对应的Map值
         Map<String, Class<? extends MsgGet>> stringClassMap = typeMap.get(postType);
-        if(stringClassMap == null){
+        if (stringClassMap == null) {
             return null;
         }
         // 获取键值
@@ -280,10 +291,11 @@ public class CoolQHttpApplication extends BaseApplication<
 
     /**
      * 启动一个服务，这有可能是http或者是ws的监听服务
-     * @param dependCenter   依赖中心
-     * @param manager        监听管理器
-     * @param processor      送信解析器
-     * @param parser         字符串解析器
+     *
+     * @param dependCenter 依赖中心
+     * @param manager      监听管理器
+     * @param processor    送信解析器
+     * @param parser       字符串解析器
      * @return
      */
     @Override
@@ -298,7 +310,7 @@ public class CoolQHttpApplication extends BaseApplication<
         CoolQHttpHandler coolQHttpHandler = new CoolQHttpHandler(
                 encode,
                 method,
-                manager,
+                null,
                 processor,
                 parser
         );
@@ -367,8 +379,7 @@ public class CoolQHttpApplication extends BaseApplication<
         CoolQHttpHandler coolQHttpHandler = new CoolQHttpHandler(
                 encode,
                 method,
-                manager,
-                null, null
+                null, null, null
         );
 
         // 创建一个单值Map，增加一个监听映射
@@ -448,29 +459,30 @@ public class CoolQHttpApplication extends BaseApplication<
         // 增长量
         long sleepUpper = 1000;
         Throwable lastEx = null;
-        do{
-            if(time > 0){
+        do {
+            if (time > 0) {
                 // 无法请求账号{0}的上报路径{1}, 等待{2}s后重试{3}/{4}
                 getLog().debug("login.retry", botCode == null ? "" : botCode, path, sleep / 1000, time, timeMax);
                 try {
                     // wait...
                     Thread.sleep(sleep);
                     sleep += sleepUpper;
-                } catch (InterruptedException ignored) { }
+                } catch (InterruptedException ignored) {
+                }
             }
             try {
                 loginInfo = coolQHttpMsgSender.getLoginQQInfo();
-            }catch (Exception e){
+            } catch (Exception e) {
                 lastEx = e;
             }
             time++;
             // 重试三次
-        }while (loginInfo == null && time < timeMax);
+        } while (loginInfo == null && time < timeMax);
         if (loginInfo == null) {
             final String nopath = Language.format("login.bot.info.failed.why.nopath");
-            if(lastEx != null){
+            if (lastEx != null) {
                 throw new RobotRunException("login.bot.info.failed", lastEx, nopath, botInfo.getBotCode() == null ? "unknown" : botInfo.getBotCode(), botInfo.getPath());
-            }else{
+            } else {
                 throw new RobotRunException("login.bot.info.failed", nopath, botInfo.getBotCode() == null ? "unknown" : botInfo.getBotCode(), botInfo.getPath());
             }
         }

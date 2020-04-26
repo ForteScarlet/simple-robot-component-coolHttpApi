@@ -27,7 +27,7 @@ public class SendGroupMsg implements Send {
     public static final String API = "/send_group_msg";
 
 
-    public SendGroupMsg(String group_id, String message){
+    public SendGroupMsg(String group_id, String message) {
         this(group_id, message, false);
     }
 

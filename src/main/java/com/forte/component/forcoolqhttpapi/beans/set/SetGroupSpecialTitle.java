@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- *
  * 设置群专属头衔
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -29,15 +28,16 @@ public class SetGroupSpecialTitle implements Set {
     private String special_title;
     private long duration = -1;
 
-    public SetGroupSpecialTitle(String group, String qq, String title){
+    public SetGroupSpecialTitle(String group, String qq, String title) {
         this.group_id = group;
         this.user_id = qq;
         this.special_title = title;
     }
 
     public static final String API = "/set_group_special_title";
+
     @Override
-    public String getApi(){
+    public String getApi() {
         return API;
     }
 

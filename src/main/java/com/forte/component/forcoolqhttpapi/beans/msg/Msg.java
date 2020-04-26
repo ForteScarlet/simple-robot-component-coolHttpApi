@@ -3,7 +3,6 @@ package com.forte.component.forcoolqhttpapi.beans.msg;
 import com.forte.qqrobot.beans.messages.TimeAble;
 
 /**
- *
  * 接收到的消息的接口
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -17,10 +16,14 @@ public interface Msg extends TimeAble {
      */
     // 每次上报的数据中必有的一个字段是 post_type，数据类型为字符串，用来指示此次上报的类型
 
-    /** 获取上报格式 */
+    /**
+     * 获取上报格式
+     */
     PostType getPostType();
 
-    /** 收到消息的机器人QQ号 -> self_id */
+    /**
+     * 收到消息的机器人QQ号 -> self_id
+     */
     String getSelfQQ();
 
     /*

@@ -6,7 +6,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- *
  * 陌生人QQ信息
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -23,25 +22,39 @@ public class StrangerInfo implements com.forte.qqrobot.beans.messages.result.Str
         age	number (int32)	年龄
      */
 
-    @Getter@Setter private String user_id;
-    @Getter@Setter private String nickname;
-    @Setter        private com.forte.component.forcoolqhttpapi.beans.type.SexType sex;
-    @Getter@Setter private Integer age;
-    @Getter@Setter private String originalData;
+    @Getter
+    @Setter
+    private String user_id;
+    @Getter
+    @Setter
+    private String nickname;
+    @Setter
+    private com.forte.component.forcoolqhttpapi.beans.type.SexType sex;
+    @Getter
+    @Setter
+    private Integer age;
+    @Getter
+    @Setter
+    private String originalData;
 
-    /** QQ号 */
+    /**
+     * QQ号
+     */
     @Override
-    public String getQQ(){
+    public String getQQ() {
         return user_id;
     }
-    /** 性别 */
+
+    /**
+     * 性别
+     */
     @Override
-    public SexType getSex(){
-        if(sex.equals(com.forte.component.forcoolqhttpapi.beans.type.SexType.male)){
+    public SexType getSex() {
+        if (sex.equals(com.forte.component.forcoolqhttpapi.beans.type.SexType.male)) {
             return SexType.MALE;
-        }else if(sex.equals(com.forte.component.forcoolqhttpapi.beans.type.SexType.female)){
+        } else if (sex.equals(com.forte.component.forcoolqhttpapi.beans.type.SexType.female)) {
             return SexType.FEMALE;
-        }else{
+        } else {
             return SexType.UNKNOWN;
         }
     }
@@ -62,9 +75,11 @@ public class StrangerInfo implements com.forte.qqrobot.beans.messages.result.Str
         return -1;
     }
 
-    /** 获取名称（昵称） */
+    /**
+     * 获取名称（昵称）
+     */
     @Override
-    public String getName(){
+    public String getName() {
         return nickname;
     }
 }

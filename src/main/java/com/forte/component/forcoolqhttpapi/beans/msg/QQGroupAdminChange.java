@@ -7,7 +7,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- *
  * 群管理变动事件
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -74,14 +73,13 @@ public class QQGroupAdminChange extends BaseMsg implements GroupAdminChange {
      */
     public static enum AdminChangeType {
         // set、unset	事件子类型，分别表示设置和取消管理员
-        set(GroupAdminChangeType.BECOME_ADMIN) ,
-        unset(GroupAdminChangeType.CANCEL_ADMIN)
-        ;
+        set(GroupAdminChangeType.BECOME_ADMIN),
+        unset(GroupAdminChangeType.CANCEL_ADMIN);
 
 
         public final GroupAdminChangeType type;
 
-        AdminChangeType(GroupAdminChangeType t){
+        AdminChangeType(GroupAdminChangeType t) {
             this.type = t;
         }
 

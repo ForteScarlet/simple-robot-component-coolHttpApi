@@ -5,7 +5,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- *
  * 是否能够发送语音
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>

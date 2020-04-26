@@ -29,14 +29,21 @@ public class LoginInfo extends AbstractInfoResult implements com.forte.qqrobot.b
 
     private String headUrl = "";
 
-    /** 昵称 */
+    /**
+     * 昵称
+     */
     @Override
-    public String getName(){
+    public String getName() {
         return nickname;
-    };
-    /** QQ号 */
+    }
+
+    ;
+
+    /**
+     * QQ号
+     */
     @Override
-    public String getQQ(){
+    public String getQQ() {
         return user_id;
     }
 
@@ -45,8 +52,8 @@ public class LoginInfo extends AbstractInfoResult implements com.forte.qqrobot.b
      */
     @Override
     public String getHeadUrl() {
-        if("".equals(headUrl)){
-            headUrl = user_id == null ? null : "http://q.qlogo.cn/headimg_dl?dst_uin="+ user_id +"&spec=640";
+        if ("".equals(headUrl)) {
+            headUrl = user_id == null ? null : "http://q.qlogo.cn/headimg_dl?dst_uin=" + user_id + "&spec=640";
         }
         return headUrl;
     }

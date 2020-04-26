@@ -28,15 +28,17 @@ public class SetGroupLeave implements Set {
 
     /**
      * 默认认为你是非群主
+     *
      * @param group
      */
-    public SetGroupLeave(String group){
+    public SetGroupLeave(String group) {
         this.group_id = group;
     }
 
     public static final String API = "/set_group_leave";
+
     @Override
-    public String getApi(){
+    public String getApi() {
         return API;
     }
 

@@ -5,8 +5,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- *
  * 元事件 - 生命周期
+ *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
@@ -48,7 +48,8 @@ public class QQBaseLifecycle extends BaseMsg implements Lifecycle {
      * @since 1.7.x
      */
     @Override
-    public void setMsg(String newMsg) { }
+    public void setMsg(String newMsg) {
+    }
 
     /**
      * 获取消息的字体
@@ -65,7 +66,6 @@ public class QQBaseLifecycle extends BaseMsg implements Lifecycle {
         /**
          * @since 1.7.x , http api v 4.14.0
          */
-        connect
-        ;
+        connect;
     }
 }

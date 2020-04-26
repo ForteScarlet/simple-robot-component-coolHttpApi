@@ -6,7 +6,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- *
  * 元事件 - 心跳
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -40,5 +39,6 @@ public class QQBaseHeartbeat extends BaseMsg implements Heartbeat {
      * @since 1.7.x
      */
     @Override
-    public void setMsg(String newMsg) { }
+    public void setMsg(String newMsg) {
+    }
 }

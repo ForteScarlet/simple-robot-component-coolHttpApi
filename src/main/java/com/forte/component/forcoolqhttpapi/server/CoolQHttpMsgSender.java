@@ -18,7 +18,6 @@ import com.forte.qqrobot.beans.messages.result.inner.GroupNote;
 import com.forte.qqrobot.beans.messages.types.GroupAddRequestType;
 import com.forte.qqrobot.bot.BotInfo;
 import com.forte.qqrobot.exception.RobotRuntimeException;
-import com.forte.qqrobot.log.QQLog;
 import com.forte.qqrobot.sender.HttpClientAble;
 import com.forte.qqrobot.sender.HttpClientHelper;
 import com.forte.qqrobot.sender.senderlist.BaseRootSenderList;
@@ -390,7 +389,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
                 if (vipInfo != null) {
                     loginInfo.setLevel(vipInfo.getLevel());
                 }
-            }catch (Exception ignored){
+            } catch (Exception ignored) {
                 // vip 信息获取失败
             }
             return loginInfo;
@@ -740,7 +739,6 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
 
     /**
      * 群签到
-     * 貌似不支持的API
      *
      * @param group 群号
      */

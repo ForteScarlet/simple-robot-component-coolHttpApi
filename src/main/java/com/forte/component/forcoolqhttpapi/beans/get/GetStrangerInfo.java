@@ -26,8 +26,9 @@ public class GetStrangerInfo implements Get<StrangerInfo> {
     private Boolean no_cache = false;
 
     public static final String API = "/get_stranger_info";
+
     @Override
-    public String getApi(){
+    public String getApi() {
         return API;
     }
 

@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- *
  * 获取 QQ 相关接口凭证
  * 获取cookie和csrfToken
  *
@@ -16,11 +15,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class GetCredentials implements Get<Credentials>  {
+public class GetCredentials implements Get<Credentials> {
 
     public static final String API = "/get_credentials";
+
     @Override
-    public String getApi(){
+    public String getApi() {
         return API;
     }
 

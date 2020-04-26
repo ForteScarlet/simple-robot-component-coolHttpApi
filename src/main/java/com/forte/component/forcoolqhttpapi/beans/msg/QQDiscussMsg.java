@@ -7,7 +7,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- *
  * 讨论组消息
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -69,7 +68,8 @@ public class QQDiscussMsg extends BaseMsg implements DiscussMsg {
      * @since 1.7.x
      */
     @Override
-    public void setMsg(String newMsg) { }
+    public void setMsg(String newMsg) {
+    }
 
 
     @Getter

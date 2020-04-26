@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
  * CoolQ HTTP API 通讯异常
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -33,7 +32,7 @@ public class CoolQHttpInteractionException extends RobotRuntimeException {
     /**
      * 异常信息保存
      */
-    private static final Map<Integer, String> ERROR_MESSAGE = new HashMap<Integer, String>(4){{
+    private static final Map<Integer, String> ERROR_MESSAGE = new HashMap<Integer, String>(4) {{
 //        put(0  , "操作成功");
 //        put(1  , "操作已进入异步执行，具体结果未知");
         put(100, "参数缺失或参数无效，通常是因为没有传入必要参数, 某些接口中也可能因为参数明显无效（比如传入的 QQ 号小于等于 0，此时无需调用 酷Q 函数即可确定失败）");
@@ -46,15 +45,16 @@ public class CoolQHttpInteractionException extends RobotRuntimeException {
 
     /**
      * 根据返回码判断是否失败
+     *
      * @param baseData
      */
-    public static void requireNotFailed(JSONObject baseData){
+    public static void requireNotFailed(JSONObject baseData) {
         // 需要是原生的数据，有status字段、retcode字段的那种
-        String status  = baseData.getString("status");
-        if("failed".equals(status)){
+        String status = baseData.getString("status");
+        if ("failed".equals(status)) {
             int retcode = baseData.getInteger("retcode");
             String message = ERROR_MESSAGE.get(retcode);
-            if(message == null){
+            if (message == null) {
                 message = "非CQ HTTP API错误码, 请启用酷Q开发者模式并查看详细错误信息。介绍：https://docs.cqp.im/dev/v9/errorcode/";
             }
             throw new CoolQHttpInteractionException(errorMsg(retcode, message));
@@ -62,21 +62,20 @@ public class CoolQHttpInteractionException extends RobotRuntimeException {
     }
 
 
-    public static String errorMsg(int code){
+    public static String errorMsg(int code) {
         return errorMsg(code, ERROR_MESSAGE.get(code));
     }
 
-    public static String errorMsg(int code, String msg){
+    public static String errorMsg(int code, String msg) {
         StringBuilder sb = new StringBuilder("与插件的数据交互出现异常！");
         sb.append("\r\nerror code:\t").append(code);
-        if(msg != null){
+        if (msg != null) {
             sb.append("\r\nerror info:\t").append(msg);
         }
 
         sb.append("\r\n");
         return sb.toString();
     }
-
 
 
     public CoolQHttpInteractionException() {

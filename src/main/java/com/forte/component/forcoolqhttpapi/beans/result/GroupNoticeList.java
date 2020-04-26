@@ -10,6 +10,7 @@ import lombok.ToString;
  * 群公告信息
  * 列表类型
  * ※ 需要特殊处理返回值
+ *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
@@ -54,7 +55,9 @@ public class GroupNoticeList implements Result, GroupNoteList {
      */
     @ToString
     public static class GroupNotice implements GroupNote {
-        @Getter@Setter private String originalData;
+        @Getter
+        @Setter
+        private String originalData;
         /*
         这里的数据是 QQ 接口返回的原始数据，
         其中，text 和 title 等字段的内容被进行了 HTML 转义（如 &nbsp;）；
@@ -79,32 +82,48 @@ public class GroupNoticeList implements Result, GroupNoteList {
             }
          */
 
-         @Getter@Setter private String cn;
-         @Getter@Setter private String fid;
-         @Getter@Setter private String fn;
+        @Getter
+        @Setter
+        private String cn;
+        @Getter
+        @Setter
+        private String fid;
+        @Getter
+        @Setter
+        private String fn;
 
-         private Msg msg;
-         @Getter@Setter private String pubt;
-         @Getter@Setter private Integer read_num;
-         @Getter@Setter private Settings settings;
-         @Getter@Setter private String u;
-         @Getter@Setter private String vn;
+        private Msg msg;
+        @Getter
+        @Setter
+        private String pubt;
+        @Getter
+        @Setter
+        private Integer read_num;
+        @Getter
+        @Setter
+        private Settings settings;
+        @Getter
+        @Setter
+        private String u;
+        @Getter
+        @Setter
+        private String vn;
 
-         public Msg getMsgs(){
-             return msg;
-         }
+        public Msg getMsgs() {
+            return msg;
+        }
 
-         public void setMsg(Msg msg){
-             this.msg = msg;
-         }
+        public void setMsg(Msg msg) {
+            this.msg = msg;
+        }
 
         /**
          * 获取消息字符串
          */
-         @Override
-         public String getMsg(){
-             return msg == null ? null : msg.text;
-         }
+        @Override
+        public String getMsg() {
+            return msg == null ? null : msg.text;
+        }
 
         @Override
         public String getId() {
@@ -150,8 +169,10 @@ public class GroupNoticeList implements Result, GroupNoteList {
         /**
          * Msg封装类 {@link GroupNotice} 字段中的Msg对象
          */
-        @Setter@Getter@ToString
-        public static class Msg{
+        @Setter
+        @Getter
+        @ToString
+        public static class Msg {
             /*
                     "text": "喵~&nbsp;喵~",
                     "text_face": "喵~&nbsp;&nbsp;喵~",
@@ -163,8 +184,10 @@ public class GroupNoticeList implements Result, GroupNoteList {
             private String title;
         }
 
-        @Setter@Getter@ToString
-        public static class Settings{
+        @Setter
+        @Getter
+        @ToString
+        public static class Settings {
             /*
                     "is_show_edit_card": 0,
                     "remind_ts": 0
@@ -173,7 +196,6 @@ public class GroupNoticeList implements Result, GroupNoteList {
             private String remind_ts;
 
         }
-
 
 
     }

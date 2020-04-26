@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- *
  * 获取语音
  * 其实并不是真的获取语音，而是转换语音到指定的格式，然后返回语音文件名（data\record 目录下）。
  * 注意，要使用此接口，需要安装 酷Q 的 语音组件。
@@ -33,13 +32,16 @@ public class GetRecord implements Get<QQRecord> {
      */
 
     private String file;
-    /** 要转换到的格式，目前支持 mp3、amr、wma、m4a、spx、ogg、wav、flac */
+    /**
+     * 要转换到的格式，目前支持 mp3、amr、wma、m4a、spx、ogg、wav、flac
+     */
     private String out_format;
     private boolean full_path = false;
 
     public static final String API = "/get_record";
+
     @Override
-    public String getApi(){
+    public String getApi() {
         return API;
     }
 

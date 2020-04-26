@@ -9,12 +9,14 @@ import com.forte.qqrobot.depend.DependCenter;
 
 /**
  * CQ HTTP 组件
+ *
  * @author <a href="https://github.com/ForteScarlet"> ForteScarlet </a>
  */
 public class CQHttpContext extends SimpleRobotContext<CoolQHttpMsgSender, CoolQHttpMsgSender, CoolQHttpMsgSender> {
 
     /**
      * 构造函数
+     *
      * @param sender       sender送信器
      * @param setter       setter送信器
      * @param getter       getter送信器

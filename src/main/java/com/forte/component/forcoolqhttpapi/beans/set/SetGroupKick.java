@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- *
  * 群组踢人
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -30,7 +29,7 @@ public class SetGroupKick implements Set {
     public static final String API = "/set_group_kick";
 
     @Override
-    public String getApi(){
+    public String getApi() {
         return API;
     }
 

@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- *
  * 获取Cookie信息
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -18,8 +17,9 @@ import lombok.Setter;
 public class GetCookies implements Get<QQCookies> {
 
     public static final String API = "/get_cookies";
+
     @Override
-    public String getApi(){
+    public String getApi() {
         return API;
     }
 

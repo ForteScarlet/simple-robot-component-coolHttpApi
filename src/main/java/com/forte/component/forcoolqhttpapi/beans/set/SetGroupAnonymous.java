@@ -24,7 +24,7 @@ public class SetGroupAnonymous implements Set {
     public static final String API = "/set_group_anonymous";
 
     @Override
-    public String getApi(){
+    public String getApi() {
         return API;
     }
 }

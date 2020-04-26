@@ -14,21 +14,29 @@ import java.util.regex.Pattern;
  */
 public class NewKeywordMatchTypeFactory extends BaseFactory<KeywordMatchType> {
 
-    /** class bean for enum type {@link KeywordMatchType} */
+    /**
+     * class bean for enum type {@link KeywordMatchType}
+     */
     private static final Class<KeywordMatchType> ENUM_TYPE = KeywordMatchType.class;
 
-    /** constructor types */
+    /**
+     * constructor types
+     */
     // BiPredicate<String, String> filter
     private static final Class<?>[] CONSTRUCTOR_TYPES = {BiPredicate.class};
 
-    /** function to array */
+    /**
+     * function to array
+     */
     private static final IntFunction<KeywordMatchType[]> TO_ARRAY_FUNCTION = KeywordMatchType[]::new;
 
-    /** single bean */
+    /**
+     * single bean
+     */
     private static final NewKeywordMatchTypeFactory FACTORY = new NewKeywordMatchTypeFactory();
 
-    private NewKeywordMatchTypeFactory(){
-        if(FACTORY != null){
+    private NewKeywordMatchTypeFactory() {
+        if (FACTORY != null) {
             throw new RuntimeException("No! You don't need more examples.");
         }
     }
@@ -55,23 +63,24 @@ public class NewKeywordMatchTypeFactory extends BaseFactory<KeywordMatchType> {
 
     /**
      * 注册一个新的 {@link KeywordMatchType} 实例
-     * @see #register(String, BiPredicate)
-     * @param name      枚举名称
-     * @param filter    字符串过滤规则
+     *
+     * @param name   枚举名称
+     * @param filter 字符串过滤规则
      * @return 枚举实例
      * @throws EnumInstantiationRequireException 参数权限验证失败
      * @throws EnumInstantiationException        实例化异常
+     * @see #register(String, BiPredicate)
      */
     public KeywordMatchType register(String name, BiPredicate<String, Pattern> filter) throws EnumInstantiationRequireException, EnumInstantiationException {
         return super.registerEnum(name, filter);
     }
 
 
-
     /**
      * 注册一个新的 {@link KeywordMatchType} 实例 - 静态窗口
-     * @param name      枚举名称
-     * @param filter    字符串过滤规则
+     *
+     * @param name   枚举名称
+     * @param filter 字符串过滤规则
      * @return
      */
     public static KeywordMatchType registerType(String name, BiPredicate<String, Pattern> filter) throws EnumInstantiationRequireException, EnumInstantiationException {

@@ -3,7 +3,6 @@ package com.forte.component.forcoolqhttpapi.beans.msg;
 import com.forte.qqrobot.beans.messages.msgget.MsgGet;
 
 /**
- *
  * 元事件 - 生命周期
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>

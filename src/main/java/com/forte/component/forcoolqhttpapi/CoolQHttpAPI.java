@@ -8,30 +8,32 @@ import com.forte.component.forcoolqhttpapi.server.CoolQHttpMsgSender;
 @Deprecated
 public class CoolQHttpAPI {
 
-    /** 真正的CoolQMsgSender */
+    /**
+     * 真正的CoolQMsgSender
+     */
     private CoolQHttpMsgSender coolQHttpMsgSender;
 
     /**
      * 构造不提供公共接口，仅包内结构
      */
-    CoolQHttpAPI(CoolQHttpMsgSender sender){
+    CoolQHttpAPI(CoolQHttpMsgSender sender) {
         this.coolQHttpMsgSender = sender;
     }
-    CoolQHttpAPI(){ }
+
+    CoolQHttpAPI() {
+    }
 
 
-    void setCoolQHttpMsgSender(CoolQHttpMsgSender sender){
+    void setCoolQHttpMsgSender(CoolQHttpMsgSender sender) {
         this.coolQHttpMsgSender = sender;
     }
 
     /**
      * 获取真正的MsgSender对象
      */
-    public CoolQHttpMsgSender getMsgSender(){
+    public CoolQHttpMsgSender getMsgSender() {
         return coolQHttpMsgSender;
     }
-
-
 
 
 }

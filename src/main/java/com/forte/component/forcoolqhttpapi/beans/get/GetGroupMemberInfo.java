@@ -8,6 +8,7 @@ import lombok.Setter;
 
 /**
  * 获取群成员信息
+ *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
@@ -27,8 +28,9 @@ public class GetGroupMemberInfo implements Get<MemberInfo> {
     private boolean no_cache = false;
 
     public static final String API = "/get_group_member_info";
+
     @Override
-    public String getApi(){
+    public String getApi() {
         return API;
     }
 

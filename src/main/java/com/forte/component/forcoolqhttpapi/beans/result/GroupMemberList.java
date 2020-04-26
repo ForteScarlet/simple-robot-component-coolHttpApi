@@ -7,7 +7,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- *
  * 群成员列表
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -25,7 +24,7 @@ public class GroupMemberList
     private String originalData;
 
     @Override
-    public GroupMember[] getList(){
+    public GroupMember[] getList() {
         return list;
     }
 

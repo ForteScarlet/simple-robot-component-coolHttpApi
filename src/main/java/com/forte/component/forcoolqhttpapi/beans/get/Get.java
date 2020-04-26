@@ -6,7 +6,6 @@ import com.forte.component.forcoolqhttpapi.beans.result.Result;
 import com.forte.component.forcoolqhttpapi.beans.send.Send;
 
 /**
- *
  * 获取相关的接口
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -14,14 +13,16 @@ import com.forte.component.forcoolqhttpapi.beans.send.Send;
  **/
 public interface Get<R extends Result> extends Send {
 
-    /** 获取响应值的接收封装类型，需要是一个具体的实现类 */
+    /**
+     * 获取响应值的接收封装类型，需要是一个具体的实现类
+     */
     @JSONField(serialize = false)
     Class<R> getResultType();
 
     /**
      * toJSON字符串
      */
-    default String toJSON(){
+    default String toJSON() {
         return JSON.toJSONString(this);
     }
 

@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- *
  * 退出讨论组
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -23,8 +22,9 @@ public class SetDiscussLeave implements Set {
     private String discuss_id;
 
     public static final String API = "/set_discuss_leave";
+
     @Override
-    public String getApi(){
+    public String getApi() {
         return API;
     }
 }

@@ -18,10 +18,11 @@ public class PostTypeUtils {
 
     /**
      * 获取到扫描到的全部Class对象，转化为对应格式的Map
+     *
      * @param collections
      * @return
      */
-    public static Map<PostType, Map<String, Class<? extends MsgGet>>> toTypeMap(Collection<Class<? extends BaseMsg>> collections){
+    public static Map<PostType, Map<String, Class<? extends MsgGet>>> toTypeMap(Collection<Class<? extends BaseMsg>> collections) {
         // 过滤转化
         return collections.stream()
                 .filter(c -> c.getAnnotation(MsgOn.class) != null)

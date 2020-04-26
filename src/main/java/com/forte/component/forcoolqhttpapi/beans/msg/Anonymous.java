@@ -6,6 +6,7 @@ import lombok.Setter;
 
 /**
  * 匿名消息的消息封装
+ *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/

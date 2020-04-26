@@ -6,8 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- *
- *  获取插件运行状态
+ * 获取插件运行状态
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
@@ -19,8 +18,9 @@ import lombok.Setter;
 public class getStatus implements Get<PluginStatus> {
 
     public static final String API = "/get_status";
+
     @Override
-    public String getApi(){
+    public String getApi() {
         return API;
     }
 

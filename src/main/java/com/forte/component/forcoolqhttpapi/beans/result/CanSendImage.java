@@ -6,6 +6,7 @@ import lombok.ToString;
 
 /**
  * 是否可以发图片
+ *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/

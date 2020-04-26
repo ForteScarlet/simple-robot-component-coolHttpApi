@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- *
  * 获取登录号信息
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -21,7 +20,7 @@ public class GetLoginInfo implements Get<LoginInfo> {
     public static final String API = "/get_login_info";
 
     @Override
-    public String getApi(){
+    public String getApi() {
         return API;
     }
 

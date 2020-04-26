@@ -7,7 +7,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- *
  * 群成员减少
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -66,13 +65,13 @@ public class QQGroupMemberDecrease extends BaseMsg implements GroupMemberReduce 
 
     public static enum GroupDecreaseType {
         // leave、kick、kick_me	事件子类型，分别表示主动退群、成员被踢、登录号被踢
-        leave(ReduceType.LEAVE) ,
-        kick(ReduceType.KICK_OUT) ,
-        kick_me(ReduceType.KICK_OUT)
-        ;
+        leave(ReduceType.LEAVE),
+        kick(ReduceType.KICK_OUT),
+        kick_me(ReduceType.KICK_OUT);
 
         public final ReduceType type;
-        GroupDecreaseType(ReduceType t){
+
+        GroupDecreaseType(ReduceType t) {
             this.type = t;
         }
 

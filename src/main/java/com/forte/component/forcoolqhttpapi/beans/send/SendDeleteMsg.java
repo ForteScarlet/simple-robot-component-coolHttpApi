@@ -7,6 +7,7 @@ import lombok.Setter;
 
 /**
  * 消息撤回
+ *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
@@ -22,7 +23,7 @@ public class SendDeleteMsg implements Send {
     public static final String API = "/delete_msg";
 
     @Override
-    public String getApi(){
+    public String getApi() {
         return API;
     }
 

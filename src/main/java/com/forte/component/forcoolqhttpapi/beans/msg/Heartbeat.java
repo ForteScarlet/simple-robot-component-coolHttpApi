@@ -4,7 +4,6 @@ import com.forte.component.forcoolqhttpapi.beans.result.PluginStatus;
 import com.forte.qqrobot.beans.messages.msgget.EventGet;
 
 /**
- *
  * 元事件-心跳
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>

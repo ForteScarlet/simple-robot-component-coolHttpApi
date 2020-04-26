@@ -5,7 +5,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- *
  * 插件运行状态
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>

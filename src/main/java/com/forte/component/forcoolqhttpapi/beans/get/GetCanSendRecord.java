@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- *
  * 检查是否可以发送语音
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -19,8 +18,9 @@ import lombok.Setter;
 public class GetCanSendRecord implements Get<CanSendRecord> {
 
     public static final String API = "/can_send_record";
+
     @Override
-    public String getApi(){
+    public String getApi() {
         return API;
     }
 

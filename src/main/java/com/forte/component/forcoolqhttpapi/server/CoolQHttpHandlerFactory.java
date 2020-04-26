@@ -16,9 +16,12 @@ import java.util.Map;
  **/
 public class CoolQHttpHandlerFactory {
 
-    /** factory中使用的log日志 */
+    /**
+     * factory中使用的log日志
+     */
     protected static final QQLogLang LOG_LANG = new QQLogLang("cq.httpapi.handler.factory");
-    protected QQLogLang getLog(){
+
+    protected QQLogLang getLog() {
         return LOG_LANG;
     }
 

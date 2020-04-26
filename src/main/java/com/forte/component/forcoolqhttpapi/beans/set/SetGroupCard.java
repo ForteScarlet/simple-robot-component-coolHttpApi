@@ -26,8 +26,9 @@ public class SetGroupCard implements Set {
     private String card;
 
     public static final String API = "/set_group_card";
+
     @Override
-    public String getApi(){
+    public String getApi() {
         return API;
     }
 }

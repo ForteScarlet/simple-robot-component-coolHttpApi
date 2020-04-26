@@ -7,7 +7,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- *
  * 加群申请
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -59,7 +58,7 @@ public class QQGroupAddRequest extends BaseMsg implements GroupAddRequest {
     }
 
     @Override
-    public void setMsg(String msg){
+    public void setMsg(String msg) {
         setComment(msg);
     }
 
@@ -71,12 +70,12 @@ public class QQGroupAddRequest extends BaseMsg implements GroupAddRequest {
 
     public static enum GroupAddReqType {
         // add、invite
-        add(GroupAddRequestType.ADD) ,
-        invite (GroupAddRequestType.INVITE)
-        ;
+        add(GroupAddRequestType.ADD),
+        invite(GroupAddRequestType.INVITE);
 
         public final GroupAddRequestType type;
-        GroupAddReqType (GroupAddRequestType t) {
+
+        GroupAddReqType(GroupAddRequestType t) {
             this.type = t;
         }
     }

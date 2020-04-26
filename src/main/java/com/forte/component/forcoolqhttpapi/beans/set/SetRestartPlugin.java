@@ -24,8 +24,9 @@ public class SetRestartPlugin implements Set {
 
     private long delay;
     public static final String API = "/set_restart_plugin";
+
     @Override
-    public String getApi(){
+    public String getApi() {
         return API;
     }
 

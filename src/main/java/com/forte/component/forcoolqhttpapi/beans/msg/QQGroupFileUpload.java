@@ -7,7 +7,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- *
  * 群文件上传事件
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -17,7 +16,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @MsgOn(type = PostType.notice, messageType = QQGroupFileUpload.NOTICE_TYPE)
-public class QQGroupFileUpload extends BaseMsg implements GroupFileUpload  {
+public class QQGroupFileUpload extends BaseMsg implements GroupFileUpload {
     /*
         字段名	数据类型	可能的值	说明
         post_type	string	notice	上报类型

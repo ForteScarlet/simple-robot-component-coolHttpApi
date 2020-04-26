@@ -23,7 +23,7 @@ public class SendLike implements Send {
     public static final String API = "/send_like";
 
     @Override
-    public String getApi(){
+    public String getApi() {
         return API;
     }
 

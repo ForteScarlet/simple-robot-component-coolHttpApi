@@ -57,7 +57,9 @@ public class CoolQHttpServer implements Closeable {
     }
 
 
-    /** 真正的HttpServer对象 */
+    /**
+     * 真正的HttpServer对象
+     */
     private HttpServer httpServer;
 
     /**

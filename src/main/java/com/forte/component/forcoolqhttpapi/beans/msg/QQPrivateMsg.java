@@ -8,7 +8,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- *
  * 私信消息
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -31,29 +30,45 @@ raw_message	string	-	原始消息内容
 font	number (int32)	-	字体
 sender	object	-	发送人信息
  */
-    /** 上报类型必定为message */
+    /**
+     * 上报类型必定为message
+     */
     public static final PostType POST_TYPE = PostType.message;
-    /** 消息类型 - 私信 */
+    /**
+     * 消息类型 - 私信
+     */
     public static final String MESSAGE_TYPE = "private";
 
     private String post_type;
-    /** 子类型 */
+    /**
+     * 子类型
+     */
     private PriType sub_type;
 
     private String message_id;
 
-    /** qq号 */
+    /**
+     * qq号
+     */
     private String user_id;
 
-    /** 消息内容 */
+    /**
+     * 消息内容
+     */
     private String message;
 
-    /** 原始消息内容 */
+    /**
+     * 原始消息内容
+     */
     private String raw_message;
-    /** 字体类型 */
+    /**
+     * 字体类型
+     */
     private String font;
 
-    /** 送信者信息封装 */
+    /**
+     * 送信者信息封装
+     */
     private Sender sender;
 
     @Override
@@ -86,7 +101,7 @@ sender	object	-	发送人信息
     }
 
     @Override
-    public void setMsg(String msg){
+    public void setMsg(String msg) {
         this.message = msg;
     }
 
@@ -115,16 +130,17 @@ sender	object	-	发送人信息
         }
     }
 
-    public static enum PriType{
+    public static enum PriType {
         //消息子类型，如果是好友则是 friend，如果从群或讨论组来的临时会话则分别是 group、discuss
         friend(PrivateMsgType.FROM_FRIEND),
         group(PrivateMsgType.FROM_GROUP),
-        discuss(PrivateMsgType.FROM_DISCUSS)
-        ;
+        discuss(PrivateMsgType.FROM_DISCUSS);
         public final PrivateMsgType type;
 
-        /** 构建对应的PrivateMsgType类型 */
-        PriType(PrivateMsgType type){
+        /**
+         * 构建对应的PrivateMsgType类型
+         */
+        PriType(PrivateMsgType type) {
             this.type = type;
         }
     }

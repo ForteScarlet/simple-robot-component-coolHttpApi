@@ -7,6 +7,7 @@ import lombok.ToString;
 
 /**
  * qq相关凭证信息
+ *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/

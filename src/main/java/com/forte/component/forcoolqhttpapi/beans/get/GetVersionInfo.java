@@ -6,8 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- *
- *  获取 酷Q 及 HTTP API 插件的版本信息
+ * 获取 酷Q 及 HTTP API 插件的版本信息
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
@@ -19,8 +18,9 @@ import lombok.Setter;
 public class GetVersionInfo implements Get<VersionInfo> {
 
     public static final String API = "/get_version_info";
+
     @Override
-    public String getApi(){
+    public String getApi() {
         return API;
     }
 

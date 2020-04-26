@@ -18,8 +18,9 @@ import lombok.Setter;
 public class GetCsrfToken implements Get<QQCsrfToken> {
 
     public static final String API = "/get_csrf_token";
+
     @Override
-    public String getApi(){
+    public String getApi() {
         return API;
     }
 

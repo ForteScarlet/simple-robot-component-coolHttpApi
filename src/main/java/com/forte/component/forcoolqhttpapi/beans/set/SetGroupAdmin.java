@@ -7,6 +7,7 @@ import lombok.Setter;
 
 /**
  * 设置群管理员
+ *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
@@ -24,8 +25,9 @@ public class SetGroupAdmin implements Set {
     private String user_id;
     private boolean enable = true;
     public static final String API = "/set_group_admin";
+
     @Override
-    public String getApi(){
+    public String getApi() {
         return API;
     }
 

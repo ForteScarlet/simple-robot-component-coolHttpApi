@@ -6,7 +6,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- *
  * 好友添加申请
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -51,7 +50,7 @@ public class QQFriendAddRequest extends BaseMsg implements FriendAddRequest {
     }
 
     @Override
-    public void setMsg(String msg){
+    public void setMsg(String msg) {
         setComment(msg);
     }
 }

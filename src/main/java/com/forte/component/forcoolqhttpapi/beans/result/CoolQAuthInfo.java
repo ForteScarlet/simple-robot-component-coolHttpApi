@@ -6,7 +6,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- *
  * 权限信息
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>

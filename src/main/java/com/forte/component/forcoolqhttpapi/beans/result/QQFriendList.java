@@ -76,7 +76,7 @@ public class QQFriendList implements FriendList, Result {
             if (friends != null) {
                 try {
                     Arrays.sort(friends);
-                }catch (Exception e){
+                } catch (Exception e) {
                     QQLog.debug("cq.httpapi.qq.friendlist.sort.failed", e.getLocalizedMessage());
                 }
                 for (QQFriends fs : friends) {
@@ -111,20 +111,23 @@ public class QQFriendList implements FriendList, Result {
         friend_group_name	string	好友分组名称
         friends	array	分组中的好友
          */
-        @Getter@Setter
+        @Getter
+        @Setter
         private String friend_group_id;
-        @Getter@Setter
+        @Getter
+        @Setter
         private String friend_group_name;
-        @Getter@Setter
+        @Getter
+        @Setter
         private QQfriend[] friends;
 
         private Integer sortId;
 
         public Integer getSortId() {
-            if(sortId == null){
+            if (sortId == null) {
                 try {
                     sortId = Integer.parseInt(friend_group_id);
-                }catch (Exception e){
+                } catch (Exception e) {
                     sortId = 0;
                 }
             }
@@ -154,7 +157,7 @@ public class QQFriendList implements FriendList, Result {
         private String originalData;
 
         @Override
-        public String toString(){
+        public String toString() {
             return nickname + "(" + user_id + ")";
         }
 

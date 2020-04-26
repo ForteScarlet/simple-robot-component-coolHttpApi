@@ -24,23 +24,25 @@ public class SetGroupBan implements Set {
 
     private String group_id;
     private String user_id;
-    /** 单位秒，0为取消禁言 默认值为30 * 60 */
+    /**
+     * 单位秒，0为取消禁言 默认值为30 * 60
+     */
     private long duration = 30 * 60;
 
     public static final String API = "/set_group_ban";
 
     @Override
-    public String getApi(){
+    public String getApi() {
         return API;
     }
 
     /**
      * 如果小于0，设置为0
      */
-    public void setDuration(long time){
-        if(time <= 0){
+    public void setDuration(long time) {
+        if (time <= 0) {
             this.duration = 0L;
-        }else{
+        } else {
             this.duration = time;
         }
     }
