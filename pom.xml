@@ -14,7 +14,7 @@
     <artifactId>component-forcoolqhttpapi</artifactId>
 
     <!-- 版本号 下次部署大于1.1.1-1.12 2020/4/26 -->
-    <version>1.1.1-1.12</version>
+    <version>1.2.0-1.12</version>
 
     <!-- 依赖版本号 -->
     <properties>
