@@ -13,37 +13,19 @@
     <groupId>io.github.ForteScarlet.simple-robot-core</groupId>
     <artifactId>component-forcoolqhttpapi</artifactId>
 
-    <!-- 版本号 下次部署大于1.1.1-1.12 2020/4/26 -->
-    <version>1.2.0-1.12</version>
+    <!-- 版本号 下次部署大于1.2.0-1.13 2020/5/11 -->
+    <version>1.2.1-1.13</version>
 
     <!-- 依赖版本号 -->
     <properties>
         <!--　核心版本号　-->
-        <core.version>1.12.0</core.version>
+        <core.version>1.13.0</core.version>
         <!-- lombok -->
         <lombok.version>1.16.20</lombok.version>
     </properties>
 
     <!-- 依赖 -->
     <dependencies>
-
-        <!-- 测试用 -->
-        <dependency>
-            <groupId>io.github.ForteScarlet.simple-robot-module</groupId>
-            <artifactId>mod-delay-task</artifactId>
-            <version>1.0_1-1.11</version>
-            <scope>test</scope>
-            <optional>true</optional>
-        </dependency>
-
-        <!-- 测试用 -->
-        <dependency>
-            <groupId>io.github.ForteScarlet.simple-robot-module</groupId>
-            <artifactId>mod-cqcodeutils</artifactId>
-            <version>1.1-1.11</version>
-            <scope>test</scope>
-            <optional>true</optional>
-        </dependency>
 
         <!-- 核心框架 -->
         <dependency>
@@ -57,6 +39,15 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <scope>provided</scope>
+        </dependency>
+
+
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

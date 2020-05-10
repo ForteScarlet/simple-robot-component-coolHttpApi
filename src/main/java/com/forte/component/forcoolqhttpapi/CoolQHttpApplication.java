@@ -109,8 +109,6 @@ public class CoolQHttpApplication extends BaseApplication<
      */
     @Override
     protected BotInfo verifyBot(String code, BotInfo info) {
-        System.out.println("验证！！！！" + code + " " + info);
-        // 验证
         BotInfo loginInfo;
         try {
             loginInfo = this.getLoginInfo(info);

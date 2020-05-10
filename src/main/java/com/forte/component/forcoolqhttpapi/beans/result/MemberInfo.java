@@ -140,15 +140,6 @@ public class MemberInfo
         return card;
     }
 
-    @Override
-    public String getNickOrName() {
-        String card = getCard();
-        if (card == null || card.length() == 0) {
-            return getName();
-        } else {
-            return card;
-        }
-    }
 
     /**
      * 所在城市
@@ -266,8 +257,4 @@ public class MemberInfo
         return getGroup();
     }
 
-    @Override
-    public String getQQCode() {
-        return getCode();
-    }
 }

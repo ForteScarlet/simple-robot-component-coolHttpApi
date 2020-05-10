@@ -1,5 +1,11 @@
 # 更新日志
 
+# 1.2.1-1.13
+移除无用的日志
+更新核心至1.13
+修复groupMember中获取QQCode得到的是群号的问题
+
+
 # 1.2.0-1.12
 cqhttp组件配置增加`simbot.cqhttp.accessToken`和`simbot.cqhttp.secret`，分别对应了cqhttp插件的`access_token`与`secret`。
 

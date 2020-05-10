@@ -28,6 +28,6 @@ cq.httpapi.sender.send.failed=送信失败！
 cq.httpapi.qq.friendlist.sort.failed=好友数组排序异常, 错误已忽略。信息: {0}
 
 # 接收到消息错误
+cq.httpapi.handler.onmessage.verify=验证secret：{0}
 cq.httpapi.handler.onmessage.verify.failed=secret校验失败！X-Signature请求头：{0} 无效！
 cq.httpapi.handler.secret.verify.failed=secret校验失败！scrret：{0} 验证失败！
-cq.httpapi.handler.onmessage.verify=验证secret：{0}

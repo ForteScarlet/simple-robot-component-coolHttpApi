@@ -28,6 +28,7 @@ cq.httpapi.sender.send.failed=Delivery failed!
 cq.httpapi.qq.friendlist.sort.failed=The friend array is sorted abnormally, the error has been ignored. information: {0}
 
 # 接收到消息错误
-cq.httpapi.handler.onmessage.verify.failed=Secret verification failed! X-Signature request header: {0} is invalid!
-
+cq.httpapi.handler.onmessage.verify=Authentication secret: {0}
+cq.httpapi.handler.onmessage.verify.failed=Secret verification failed! request header ''X-Signature'' : ''{0}'' is invalid!
+cq.httpapi.handler.secret.verify.failed=Secret verification failed! scrret: {0} verification failed!
 

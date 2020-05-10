@@ -40,12 +40,4 @@ public class Group extends AbstractResultInner implements com.forte.qqrobot.bean
     public String getCode() {
         return group_id;
     }
-
-    /**
-     * 群头像地址
-     */
-    @Override
-    public String getHeadUrl() {
-        return null;
-    }
 }
