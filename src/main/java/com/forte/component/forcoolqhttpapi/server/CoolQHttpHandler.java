@@ -1,5 +1,6 @@
 package com.forte.component.forcoolqhttpapi.server;
 
+import cn.hutool.core.io.IoUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.forte.component.forcoolqhttpapi.beans.msg.PostType;
@@ -8,14 +9,9 @@ import com.forte.qqrobot.MsgProcessor;
 import com.forte.qqrobot.ResourceDispatchCenter;
 import com.forte.qqrobot.beans.messages.msgget.MsgGet;
 import com.forte.qqrobot.listener.result.ListenResult;
-import com.forte.qqrobot.log.QQLog;
 import com.forte.qqrobot.log.QQLogLang;
-import com.mchange.lang.ByteUtils;
-import com.sun.crypto.provider.HmacSHA1;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.io.IOUtils;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -24,9 +20,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 /**
@@ -160,7 +157,8 @@ public class CoolQHttpHandler implements HttpHandler {
                 //获取接收到的参数
                 InputStream requestBody = httpExchange.getRequestBody();
                 //编码转义  貌似不再需要编码转义
-                String paramsUrl = IOUtils.toString(requestBody, this.encoding);
+
+                String paramsUrl = IoUtil.read(requestBody, this.encoding);
                 // 如果密钥不为null，验证密钥
                 if (secret != null) {
                     // 获取请求头中的验证密钥
@@ -276,7 +274,7 @@ public class CoolQHttpHandler implements HttpHandler {
             httpExchange.sendResponseHeaders(statusCode, l);
             OutputStream out = httpExchange.getResponseBody();
             // 响应信息
-            IOUtils.write(writeData, out, this.encoding);
+            IoUtil.writeUtf8(out, false, writeData);
             getLog().debug("response", writeData);
         } catch (IOException e) {
             getLog().error("response.failed", e);

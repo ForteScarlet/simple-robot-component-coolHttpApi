@@ -223,12 +223,12 @@ public class CoolQHttpApplication extends BaseApplication<
      * @return 组件的Context对象实例
      */
     @Override
-    protected CQHttpContext getComponentContext(DefaultSenders<CoolQHttpMsgSender, CoolQHttpMsgSender, CoolQHttpMsgSender> defaultSenders, BotManager manager, MsgParser msgParser, MsgProcessor processor, DependCenter dependCenter) {
+    protected CQHttpContext getComponentContext(DefaultSenders<CoolQHttpMsgSender, CoolQHttpMsgSender, CoolQHttpMsgSender> defaultSenders, BotManager manager, MsgParser msgParser, MsgProcessor processor, DependCenter dependCenter, CoolQHttpConfiguration configuration) {
         return new CQHttpContext(
                 defaultSenders.getSender(),
                 defaultSenders.getSetter(),
                 defaultSenders.getGetter(),
-                manager, msgParser, processor, dependCenter);
+                manager, msgParser, processor, dependCenter, configuration);
     }
 
 

@@ -107,12 +107,13 @@ public class MemberInfo
 
     @Override
     public SexType getSex() {
-        if (sex.equals(com.forte.component.forcoolqhttpapi.beans.type.SexType.male))
+        if (sex.equals(com.forte.component.forcoolqhttpapi.beans.type.SexType.male)) {
             return SexType.MALE;
-        else if (sex.equals(com.forte.component.forcoolqhttpapi.beans.type.SexType.female))
+        } else if (sex.equals(com.forte.component.forcoolqhttpapi.beans.type.SexType.female)) {
             return SexType.FEMALE;
-        else
+        } else {
             return SexType.UNKNOWN;
+        }
 
     }
 
@@ -138,6 +139,19 @@ public class MemberInfo
     @Override
     public String getNickName() {
         return card;
+    }
+
+    /**
+     * 获取昵称，如果没有设置昵称那么获取QQ名
+     */
+    @Override
+    public String getNickOrName() {
+        String nick = getNickName();
+        if(nick==null||nick.length() == 0){
+            return getName();
+        }else{
+            return nick;
+        }
     }
 
 
@@ -255,6 +269,11 @@ public class MemberInfo
     @Override
     public String getGroupCode() {
         return getGroup();
+    }
+
+    @Override
+    public String getQQCode() {
+        return getQQ();
     }
 
 }
