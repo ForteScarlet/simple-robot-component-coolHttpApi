@@ -19,6 +19,10 @@
 网址：[https://www.bilibili.com/video/av96117517](https://www.bilibili.com/video/av96117517)
 
 
+- ## 简单的小功能实现示例视频：[bv1ik4y197CL](https://www.bilibili.com/video/bv1ik4y197CL)
+网址：[https://www.bilibili.com/video/bv1ik4y197CL](https://www.bilibili.com/video/bv1ik4y197CL)
+
+
 ## 一、**安装**
 
 ### 1\. **下载并安装 酷Q**
