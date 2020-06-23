@@ -91,7 +91,7 @@ public class QQGroupMsg extends BaseMsg implements GroupMsg {
      */
     @Override
     public void setMsg(String newMsg) {
-        setMessage(newMsg);
+        message = newMsg;
     }
 
     /**
@@ -128,6 +128,34 @@ public class QQGroupMsg extends BaseMsg implements GroupMsg {
     @Override
     public void setPowerType(PowerType powerType) {
         this.powerType = powerType;
+    }
+
+    /**
+     * 可以获取昵称
+     *
+     * @return nickname
+     */
+    @Override
+    public String getNickname() {
+        return sender == null ? null : sender.nickname;
+    }
+
+
+    /**
+     * @see #getNickname()
+     * @return 备注信息
+     */
+    @Override
+    public String getRemark() {
+        return getNickname();
+    }
+
+    /**
+     * @see #getNickname()
+     */
+    @Override
+    public String getRemarkOrNickname() {
+        return getNickname();
     }
 
 

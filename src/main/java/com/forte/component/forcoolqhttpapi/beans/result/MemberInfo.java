@@ -125,34 +125,6 @@ public class MemberInfo
         return user_id;
     }
 
-    /**
-     * qq昵称
-     */
-    @Override
-    public String getName() {
-        return nickname;
-    }
-
-    /**
-     * 群昵称
-     */
-    @Override
-    public String getNickName() {
-        return card;
-    }
-
-    /**
-     * 获取昵称，如果没有设置昵称那么获取QQ名
-     */
-    @Override
-    public String getNickOrName() {
-        String nick = getNickName();
-        if(nick==null||nick.length() == 0){
-            return getName();
-        }else{
-            return nick;
-        }
-    }
 
 
     /**
@@ -276,4 +248,23 @@ public class MemberInfo
         return getQQ();
     }
 
+    /**
+     * 可以获取昵称
+     *
+     * @return nickname
+     */
+    @Override
+    public String getNickname() {
+        return nickname;
+    }
+
+    /**
+     * 获取备注信息，例如群备注，或者好友备注。
+     *
+     * @return 备注信息
+     */
+    @Override
+    public String getRemark() {
+        return card;
+    }
 }

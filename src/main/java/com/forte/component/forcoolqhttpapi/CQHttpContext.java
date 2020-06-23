@@ -12,7 +12,8 @@ import com.forte.qqrobot.depend.DependCenter;
  *
  * @author <a href="https://github.com/ForteScarlet"> ForteScarlet </a>
  */
-public class CQHttpContext extends SimpleRobotContext<CoolQHttpMsgSender, CoolQHttpMsgSender, CoolQHttpMsgSender, CoolQHttpConfiguration> {
+@SuppressWarnings({"WeakerAccess", "JavaDoc"})
+public class CQHttpContext extends SimpleRobotContext<CoolQHttpMsgSender, CoolQHttpMsgSender, CoolQHttpMsgSender, CoolQHttpConfiguration, CoolQHttpApplication> {
 
     /**
      * 构造函数
@@ -25,7 +26,15 @@ public class CQHttpContext extends SimpleRobotContext<CoolQHttpMsgSender, CoolQH
      * @param processor    监听消息执行器
      * @param dependCenter
      */
-    public CQHttpContext(CoolQHttpMsgSender sender, CoolQHttpMsgSender setter, CoolQHttpMsgSender getter, BotManager manager, MsgParser msgParser, MsgProcessor processor, DependCenter dependCenter, CoolQHttpConfiguration configuration) {
-        super(sender, setter, getter, manager, msgParser, processor, dependCenter, configuration);
+    public CQHttpContext(CoolQHttpMsgSender sender,
+                         CoolQHttpMsgSender setter,
+                         CoolQHttpMsgSender getter,
+                         BotManager manager,
+                         MsgParser msgParser,
+                         MsgProcessor processor,
+                         DependCenter dependCenter,
+                         CoolQHttpConfiguration configuration,
+                         CoolQHttpApplication application) {
+        super(sender, setter, getter, manager, msgParser, processor, dependCenter, configuration, application);
     }
 }

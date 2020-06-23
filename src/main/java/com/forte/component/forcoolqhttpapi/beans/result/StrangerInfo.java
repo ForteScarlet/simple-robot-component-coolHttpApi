@@ -76,10 +76,11 @@ public class StrangerInfo implements com.forte.qqrobot.beans.messages.result.Str
     }
 
     /**
-     * 获取名称（昵称）
+     * 获取备注
+     * @return 备注信息
      */
     @Override
-    public String getName() {
+    public String getRemark() {
         return nickname;
     }
 }

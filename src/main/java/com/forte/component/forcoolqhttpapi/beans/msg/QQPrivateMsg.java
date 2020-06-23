@@ -18,18 +18,18 @@ import lombok.ToString;
 @ToString
 @MsgOn(type = PostType.message, messageType = QQPrivateMsg.MESSAGE_TYPE)
 public class QQPrivateMsg extends BaseMsg implements PrivateMsg {
-/*
-post_type	string	message	上报类型
-message_type	string	private	消息类型
-sub_type	string	friend、group、discuss、other
-    消息子类型，如果是好友则是 friend，如果从群或讨论组来的临时会话则分别是 group、discuss
-message_id	number (int32)	-	消息 ID
-user_id	number (int64)	-	发送者 QQ 号
-message	message	-	消息内容
-raw_message	string	-	原始消息内容
-font	number (int32)	-	字体
-sender	object	-	发送人信息
- */
+    /*
+        post_type	string	message	上报类型
+        message_type	string	private	消息类型
+        sub_type	string	friend、group、discuss、other
+            消息子类型，如果是好友则是 friend，如果从群或讨论组来的临时会话则分别是 group、discuss
+        message_id	number (int32)	-	消息 ID
+        user_id	number (int64)	-	发送者 QQ 号
+        message	message	-	消息内容
+        raw_message	string	-	原始消息内容
+        font	number (int32)	-	字体
+        sender	object	-	发送人信息
+     */
     /**
      * 上报类型必定为message
      */
@@ -103,6 +103,33 @@ sender	object	-	发送人信息
     @Override
     public void setMsg(String msg) {
         this.message = msg;
+    }
+
+    /**
+     * 可以获取昵称
+     *
+     * @return nickname
+     */
+    @Override
+    public String getNickname() {
+        return sender == null ? null : sender.nickname;
+    }
+
+    /**
+     * @see #getNickname()
+     * @return 备注信息
+     */
+    @Override
+    public String getRemark() {
+        return getNickname();
+    }
+
+    /**
+     * @see #getNickname()
+     */
+    @Override
+    public String getRemarkOrNickname() {
+        return getNickname();
     }
 
     /**

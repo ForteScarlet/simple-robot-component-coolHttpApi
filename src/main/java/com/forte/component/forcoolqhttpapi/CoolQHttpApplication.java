@@ -1,5 +1,6 @@
 package com.forte.component.forcoolqhttpapi;
 
+import cn.hutool.core.util.EnumUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.forte.component.forcoolqhttpapi.beans.msg.Heartbeat;
 import com.forte.component.forcoolqhttpapi.beans.msg.Lifecycle;
@@ -8,13 +9,11 @@ import com.forte.component.forcoolqhttpapi.server.*;
 import com.forte.component.forcoolqhttpapi.utils.JSONDataUtil;
 import com.forte.lang.Language;
 import com.forte.plusutils.consoleplus.console.Colors;
-import com.forte.qqrobot.BaseApplication;
-import com.forte.qqrobot.MsgParser;
-import com.forte.qqrobot.MsgProcessor;
-import com.forte.qqrobot.SimpleRobotContext;
+import com.forte.qqrobot.*;
 import com.forte.qqrobot.beans.messages.ThisCodeAble;
 import com.forte.qqrobot.beans.messages.msgget.MsgGet;
 import com.forte.qqrobot.beans.messages.result.LoginQQInfo;
+import com.forte.qqrobot.beans.messages.types.MsgGetTypes;
 import com.forte.qqrobot.bot.*;
 import com.forte.qqrobot.depend.DependCenter;
 import com.forte.qqrobot.exception.BotVerifyException;
@@ -25,11 +24,11 @@ import com.forte.qqrobot.factory.MsgGetTypeFactory;
 import com.forte.qqrobot.listener.invoker.ListenerManager;
 import com.forte.qqrobot.log.QQLogBack;
 import com.forte.qqrobot.sender.senderlist.RootSenderList;
+import com.forte.utils.reflect.EnumUtils;
 import com.sun.net.httpserver.HttpHandler;
 import org.apache.commons.collections.map.SingletonMap;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -39,11 +38,13 @@ import java.util.function.Function;
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
+@SuppressWarnings("ALL")
 public class CoolQHttpApplication extends BaseApplication<
         CoolQHttpConfiguration,
         CoolQHttpMsgSender,
         CoolQHttpMsgSender,
         CoolQHttpMsgSender,
+        CoolQHttpApplication,
         CQHttpContext
         > {
 
@@ -71,17 +72,36 @@ public class CoolQHttpApplication extends BaseApplication<
         getConf();
         // 构建额外几种msgGet类型
         // 元事件 - 生命周期
+        final MsgGetTypes[] values = EnumUtils.values(MsgGetTypes.class, MsgGetTypes[]::new);
+        boolean lifeCycleAble = true;
+        boolean heartbeatAble = true;
+        for (MsgGetTypes type : values) {
+            if(type.name().equals(ExMsgGet.LIFECYCLE)){
+                lifeCycleAble = false;
+            }
+            if(type.name().equals(ExMsgGet.HEARTBEAT)){
+                heartbeatAble = false;
+            }
+            if(!lifeCycleAble && !heartbeatAble){
+                break;
+            }
+        }
+
         try {
-            MsgGetTypeFactory.registerType(ExMsgGet.LIFECYCLE, Lifecycle.class);
-            getLog().debug("enum.register", ExMsgGet.LIFECYCLE);
+            if(lifeCycleAble){
+                MsgGetTypeFactory.registerType(ExMsgGet.LIFECYCLE, Lifecycle.class);
+                getLog().debug("enum.register", ExMsgGet.LIFECYCLE);
+            }
         } catch (EnumInstantiationRequireException | EnumInstantiationException e) {
             getLog().warning("enum.register.failed", ExMsgGet.LIFECYCLE);
             getLog().debug("enum.register.failed", e, ExMsgGet.LIFECYCLE);
         }
         // 元事件 - 心跳
         try {
-            MsgGetTypeFactory.registerType(ExMsgGet.HEARTBEAT, Heartbeat.class);
-            getLog().debug("enum.register", ExMsgGet.HEARTBEAT);
+            if(heartbeatAble){
+                MsgGetTypeFactory.registerType(ExMsgGet.HEARTBEAT, Heartbeat.class);
+                getLog().debug("enum.register", ExMsgGet.HEARTBEAT);
+            }
         } catch (EnumInstantiationRequireException | EnumInstantiationException e) {
             getLog().warning("enum.register.failed", ExMsgGet.HEARTBEAT);
             getLog().debug("enum.register.failed", e, ExMsgGet.HEARTBEAT);
@@ -223,12 +243,17 @@ public class CoolQHttpApplication extends BaseApplication<
      * @return 组件的Context对象实例
      */
     @Override
-    protected CQHttpContext getComponentContext(DefaultSenders<CoolQHttpMsgSender, CoolQHttpMsgSender, CoolQHttpMsgSender> defaultSenders, BotManager manager, MsgParser msgParser, MsgProcessor processor, DependCenter dependCenter, CoolQHttpConfiguration configuration) {
+    protected CQHttpContext getComponentContext(DefaultSenders<CoolQHttpMsgSender, CoolQHttpMsgSender, CoolQHttpMsgSender> defaultSenders,
+                                                BotManager manager,
+                                                MsgParser msgParser,
+                                                MsgProcessor processor,
+                                                DependCenter dependCenter,
+                                                CoolQHttpConfiguration configuration) {
         return new CQHttpContext(
                 defaultSenders.getSender(),
                 defaultSenders.getSetter(),
                 defaultSenders.getGetter(),
-                manager, msgParser, processor, dependCenter, configuration);
+                manager, msgParser, processor, dependCenter, configuration, this);
     }
 
 
@@ -346,7 +371,6 @@ public class CoolQHttpApplication extends BaseApplication<
     }
 
 
-
     /**
      * 获取并展示登录的QQ的部分信息并在配置中记录此信息
      *
@@ -425,19 +449,14 @@ public class CoolQHttpApplication extends BaseApplication<
      */
     @Override
     protected CoolQHttpConfiguration getConfiguration() {
-        CoolQHttpConfiguration coolQHttpConfiguration = CoolQHttpResourceDispatchCenter.getCoolQHttpConfiguration();
-        if (coolQHttpConfiguration == null) {
-            coolQHttpConfiguration = new CoolQHttpConfiguration();
-            CoolQHttpResourceDispatchCenter.saveCoolQHttpConfiguration(coolQHttpConfiguration);
-        }
-        return coolQHttpConfiguration;
+        return new CoolQHttpConfiguration();
     }
 
     /**
      * interface {@link java.io.Closeable} method
      */
     @Override
-    public void close() {
+    public void doClose() {
         if (server != null) {
             server.close();
         }

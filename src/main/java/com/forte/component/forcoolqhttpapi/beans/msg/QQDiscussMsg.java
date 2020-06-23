@@ -69,6 +69,35 @@ public class QQDiscussMsg extends BaseMsg implements DiscussMsg {
      */
     @Override
     public void setMsg(String newMsg) {
+        message = newMsg;
+    }
+
+    /**
+     * 可以获取昵称
+     *
+     * @return nickname
+     */
+    @Override
+    public String getNickname() {
+        return sender == null ? null : sender.nickname;
+    }
+
+
+    /**
+     * @see #getNickname()
+     * @return 备注信息
+     */
+    @Override
+    public String getRemark() {
+        return getNickname();
+    }
+
+    /**
+     * @see #getNickname()
+     */
+    @Override
+    public String getRemarkOrNickname() {
+        return getNickname();
     }
 
 
