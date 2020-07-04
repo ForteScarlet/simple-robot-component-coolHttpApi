@@ -1,3 +1,17 @@
+#
+# Copyright (c) 2020. ForteScarlet All rights reserved.
+# Project  simple-robot-component-coolHttpApi
+# File     en_US.lang
+#
+# You can contact the author through the following channels:
+# github https://github.com/ForteScarlet
+# gitee  https://gitee.com/ForteScarlet
+# email  ForteScarlet@163.com
+# QQ     1149159218
+#
+#
+#
+
 # 监听服务器启动失败
 exception.robotRun.serverStartFailed=Listening service failed to start!
 # 启动时候的一些信息

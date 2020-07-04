@@ -1,18 +1,23 @@
 # 更新日志
 
+# 1.3.2-1.16
+- 核心更新至1.16.0
+- 简单优化内部的sender
+
+
 # 1.2.1-1.13
-移除无用的日志
-更新核心至1.13
-修复groupMember中获取QQCode得到的是群号的问题
+- 移除无用的日志
+- 更新核心至1.13
+- 修复groupMember中获取QQCode得到的是群号的问题
 
 
 # 1.2.0-1.12
-cqhttp组件配置增加`simbot.cqhttp.accessToken`和`simbot.cqhttp.secret`，分别对应了cqhttp插件的`access_token`与`secret`。
+- cqhttp组件配置增加`simbot.cqhttp.accessToken`和`simbot.cqhttp.secret`，分别对应了cqhttp插件的`access_token`与`secret`。
 
 # 1.1.1-1.12
-适配1.12的核心
-删除已经被标记弃用的所有`NoServer`相关启动类
-预先在configuration中增加加密权限认证等相关内容
+- 适配1.12的核心
+- 删除已经被标记弃用的所有`NoServer`相关启动类
+- 预先在configuration中增加加密权限认证等相关内容
 
 # 1.1.1-1.11
 - 尝试修改获取登录信息的时候重试失效的问题

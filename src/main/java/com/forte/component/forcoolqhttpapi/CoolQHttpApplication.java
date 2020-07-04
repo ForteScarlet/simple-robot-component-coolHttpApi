@@ -1,6 +1,19 @@
+/*
+ * Copyright (c) 2020. ForteScarlet All rights reserved.
+ * Project  simple-robot-component-coolHttpApi
+ * File     CoolQHttpApplication.java
+ *
+ * You can contact the author through the following channels:
+ * github https://github.com/ForteScarlet
+ * gitee  https://gitee.com/ForteScarlet
+ * email  ForteScarlet@163.com
+ * QQ     1149159218
+ *
+ *
+ */
+
 package com.forte.component.forcoolqhttpapi;
 
-import cn.hutool.core.util.EnumUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.forte.component.forcoolqhttpapi.beans.msg.Heartbeat;
 import com.forte.component.forcoolqhttpapi.beans.msg.Lifecycle;
@@ -9,7 +22,10 @@ import com.forte.component.forcoolqhttpapi.server.*;
 import com.forte.component.forcoolqhttpapi.utils.JSONDataUtil;
 import com.forte.lang.Language;
 import com.forte.plusutils.consoleplus.console.Colors;
-import com.forte.qqrobot.*;
+import com.forte.qqrobot.BaseApplication;
+import com.forte.qqrobot.MsgParser;
+import com.forte.qqrobot.MsgProcessor;
+import com.forte.qqrobot.SimpleRobotContext;
 import com.forte.qqrobot.beans.messages.ThisCodeAble;
 import com.forte.qqrobot.beans.messages.msgget.MsgGet;
 import com.forte.qqrobot.beans.messages.result.LoginQQInfo;

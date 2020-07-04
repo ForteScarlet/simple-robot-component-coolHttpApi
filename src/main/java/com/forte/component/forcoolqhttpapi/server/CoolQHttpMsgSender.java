@@ -1,3 +1,17 @@
+/*
+ * Copyright (c) 2020. ForteScarlet All rights reserved.
+ * Project  simple-robot-component-coolHttpApi
+ * File     CoolQHttpMsgSender.java
+ *
+ * You can contact the author through the following channels:
+ * github https://github.com/ForteScarlet
+ * gitee  https://gitee.com/ForteScarlet
+ * email  ForteScarlet@163.com
+ * QQ     1149159218
+ *
+ *
+ */
+
 package com.forte.component.forcoolqhttpapi.server;
 
 import com.alibaba.fastjson.JSON;
@@ -176,7 +190,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
      * @return csrfToken
      */
     public QQCsrfToken getCsrfToken() {
-        GetCsrfToken csrfToken = new GetCsrfToken();
+        GetCsrfToken csrfToken = GetCsrfToken.INSTANCE;
         return get(csrfToken.getApi(), JSON.toJSONString(csrfToken), csrfToken.getResultType()).orElse(null);
     }
 
@@ -187,7 +201,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
      */
     @Override
     public AuthInfo getAuthInfo() {
-        return get(new GetCredentials()).orElse(null);
+        return get(GetCredentials.INSTANCE).orElse(null);
     }
 
 
@@ -216,7 +230,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
     @Override
     public FriendList getFriendList() {
         // 好友列表格式较为特殊，进行特殊处理
-        GetFriendList friendList = new GetFriendList();
+        GetFriendList friendList = GetFriendList.INSTANCE;
         return get(friendList.getApi(), JSON.toJSONString(friendList), res -> {
             // 数据在data下
             JSONObject baseData = JSON.parseObject(res);
@@ -295,7 +309,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
      */
     @Override
     public GroupList getGroupList() {
-        return get(new GetGroupList()).orElse(null);
+        return get(GetGroupList.INSTANCE).orElse(null);
     }
 
     /**
@@ -407,7 +421,7 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
      */
     @Override
     public com.forte.qqrobot.bot.LoginInfo getLoginQQInfo() {
-        LoginInfo loginInfo = get(new GetLoginInfo()).orElse(null);
+        LoginInfo loginInfo = get(GetLoginInfo.INSTANCE).orElse(null);
         if (loginInfo != null) {
             try {
                 QQVipInfo vipInfo = getVipInfo(loginInfo.getUser_id());
@@ -432,8 +446,14 @@ public class CoolQHttpMsgSender extends BaseRootSenderList {
         return get(new GetVipInfo(code)).orElse(null);
     }
 
+
     public QQVipInfo getVipInfo(QQCodeAble codeAble) {
         return getVipInfo(codeAble.getQQCode());
+    }
+
+
+    public VersionInfo getVersionInfo(){
+        return get(GetVersionInfo.INSTANCE).orElse(null);
     }
 
 
