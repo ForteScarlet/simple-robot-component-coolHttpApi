@@ -139,8 +139,6 @@ public class MemberInfo
         return user_id;
     }
 
-
-
     /**
      * 所在城市
      */
@@ -262,21 +260,11 @@ public class MemberInfo
         return getQQ();
     }
 
-    /**
-     * 可以获取昵称
-     *
-     * @return nickname
-     */
     @Override
     public String getNickname() {
         return nickname;
     }
 
-    /**
-     * 获取备注信息，例如群备注，或者好友备注。
-     *
-     * @return 备注信息
-     */
     @Override
     public String getRemark() {
         return card;

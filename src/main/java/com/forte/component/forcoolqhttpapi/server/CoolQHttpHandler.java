@@ -182,7 +182,7 @@ public class CoolQHttpHandler implements HttpHandler {
                         // 没有密钥或者长度根本不对或者开头不是'sha1'
                         getLog().warning("onmessage.verify.failed", xSignature);
                         // 出现异常，返回信息
-                        response(httpExchange, 401, 0, "no secret");
+                        response(httpExchange, 401, 0, "No secret.");
                         // 结束。
                         return;
                     } else {
@@ -192,7 +192,7 @@ public class CoolQHttpHandler implements HttpHandler {
                     boolean verify = secretVerification(paramsUrl, secret, xSignature);
                     if (!verify) {
                         getLog().debug("secret.verify.failed", xSignature);
-                        response(httpExchange, 403, 0, "secret verify failed");
+                        response(httpExchange, 403, 0, "Secret verify failed.");
                         // 结束方法
                         return;
                     }
@@ -212,15 +212,19 @@ public class CoolQHttpHandler implements HttpHandler {
                     // 响应数据
                     // 设置响应code和内容长度
                     response(httpExchange, 200, 0, resultBody);
+                }else{
+                    // unknown type
+                    response(httpExchange, 400, 0, "Cannot parse data to msg subject. Try to check 'post_type'、'sub_type' or 'message_type'");
+
                 }
             } else {
                 // 不是支持的请求方式，返回405类型
-                response(httpExchange, 405, 0, "no method type");
+                response(httpExchange, 405, 0, "Method not allowed.");
             }
         } catch (Exception e) {
             getLog().error("onmessage.failed", e);
             // 出现异常，返回信息
-            response(httpExchange, 500, 0, "error");
+            response(httpExchange, 500, 0, "server Error: " + e.getLocalizedMessage());
         } finally {
             // 关闭处理器, 同时将关闭请求和响应的输入输出流（如果还没关闭）
             httpExchange.close();
@@ -329,12 +333,12 @@ public class CoolQHttpHandler implements HttpHandler {
      * @return
      */
     private boolean secretVerification(String text, String secret, String contrast) throws NoSuchAlgorithmException, InvalidKeyException, UnsupportedEncodingException {
-        String a = genHMAC(text, secret);
-        System.out.println("this HMAC: " + a);
-        System.out.println("header:    " + contrast);
-        return Objects.equals(a, contrast);
+        return Objects.equals(genHMAC(text, secret), contrast);
     }
 
+
+
+    private static final String HMAC_SHA1 = "HmacSHA1";
 
     /**
      * HMAC-SHA1算法
@@ -346,10 +350,10 @@ public class CoolQHttpHandler implements HttpHandler {
      */
     private String genHMAC(String data, String key) throws NoSuchAlgorithmException, InvalidKeyException {
         //根据给定的字节数组构造一个密钥,第二参数指定一个密钥算法的名称
-        String sha1 = "HmacSHA1";
-        SecretKeySpec signinKey = new SecretKeySpec(key.getBytes(), sha1);
+//        String sha1 = "";
+        SecretKeySpec signinKey = new SecretKeySpec(key.getBytes(), HMAC_SHA1);
         //生成一个指定 Mac 算法 的 Mac 对象
-        Mac mac = Mac.getInstance(sha1);
+        Mac mac = Mac.getInstance(HMAC_SHA1);
         //用给定密钥初始化 Mac 对象
         mac.init(signinKey);
 
